@@ -1,8 +1,6 @@
 PEP 8 – Style Guide for Python Code
-https://peps.python.org/pep-0008/
+Tutorial: https://peps.python.org/pep-0008/
 
-
-python
 python dict
 Tutorial: https://www.w3schools.com/python/python_dictionaries.asp
 
