@@ -1,2 +1,2 @@
 from app import app
-app.run(use_reloader=True, port=8080)
+app.run(host='0.0.0.0', use_reloader=True, port=8080, debug=True)

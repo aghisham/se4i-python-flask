@@ -1,3 +1,0 @@
-Flask
-Flask-JWT
-python-dotenv-yaml
