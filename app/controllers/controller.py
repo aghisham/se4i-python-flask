@@ -1,6 +1,6 @@
 from app import app
 from flask import request, jsonify, render_template
-from app.models.user import User
+from app.models.project import Project
 
 
 @app.route("/")
@@ -15,6 +15,6 @@ def about():
 
 @app.route("/get-name")
 def get_name():
-    user = User("SE4I project")
+    project = Project("SE4I project")
 
-    return jsonify({"name": user.get_name()})
+    return jsonify({"name": project.get_name()})
