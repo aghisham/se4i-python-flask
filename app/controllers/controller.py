@@ -1,11 +1,11 @@
 from app import app
 from flask import Flask
-from app.models.user import User
+from app.models.project import Project
 
 
 @app.route("/")
 def homepage():
-    return "hello from homepage"
+    return "hello from homepage", 418
 
 @app.route("/about")
 def about():
@@ -14,7 +14,7 @@ def about():
 
 @app.route("/get-name")
 def get_name():
-    user = User("SE4I project")
+    project = Project("SE4I project")
 
-    return user.get_name()
+    return project.get_name()
 
