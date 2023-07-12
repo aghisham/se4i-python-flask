@@ -5,12 +5,12 @@ from app.models.project import Project
 
 @app.route("/")
 def homepage():
-    return render_template(f'templates/index.html')
+    return "hello from homepage"
 
 
 @app.route("/about")
 def about():
-    return render_template(f'templates/about.html')
+    return "about page is here"
 
 
 @app.route("/get-name")
