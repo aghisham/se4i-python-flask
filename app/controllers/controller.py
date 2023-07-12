@@ -17,4 +17,5 @@ def about():
 def get_name():
     project = Project("SE4I project")
 
-    return jsonify({"name": project.get_name()})
+    #return jsonify({"name": project.get_name()})
+    return project.get_name()
