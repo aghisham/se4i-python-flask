@@ -1,12 +1,11 @@
 from app import app
 from flask import request, jsonify, render_template
-from app.models.project_z import Project_z
+from app.models.project_user import Project_user
+import json
 
-thisdict = {
-  "brand": "Ford",
-  "model": "Mustang",
-  "year": 1964
-}
+
+data = json.load(open('app/static/data_list.json'))
+users_list = data if (len(data)) else []
 
 @app.route("/home/")
 def home_page():
@@ -23,6 +22,10 @@ def page_not_found(error):
 
 @app.route("/get-dec")
 def get_dec():
-    project_z = Project_z(thisdict)
+    project_user = Project_user(users_list)
 
-    return jsonify({"brand": project_z.get_dec()})
+    return jsonify({"dec": project_user.get_dec()})
+
+@app.route("/cars", methods=["GET"])
+def indexofcars():
+    return jsonify(users_list)
