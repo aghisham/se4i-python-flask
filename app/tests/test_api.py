@@ -14,3 +14,10 @@ def test_get_name_route():
     name = data['name']
     assert response.status_code == 200
     assert name == 'SE4I project'
+
+def test_get_dec_route():
+    response = app.test_client().get('/get-dec')
+    data = json.loads(response.data)
+    name = data['dec']
+    assert response.status_code == 200
+    assert name == 'SE4I project'
