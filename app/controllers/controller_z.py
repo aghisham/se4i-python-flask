@@ -1,6 +1,6 @@
 from app import app
 from flask import request, jsonify, render_template
-from app.models.project_z import Project
+from app.models.project_z import Project_z
 
 thisdict = {
   "brand": "Ford",
@@ -16,16 +16,13 @@ def home_page():
 def projects():
     return 'The project page'
 
-@app.route("/hello")
-def about():
-    return render_template(f'templates/about.html')
 
 @app.errorhandler(404)
 def page_not_found(error):
     return render_template('page_not_found.html'), 404
 
-@app.route("/get-name")
-def get_name():
-    project = Project(thisdict)
+@app.route("/get-dec")
+def get_dec():
+    project_z = Project_z(thisdict)
 
-    return jsonify({"name": project.get_name()})
+    return jsonify({"brand": project_z.get_dec()})
