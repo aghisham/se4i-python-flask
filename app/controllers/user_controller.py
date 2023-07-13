@@ -10,11 +10,24 @@ users_list = data if (len(data)) else []
 
 @app.route("/users", methods=["GET"])
 def index():
+    """ Get users list
+
+    Returns:
+        str: users list
+    """
     return jsonify(users_list)
 
 
 @app.route("/users/<int:id>", methods=["GET", "PUT"])
 def show(id):
+    """ Get user by id and update user data
+
+    Args:
+        id (int): user id
+
+    Returns:
+        str: succes or fail
+    """
     if request.method == 'GET':
         for user in users_list:
             if user['id'] == id:
@@ -33,6 +46,11 @@ def show(id):
 
 @app.route("/users", methods=["POST"])
 def store():
+    """ Add user to users list
+
+    Returns:
+        str: succes or fail
+    """
     try:
         if (request.json):
             userModel = User(request.json['id'], request.json['firstName'], request.json['lastName'],
