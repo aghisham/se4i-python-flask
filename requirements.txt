@@ -1,5 +1,5 @@
 Flask
 Flask-JWT
 pytest
-requests
 black
+requests
