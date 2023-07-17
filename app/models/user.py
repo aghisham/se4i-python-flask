@@ -19,15 +19,11 @@ class User:
     def get_age(self):
         today = date.today()
         birthDate = datetime.strptime(self.birthDate, "%d-%m-%Y")
-<<<<<<< HEAD
         return (
             today.year
             - birthDate.year
             - ((today.month, today.day) < (birthDate.month, birthDate.day))
         )
-=======
-        return (today.year - birthDate.year - ((today.month, today.day) < (birthDate.month, birthDate.day)))
->>>>>>> 996b60aacce4fd781876abbc8b46ce7f8b70543d
 
     def store(self):
         data = json.load(open("app/static/users_list.json"))
