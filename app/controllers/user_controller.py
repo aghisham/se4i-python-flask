@@ -36,8 +36,14 @@ def show(id):
     else:
         try:
             if (request.json):
-                userModel = User(id, request.json['firstName'], request.json['lastName'],
-                                 request.json['email'], request.json['password'], request.json['birthDate'])
+                userModel = User(
+                    id,
+                    request.json["firstName"],
+                    request.json["lastName"],
+                    request.json["email"],
+                    request.json["password"],
+                    request.json["birthDate"],
+                )
                 userModel.update()
         except:
             return jsonify({"message": "Not existe"}), 400
@@ -53,8 +59,14 @@ def store():
     """
     try:
         if (request.json):
-            userModel = User(request.json['id'], request.json['firstName'], request.json['lastName'],
-                             request.json['email'], request.json['password'], request.json['birthDate'])
+            userModel = User(
+                request.json["id"],
+                request.json["firstName"],
+                request.json["lastName"],
+                request.json["email"],
+                request.json["password"],
+                request.json["birthDate"],
+            )
             userModel.store()
     except:
         return jsonify({"message": "fail"}), 400
