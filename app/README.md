@@ -13,3 +13,12 @@ Tutorial: https://medium.com/backticks-tildes/the-s-o-l-i-d-principles-in-pictur
 MVT design pattern
 Tutorial: https://www.javatpoint.com/django-mvt
 
+pytest
+Tutorial: https://flask.palletsprojects.com/en/2.3.x/testing/
+https://www.tutorialspoint.com/pytest/index.htm
+
+black
+Tutorial: https://pypi.org/project/black/
+
+pylint
+Tutorial: https://pypi.org/project/pylint/

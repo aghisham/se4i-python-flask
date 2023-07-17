@@ -2,3 +2,4 @@ Flask
 Flask-JWT
 pytest
 black
+requests
