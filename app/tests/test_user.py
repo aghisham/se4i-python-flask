@@ -22,8 +22,8 @@ def test_update_route():
             "firstName": "test1",
             "lastName": "test1",
             "email": "test1@nttdata.com",
-            "password": "654321",
-            "birthDate": "01/01/1999",
+            "password": "123456",
+            "birthDate": "02/02/2000",
         },
     )
 

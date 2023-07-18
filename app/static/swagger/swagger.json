@@ -27,7 +27,7 @@
                 ],
                 "parameters": [
                     {
-                        "name": "email",
+                        "name": "username",
                         "in": "body",
                         "description": "The email of the user",
                         "required": true,
