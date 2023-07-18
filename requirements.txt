@@ -4,3 +4,4 @@ Flask_CORS
 pytest
 black
 requests
+pyjwt

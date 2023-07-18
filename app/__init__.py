@@ -1,10 +1,11 @@
 from flask import Flask
 # from flask_jwt import JWT
-from flask_cors import CORS
+#from flask_cors import CORS
 from app.models.user import User
 import datetime
 import json
 import logging
+import uuid
 
 logging.basicConfig(
     level=logging.INFO|logging.ERROR,
@@ -15,7 +16,7 @@ logging.basicConfig(
 app = Flask(__name__)
 
 
-app.config["SECRET_KEY"] = "123é&123321123321eDSDSqdfsqf@sdfQSBF__"
+app.config["SECRET_KEY"] = uuid.uuid4().hex
 app.config["JWT_EXPERATION_DELTA"] = datetime.timedelta(days=2)
 app.config["JWT_AUTH_URL_RULE"] = "/auth"
 
@@ -38,8 +39,8 @@ def identity(payload):
     return None
 
 
-CORS(app, resources={r"/": {"origins": "localhost:*"}})
+#CORS(app, resources={r"/": {"origins": "localhost:*"}})
 # JWT(app=app, authentication_handler=authenticate, identity_handler=identity)
-
-
 from app.controllers import *
+
+

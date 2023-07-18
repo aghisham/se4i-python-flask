@@ -2,9 +2,7 @@ from app import app
 from flask import request, jsonify, render_template, Flask
 from app.models.project import Project
 import jwt
-import uuid
 
-app.config["SECRET_KEY"] = uuid.uuid4().hex
 
 #just to test, the user and pass should be retrieved from database and the pass should be encrypted.
 users = {"hisham": {"user_id": 124587, "password": "password123"}}
