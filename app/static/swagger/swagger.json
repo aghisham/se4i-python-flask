@@ -1,0 +1,313 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "version": "1.0.0",
+        "title": "Swagger S4I",
+        "license": {
+            "name": "MIT"
+        }
+    },
+    "host": "localhost:8080",
+    "basePath": "/",
+    "schemes": [
+        "http"
+    ],
+    "consumes": [
+        "application/json"
+    ],
+    "produces": [
+        "application/json"
+    ],
+    "paths": {
+        "/auth": {
+            "post": {
+                "summary": "Get Access Token",
+                "tags": [
+                    "Auth"
+                ],
+                "parameters": [
+                    {
+                        "name": "email",
+                        "in": "body",
+                        "description": "The email of the user",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "password",
+                        "in": "body",
+                        "description": "The password of the user",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "access_token": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Failed",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "message": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/users": {
+            "get": {
+                "summary": "List all users",
+                "tags": [
+                    "Users"
+                ],
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "An array of users",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "id": {
+                                        "type": "string"
+                                    },
+                                    "firstName": {
+                                        "type": "string"
+                                    },
+                                    "lastName": {
+                                        "type": "string"
+                                    },
+                                    "email": {
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "type": "string"
+                                    },
+                                    "birthDate": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "unexpected error",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "message": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "Create a user",
+                "tags": [
+                    "Users"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "body",
+                        "description": "The id of the user",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "firstName",
+                        "in": "body",
+                        "description": "The firstName of the user",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "lastName",
+                        "in": "body",
+                        "description": "The lastName of the user",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "email",
+                        "in": "body",
+                        "description": "The email of the user",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "password",
+                        "in": "body",
+                        "description": "The password of the user",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "birthDate",
+                        "in": "body",
+                        "description": "The birthDate of the user",
+                        "required": true,
+                        "type": "string",
+                        "format": "date"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "message": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Failed",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "message": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/users/{userId}": {
+            "get": {
+                "summary": "Get user",
+                "tags": [
+                    "Users"
+                ],
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "A User",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "id": {
+                                    "type": "string"
+                                },
+                                "firstName": {
+                                    "type": "string"
+                                },
+                                "lastName": {
+                                    "type": "string"
+                                },
+                                "email": {
+                                    "type": "string"
+                                },
+                                "password": {
+                                    "type": "string"
+                                },
+                                "birthDate": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "unexpected error",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "message": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "summary": "Update a user",
+                "tags": [
+                    "Users"
+                ],
+                "parameters": [
+                    {
+                        "name": "firstName",
+                        "in": "body",
+                        "description": "The firstName of the user",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "lastName",
+                        "in": "body",
+                        "description": "The lastName of the user",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "email",
+                        "in": "body",
+                        "description": "The email of the user",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "password",
+                        "in": "body",
+                        "description": "The password of the user",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "birthDate",
+                        "in": "body",
+                        "description": "The birthDate of the user",
+                        "required": true,
+                        "type": "string",
+                        "format": "date"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "message": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Failed",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "message": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
