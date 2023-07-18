@@ -1,6 +1,7 @@
 from flask import Flask
 # from flask_jwt import JWT
 from flask_cors import CORS
+from app.models.user import User
 import datetime
 import json
 import logging
@@ -24,8 +25,7 @@ def authenticate(username, password):
     users_list = data if (len(data)) else []
     for user in users_list:
         if user["email"] == username and user["password"] == password:
-            logging.info(user)
-            return user
+            return User(user["id"], user["firstName"], user["lastName"], user["email"], user["password"], user["birthDate"])
     return None
 
 
@@ -34,7 +34,7 @@ def identity(payload):
     users_list = data if (len(data)) else []
     for user in users_list:
         if user["id"] == payload["identity"]:
-            return user
+            return User(user["id"], user["firstName"], user["lastName"], user["email"], user["password"], user["birthDate"])
     return None
 
 
