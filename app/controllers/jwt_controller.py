@@ -13,7 +13,7 @@ def index_jwt():
 
 @app.route("/jwt-login", methods=["POST"])
 def login():
-    if (request.json):
+    if request.json:
         username = request.json["username"]
         password = request.json["password"]
     else:
@@ -47,9 +47,7 @@ def protected():
 
         # Perform any additional authentication or authorization checks based on user_id or username
         if user_id == 1234:
-            return jsonify(
-                {"message": f"Authorized user {username} with ID {user_id}"}
-            )
+            return jsonify({"message": f"Authorized user {username} with ID {user_id}"})
         return jsonify(
             {"message": f"Protected resource for user {username} with ID {user_id}"}
         )

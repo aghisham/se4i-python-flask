@@ -1,7 +1,5 @@
-import pytest
-import json
 from app import app
-import requests
+import json
 
 
 def test_index_route():

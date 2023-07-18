@@ -1,12 +1,13 @@
 from flask import Flask
 from flask_cors import CORS
 from app.models.user import User
-# uncomment if python version <= 3.9
-# from flask_jwt import JWT
-# import datetime
 import json
 import logging
 import uuid
+
+# uncomment if python version <= 3.9
+# from flask_jwt import JWT
+# import datetime
 
 logging.basicConfig(
     level=logging.INFO | logging.ERROR,
@@ -28,7 +29,14 @@ def authenticate(username, password):
     users_list = data if (len(data)) else []
     for user in users_list:
         if user["email"] == username and user["password"] == password:
-            return User(user["id"], user["firstName"], user["lastName"], user["email"], user["password"], user["birthDate"])
+            return User(
+                user["id"],
+                user["firstName"],
+                user["lastName"],
+                user["email"],
+                user["password"],
+                user["birthDate"],
+            )
     return None
 
 
@@ -37,13 +45,19 @@ def identity(payload):
     users_list = data if (len(data)) else []
     for user in users_list:
         if user["id"] == payload["identity"]:
-            return User(user["id"], user["firstName"], user["lastName"], user["email"], user["password"], user["birthDate"])
+            return User(
+                user["id"],
+                user["firstName"],
+                user["lastName"],
+                user["email"],
+                user["password"],
+                user["birthDate"],
+            )
     return None
 
 
 # uncomment if python version <= 3.9
 # JWT(app=app, authentication_handler=authenticate, identity_handler=identity)
 CORS(app, resources={r"/": {"origins": "localhost:*"}})
-
 
 from app.controllers import *

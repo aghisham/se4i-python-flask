@@ -18,8 +18,7 @@ class User:
 
     def get_age(self):
         today = date.today()
-        birthDate = datetime.strptime(
-            self.birthDate.replace('/', '-'), "%d-%m-%Y")
+        birthDate = datetime.strptime(self.birthDate.replace("/", "-"), "%d-%m-%Y")
         return (
             today.year
             - birthDate.year

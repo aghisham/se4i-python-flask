@@ -1,8 +1,7 @@
-from flask import Flask, jsonify, request
-from app.models.item import ItemStore
 from app import app
+from flask import jsonify, request
+from app.models.item import ItemStore
 import requests
-from flask import Flask, jsonify, request
 
 
 API_BASE_URL = "https://jsonplaceholder.typicode.com/posts"

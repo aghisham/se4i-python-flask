@@ -10,13 +10,10 @@ def test_auth_route():
     # })
     # assert response.status_code == 200
     # assert "access_token" in json.loads(response.data.decode("utf-8"))
-    
-    response = app.test_client().post("/jwt-login", json={
-        "username": "hisham",
-        "password": "password123"
-    })
+
+    response = app.test_client().post(
+        "/jwt-login", json={"username": "hisham", "password": "password123"}
+    )
 
     assert response.status_code == 200
     assert "access_token" in json.loads(response.data.decode("utf-8"))
-
-
