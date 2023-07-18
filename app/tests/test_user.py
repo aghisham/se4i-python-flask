@@ -18,7 +18,7 @@ def test_show_route():
 def test_update_route():
     response = app.test_client().put(
         "/users/1",
-        data={
+        json={
             "firstName": "test1",
             "lastName": "test1",
             "email": "test1@nttdata.com",
