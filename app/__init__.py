@@ -17,8 +17,8 @@ app = Flask(__name__)
 
 
 app.config["SECRET_KEY"] = uuid.uuid4().hex
-app.config["JWT_EXPERATION_DELTA"] = datetime.timedelta(days=2)
-app.config["JWT_AUTH_URL_RULE"] = "/auth"
+#app.config["JWT_EXPERATION_DELTA"] = datetime.timedelta(days=2)
+#app.config["JWT_AUTH_URL_RULE"] = "/auth"
 
 
 def authenticate(username, password):
