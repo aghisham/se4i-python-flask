@@ -35,7 +35,7 @@ def show(id):
         return jsonify({"message": "Not existe"}), 400
     else:
         try:
-            if (request.json):
+            if request.json:
                 userModel = User(
                     id,
                     request.json["firstName"],
@@ -58,7 +58,7 @@ def store():
         str: succes or fail
     """
     try:
-        if (request.json):
+        if request.json:
             userModel = User(
                 request.json["id"],
                 request.json["firstName"],
