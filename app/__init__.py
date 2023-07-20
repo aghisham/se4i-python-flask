@@ -1,63 +1,27 @@
 from flask import Flask
 from flask_cors import CORS
-from app.models.user import User
-import json
-import logging
 import uuid
+import datetime
+import app.config as conf
 
-# uncomment if python version <= 3.9
-# from flask_jwt import JWT
-# import datetime
+# from flask_jwt import JWT # ------ uncomment if python version <= 3.9
+from app.controllers.files_controller import files_bp
+from app.controllers.user_controller import users_bp
 
-logging.basicConfig(
-    level=logging.INFO | logging.ERROR,
-    filename="log.log",
-    format="%(asctime)s %(levelname)s %(message)s",
-)
 
 app = Flask(__name__)
-
-
 app.config["SECRET_KEY"] = uuid.uuid4().hex
-# uncomment if python version <= 3.9
-# app.config["JWT_EXPERATION_DELTA"] = datetime.timedelta(days=2)
-# app.config["JWT_AUTH_URL_RULE"] = "/auth"
+app.config["JWT_EXPERATION_DELTA"] = datetime.timedelta(days=2)
+app.config["JWT_AUTH_URL_RULE"] = "/auth"
 
 
-def authenticate(username, password):
-    data = json.load(open("app/static/users_list.json"))
-    users_list = data if (len(data)) else []
-    for user in users_list:
-        if user["email"] == username and user["password"] == password:
-            return User(
-                user["id"],
-                user["firstName"],
-                user["lastName"],
-                user["email"],
-                user["password"],
-                user["birthDate"],
-            )
-    return None
-
-
-def identity(payload):
-    data = json.load(open("app/static/users_list.json"))
-    users_list = data if (len(data)) else []
-    for user in users_list:
-        if user["id"] == payload["identity"]:
-            return User(
-                user["id"],
-                user["firstName"],
-                user["lastName"],
-                user["email"],
-                user["password"],
-                user["birthDate"],
-            )
-    return None
-
-
-# uncomment if python version <= 3.9
-# JWT(app=app, authentication_handler=authenticate, identity_handler=identity)
 CORS(app, resources={r"/": {"origins": "localhost:*"}})
+# JWT(app=app, authentication_handler=conf.authenticate, identity_handler=conf.identity) # ------ uncomment if python version <= 3.9
 
-from app.controllers import *
+
+# Register Blueprints
+app.register_blueprint(users_bp, url_prefix="/users")
+app.register_blueprint(files_bp, url_prefix="/upload")
+
+
+from app.controllers import controller, controller_user, film_controller, item_controller, jwt_controller

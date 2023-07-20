@@ -1,14 +1,18 @@
-from app import app
-from flask import request, jsonify
+from flask import Blueprint, request, jsonify
 from app.models.user import User
 import json
+
+
+users_bp = Blueprint(
+    "users_bp", __name__, template_folder="templates", static_folder="static"
+)
 
 
 data = json.load(open("app/static/users_list.json"))
 users_list = data if (len(data)) else []
 
 
-@app.route("/users", methods=["GET"])
+@users_bp.route("", methods=["GET"])
 def index():
     """Get users list
 
@@ -18,7 +22,30 @@ def index():
     return jsonify(users_list)
 
 
-@app.route("/users/<int:id>", methods=["GET", "PUT"])
+@users_bp.route("", methods=["POST"])
+def store():
+    """Add user to users list
+
+    Returns:
+        str: succes or fail
+    """
+    try:
+        if request.json:
+            userModel = User(
+                request.json["id"],
+                request.json["firstName"],
+                request.json["lastName"],
+                request.json["email"],
+                request.json["password"],
+                request.json["birthDate"],
+            )
+            userModel.store()
+    except:
+        return jsonify({"message": "fail"}), 400
+    return jsonify({"message": "success"}), 200
+
+
+@users_bp.route("/<int:id>", methods=["GET", "PUT"])
 def show(id):
     """Get user by id and update user data
 
@@ -48,26 +75,3 @@ def show(id):
         except:
             return jsonify({"message": "Not existe"}), 400
         return jsonify({"message": "success"}), 200
-
-
-@app.route("/users", methods=["POST"])
-def store():
-    """Add user to users list
-
-    Returns:
-        str: succes or fail
-    """
-    try:
-        if request.json:
-            userModel = User(
-                request.json["id"],
-                request.json["firstName"],
-                request.json["lastName"],
-                request.json["email"],
-                request.json["password"],
-                request.json["birthDate"],
-            )
-            userModel.store()
-    except:
-        return jsonify({"message": "fail"}), 400
-    return jsonify({"message": "success"}), 200
