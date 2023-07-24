@@ -1,18 +1,15 @@
 from app import app
-from flask import Flask, request, render_template, jsonify
+from flask import request, jsonify
 import json
 
-# data = json.load(open('app/static/films.json'))
 data = json.load(open("app/static/data_list.json"))
-
 films_list = data
-app = Flask(__name__)
 
 
 @app.route("/films/<title>", methods=["POST", "GET"])
 def list_films(title):
     if request.method == "POST":
-        pass
+        return jsonify({"message": "Not emplemented yet"}), 400
     else:
         for film in films_list:
             if film["Title"] == title:

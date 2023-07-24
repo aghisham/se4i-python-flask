@@ -1,6 +1,3 @@
-import json
-
-
 class Project_user:
     def __init__(self, dec) -> None:
         self.dec = dec

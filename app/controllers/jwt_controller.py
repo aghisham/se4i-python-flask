@@ -1,6 +1,5 @@
 from app import app
-from flask import request, jsonify, render_template, Flask
-from app.models.project import Project
+from flask import request, jsonify, render_template
 import jwt
 
 # just to test, the user and pass should be retrieved from database and the pass should be encrypted.
@@ -14,8 +13,12 @@ def index_jwt():
 
 @app.route("/jwt-login", methods=["POST"])
 def login():
-    username = request.form.get("username")
-    password = request.form.get("password")
+    if request.json:
+        username = request.json["username"]
+        password = request.json["password"]
+    else:
+        username = request.form.get("username")
+        password = request.form.get("password")
 
     if not username or not password:
         return jsonify({"message": "Missing username or password"}), 400
@@ -27,19 +30,18 @@ def login():
     payload = {"user_id": user_id, "username": username}
     token = jwt.encode(payload, app.config["SECRET_KEY"], algorithm="HS256")
 
-    return jsonify({"token": token})
+    return jsonify({"access_token": str(token)})
 
 
 @app.route("/jwt-protected", methods=["GET"])
 def protected():
     token = request.args["Authorization"]
-    print(token)
     if not token:
         return jsonify({"message": "Missing token"}), 401
 
     try:
         key = app.config["SECRET_KEY"]
-        decoded_token = jwt.decode(token, key, "HS256")
+        decoded_token = jwt.decode(token, key, True, "HS256")
         user_id = decoded_token["user_id"]
         username = decoded_token["username"]
 
