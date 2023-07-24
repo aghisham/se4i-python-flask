@@ -22,3 +22,15 @@ Tutorial: https://pypi.org/project/black/
 
 pylint
 Tutorial: https://pypi.org/project/pylint/
+
+PyJWT 
+Tutorial: https://pyjwt.readthedocs.io/en/stable/
+
+Swagger
+Tutorial: https://github.com/swagger-api/swagger-ui
+
+blueprints
+Tutorial: https://realpython.com/flask-blueprint/
+
+MongoDB
+Tutorial: https://www.w3schools.com/python/python_mongodb_getstarted.asp

@@ -3,7 +3,7 @@ from flask import request, jsonify, render_template, Flask
 from app.models.project import Project
 import jwt
 
-#just to test, the user and pass should be retrieved from database and the pass should be encrypted.
+# just to test, the user and pass should be retrieved from database and the pass should be encrypted.
 users = {"hisham": {"user_id": 124587, "password": "password123"}}
 
 
@@ -44,10 +44,8 @@ def protected():
         username = decoded_token["username"]
 
         # Perform any additional authentication or authorization checks based on user_id or username
-        if user_id == 1234 :
-            return jsonify(
-            {"message": f"Authorized user {username} with ID {user_id}"}
-        )
+        if user_id == 1234:
+            return jsonify({"message": f"Authorized user {username} with ID {user_id}"})
         return jsonify(
             {"message": f"Protected resource for user {username} with ID {user_id}"}
         )

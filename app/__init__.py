@@ -1,24 +1,29 @@
 from flask import Flask
 # from flask_jwt import JWT
-#from flask_cors import CORS
+# from flask_cors import CORS
 from app.models.user import User
 import datetime
 import json
 import logging
 import uuid
+from app.controllers.controller import controller_blueprint
+from flask import jsonify
 
 logging.basicConfig(
-    level=logging.INFO|logging.ERROR,
+    level=logging.INFO | logging.ERROR,
     filename="log.log",
     format="%(asctime)s %(levelname)s %(message)s",
 )
-
+import requests
 app = Flask(__name__)
-
+app.register_blueprint(controller_blueprint,  url_prefix='/controller')
 
 app.config["SECRET_KEY"] = uuid.uuid4().hex
-#app.config["JWT_EXPERATION_DELTA"] = datetime.timedelta(days=2)
-#app.config["JWT_AUTH_URL_RULE"] = "/auth"
+# app.config["JWT_EXPERATION_DELTA"] = datetime.timedelta(days=2)
+# app.config["JWT_AUTH_URL_RULE"] = "/auth"
+
+
+
 
 
 def authenticate(username, password):
@@ -26,7 +31,14 @@ def authenticate(username, password):
     users_list = data if (len(data)) else []
     for user in users_list:
         if user["email"] == username and user["password"] == password:
-            return User(user["id"], user["firstName"], user["lastName"], user["email"], user["password"], user["birthDate"])
+            return User(
+                user["id"],
+                user["firstName"],
+                user["lastName"],
+                user["email"],
+                user["password"],
+                user["birthDate"],
+            )
     return None
 
 
@@ -35,12 +47,17 @@ def identity(payload):
     users_list = data if (len(data)) else []
     for user in users_list:
         if user["id"] == payload["identity"]:
-            return User(user["id"], user["firstName"], user["lastName"], user["email"], user["password"], user["birthDate"])
+            return User(
+                user["id"],
+                user["firstName"],
+                user["lastName"],
+                user["email"],
+                user["password"],
+                user["birthDate"],
+            )
     return None
 
 
-#CORS(app, resources={r"/": {"origins": "localhost:*"}})
+# CORS(app, resources={r"/": {"origins": "localhost:*"}})
 # JWT(app=app, authentication_handler=authenticate, identity_handler=identity)
 from app.controllers import *
-
-

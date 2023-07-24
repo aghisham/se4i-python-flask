@@ -1,19 +1,21 @@
-from app import app
-from flask import request, jsonify, render_template
+from flask import jsonify, Blueprint
 from app.models.project import Project
 
 
-@app.route("/")
-def homepage():
+controller_blueprint = Blueprint("controller_blueprint", __name__)
+
+
+@controller_blueprint.route("/")
+def home_page():
     return "hello from homepage"
 
 
-@app.route("/about")
+@controller_blueprint.route("/about")
 def about():
     return "about page is here"
 
 
-@app.route("/get-name")
+@controller_blueprint.route("/get-name")
 def get_name():
     project = Project("SE4I project")
 
