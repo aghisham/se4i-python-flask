@@ -1,57 +1,80 @@
-from datetime import date, datetime
 import json
+from datetime import date, datetime
 
 
+# pylint: disable=C0103
 class User:
-    def __init__(self, id, firstName, lastName, email, password, birthDate) -> None:
+    """User Class"""
+
+    def __init__(self, id, first_name, last_name, email, password, birth_date) -> None:
         self.id = id
-        self.firstName = firstName
-        self.lastName = lastName
+        self.first_name = first_name
+        self.last_name = last_name
         self.email = email
         self.password = password
-        self.birthDate = birthDate
+        self.birth_date = birth_date
 
     def get_full_name(self):
-        return "{firstName} {lastName}".format(
-            firstName=self.firstName, lastName=self.lastName.upper()
-        )
+        """Get user full name
+
+        Returns:
+            str: full name
+        """
+        return f"{self.first_name} {self.last_name.upper()}"
 
     def get_age(self):
+        """Get user age
+
+        Returns:
+            int: age
+        """
         today = date.today()
-        birthDate = datetime.strptime(self.birthDate.replace("/", "-"), "%d-%m-%Y")
+        birth_date = datetime.strptime(self.birth_date.replace("/", "-"), "%d-%m-%Y")
         return (
             today.year
-            - birthDate.year
-            - ((today.month, today.day) < (birthDate.month, birthDate.day))
+            - birth_date.year
+            - ((today.month, today.day) < (birth_date.month, birth_date.day))
         )
 
     def store(self):
-        data = json.load(open("app/static/users_list.json"))
+        """Add new user
+
+        Returns:
+            void
+        """
+        data = json.load(open("app/static/users_list.json", mode="r", encoding="utf-8"))
         users_list = data if (len(data)) else []
         users_list.append(
             {
                 "id": self.id,
-                "firstName": self.firstName,
-                "lastName": self.lastName,
+                "first_name": self.first_name,
+                "last_name": self.last_name,
                 "email": self.email,
                 "password": self.password,
-                "birthDate": self.birthDate,
+                "birth_date": self.birth_date,
             }
         )
-        with open("app/static/users_list.json", "w") as outfile:
+        with open("app/static/users_list.json", mode="w", encoding="utf-8") as outfile:
             json.dump(users_list, outfile)
 
     def update(self):
-        data = json.load(open("app/static/users_list.json"))
+        """Update user
+
+        Returns:
+            void
+        """
+        data = json.load(open("app/static/users_list.json", mode="r", encoding="utf-8"))
         users_list = data if (len(data)) else []
         for user in users_list:
             if user["id"] == self.id:
-                user["firstName"] = self.firstName
-                user["lastName"] = self.lastName
+                user["first_name"] = self.first_name
+                user["last_name"] = self.last_name
                 user["email"] = self.email
                 user["password"] = self.password
-                user["birthDate"] = self.birthDate
-                with open("app/static/users_list.json", "w") as outfile:
+                user["birth_date"] = self.birth_date
+                with open(
+                    "app/static/users_list.json", mode="w", encoding="utf-8"
+                ) as outfile:
                     json.dump(users_list, outfile)
                 return
         raise Exception("Not existe")

@@ -1,5 +1,6 @@
 import logging
 import json
+from flask import session
 from app.models.user import User
 
 
@@ -11,14 +12,20 @@ logging.basicConfig(
 
 
 def authenticate(username, password):
-    data = json.load(open("app/static/users_list.json"))
+    """Authenticate user
+
+    Returns:
+        User|None
+    """
+    data = json.load(open("app/static/users_list.json", mode="r", encoding="utf-8"))
     users_list = data if (len(data)) else []
     for user in users_list:
         if user["email"] == username and user["password"] == password:
+            session["username"] = f"{user['first_name']} {user['last_name']}"
             return User(
                 user["id"],
-                user["firstName"],
-                user["lastName"],
+                user["first_name"],
+                user["last_name"],
                 user["email"],
                 user["password"],
                 user["birthDate"],
@@ -27,14 +34,19 @@ def authenticate(username, password):
 
 
 def identity(payload):
-    data = json.load(open("app/static/users_list.json"))
+    """Get current user
+
+    Returns:
+        User|None
+    """
+    data = json.load(open("app/static/users_list.json", mode="r", encoding="utf-8"))
     users_list = data if (len(data)) else []
     for user in users_list:
         if user["id"] == payload["identity"]:
             return User(
                 user["id"],
-                user["firstName"],
-                user["lastName"],
+                user["first_name"],
+                user["last_name"],
                 user["email"],
                 user["password"],
                 user["birthDate"],

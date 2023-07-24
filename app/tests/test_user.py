@@ -1,8 +1,13 @@
-from app import app
 import json
+from app import app
 
 
 def test_index_route():
+    """Test users index route
+
+    Returns:
+        void
+    """
     response = app.test_client().get("/users")
 
     assert response.status_code == 200
@@ -10,17 +15,27 @@ def test_index_route():
 
 
 def test_show_route():
+    """Test get user route
+
+    Returns:
+        void
+    """
     response = app.test_client().get("/users/1")
 
     assert response.status_code == 200
 
 
 def test_update_route():
+    """Test update user route
+
+    Returns:
+        void
+    """
     response = app.test_client().put(
         "/users/1",
         json={
-            "firstName": "test1",
-            "lastName": "test1",
+            "first_name": "test1",
+            "last_name": "test1",
             "email": "test1@nttdata.com",
             "password": "123456",
             "birthDate": "02/02/2000",
@@ -31,12 +46,17 @@ def test_update_route():
 
 
 def test_store_route():
+    """Test add user route
+
+    Returns:
+        void
+    """
     response = app.test_client().post(
         "/users",
         json={
             "id": 4,
-            "firstName": "test14",
-            "lastName": "test4",
+            "first_name": "test14",
+            "last_name": "test4",
             "email": "test4@nttdata.com",
             "password": "654321",
             "birthDate": "01/01/1998",

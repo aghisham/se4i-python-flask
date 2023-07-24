@@ -85,10 +85,10 @@
                                     "id": {
                                         "type": "string"
                                     },
-                                    "firstName": {
+                                    "first_name": {
                                         "type": "string"
                                     },
-                                    "lastName": {
+                                    "last_name": {
                                         "type": "string"
                                     },
                                     "email": {
@@ -131,16 +131,16 @@
                         "type": "string"
                     },
                     {
-                        "name": "firstName",
+                        "name": "first_name",
                         "in": "body",
-                        "description": "The firstName of the user",
+                        "description": "The first_name of the user",
                         "required": true,
                         "type": "string"
                     },
                     {
-                        "name": "lastName",
+                        "name": "last_name",
                         "in": "body",
-                        "description": "The lastName of the user",
+                        "description": "The last_name of the user",
                         "required": true,
                         "type": "string"
                     },
@@ -209,10 +209,10 @@
                                 "id": {
                                     "type": "string"
                                 },
-                                "firstName": {
+                                "first_name": {
                                     "type": "string"
                                 },
-                                "lastName": {
+                                "last_name": {
                                     "type": "string"
                                 },
                                 "email": {
@@ -247,16 +247,16 @@
                 ],
                 "parameters": [
                     {
-                        "name": "firstName",
+                        "name": "first_name",
                         "in": "body",
-                        "description": "The firstName of the user",
+                        "description": "The first_name of the user",
                         "required": true,
                         "type": "string"
                     },
                     {
-                        "name": "lastName",
+                        "name": "last_name",
                         "in": "body",
-                        "description": "The lastName of the user",
+                        "description": "The last_name of the user",
                         "required": true,
                         "type": "string"
                     },

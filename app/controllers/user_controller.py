@@ -1,6 +1,6 @@
+import json
 from flask import Blueprint, request, jsonify
 from app.models.user import User
-import json
 
 
 users_bp = Blueprint(
@@ -8,7 +8,7 @@ users_bp = Blueprint(
 )
 
 
-data = json.load(open("app/static/users_list.json"))
+data = json.load(open("app/static/users_list.json", mode="r", encoding="utf-8"))
 users_list = data if (len(data)) else []
 
 
@@ -31,16 +31,16 @@ def store():
     """
     try:
         if request.json:
-            userModel = User(
+            user_model = User(
                 request.json["id"],
-                request.json["firstName"],
-                request.json["lastName"],
+                request.json["first_name"],
+                request.json["last_name"],
                 request.json["email"],
                 request.json["password"],
                 request.json["birthDate"],
             )
-            userModel.store()
-    except:
+            user_model.store()
+    except Exception:
         return jsonify({"message": "fail"}), 400
     return jsonify({"message": "success"}), 200
 
@@ -63,15 +63,15 @@ def show(id):
     else:
         try:
             if request.json:
-                userModel = User(
+                user_model = User(
                     id,
-                    request.json["firstName"],
-                    request.json["lastName"],
+                    request.json["first_name"],
+                    request.json["last_name"],
                     request.json["email"],
                     request.json["password"],
                     request.json["birthDate"],
                 )
-                userModel.update()
-        except:
+                user_model.update()
+        except Exception:
             return jsonify({"message": "Not existe"}), 400
         return jsonify({"message": "success"}), 200

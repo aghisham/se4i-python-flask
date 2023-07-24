@@ -1,6 +1,6 @@
+import os
 from flask import Blueprint, request, jsonify
 from werkzeug.utils import secure_filename
-import os
 
 
 files_bp = Blueprint(
@@ -29,13 +29,21 @@ def upload_file():
             return jsonify({"message": "Files Uploaded"})
         else:
             return jsonify({"message": "No file was provided"})
-    except:
+    except Exception:
         return jsonify({"message": "File not Uploaded"})
 
 
 @files_bp.route("/<filename>", methods=["GET"])
 def download_file(filename):
+    """Download file
+
+    Args:
+        filename: str
+
+    Returns:
+        str: message
+    """
     try:
         return jsonify({"path": f"{os.getcwd()}/uploads/{filename}"})
-    except:
+    except Exception:
         return jsonify({"message": "File not found"})

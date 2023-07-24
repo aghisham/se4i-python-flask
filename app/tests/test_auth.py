@@ -1,8 +1,13 @@
-from app import app
 import json
+from app import app
 
 
 def test_auth_route():
+    """Test authentication route
+
+    Returns:
+        void
+    """
     # uncomment if python version <= 3.9
     # response = app.test_client().post("/auth", json={
     #     "username": "test1@nttdata.com",

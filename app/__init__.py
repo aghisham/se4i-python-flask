@@ -24,4 +24,10 @@ app.register_blueprint(users_bp, url_prefix="/users")
 app.register_blueprint(files_bp, url_prefix="/upload")
 
 
-from app.controllers import controller, controller_user, film_controller, item_controller, jwt_controller
+from app.controllers import (
+    controller,
+    controller_user,
+    film_controller,
+    item_controller,
+    jwt_controller,
+)
