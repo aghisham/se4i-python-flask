@@ -1,5 +1,6 @@
 from pymongo import MongoClient
 
+
 class MongoDBSingleton:
     _instances = {}
 
@@ -7,7 +8,9 @@ class MongoDBSingleton:
         key = (mongo_url, database_name, collection_name)
         if key not in cls._instances:
             cls._instances[key] = super().__new__(cls, *args, **kwargs)
-            cls._instances[key].init_connection(mongo_url, database_name, collection_name)
+            cls._instances[key].init_connection(
+                mongo_url, database_name, collection_name
+            )
         return cls._instances[key]
 
     def init_connection(self, mongo_url, database_name, collection_name):

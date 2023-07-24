@@ -1,4 +1,7 @@
 from flask import Flask
+
+app = Flask(__name__)
+
 # from flask_jwt import JWT
 # from flask_cors import CORS
 from app.models.user import User
@@ -7,17 +10,16 @@ import json
 import logging
 import uuid
 from app.controllers.controller import controller_blueprint
-from flask import jsonify
-
-from app.controllers import *
 from flask_cors import CORS
 import uuid
 import app.config as conf
-import requests
+
 
 # from flask_jwt import JWT # ------ uncomment if python version <= 3.9
-from app.controllers.files_controller import files_bp
-from app.controllers.user_controller import users_bp
+# from app.controllers.files_controller import files_bp
+# from app.controllers.user_controller import users_bp
+
+from app.controllers import *
 
 
 logging.basicConfig(
@@ -25,8 +27,7 @@ logging.basicConfig(
     filename="log.log",
     format="%(asctime)s %(levelname)s %(message)s",
 )
-app = Flask(__name__)
-app.register_blueprint(controller_blueprint,  url_prefix='/controller')
+app.register_blueprint(controller_blueprint, url_prefix="/controller")
 
 app.config["SECRET_KEY"] = uuid.uuid4().hex
 app.config["JWT_EXPERATION_DELTA"] = datetime.timedelta(days=2)
@@ -38,10 +39,8 @@ CORS(app, resources={r"/": {"origins": "localhost:*"}})
 
 
 # Register Blueprints
-app.register_blueprint(users_bp, url_prefix="/users")
-app.register_blueprint(files_bp, url_prefix="/upload")
-
-
+# app.register_blueprint(users_bp, url_prefix="/users")
+# app.register_blueprint(files_bp, url_prefix="/upload")
 
 
 def authenticate(username, password):
@@ -74,10 +73,3 @@ def identity(payload):
                 user["birthDate"],
             )
     return None
-
-
-# CORS(app, resources={r"/": {"origins": "localhost:*"}})
-# JWT(app=app, authentication_handler=authenticate, identity_handler=identity)
-
-
-

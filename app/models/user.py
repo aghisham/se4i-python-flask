@@ -29,11 +29,7 @@ class User:
             int: age
         """
         today = date.today()
-<<<<<<< HEAD
-        birthDate = datetime.strptime(self.birthDate.replace("/", "-"), "%d-%m-%Y")
-=======
         birth_date = datetime.strptime(self.birth_date.replace("/", "-"), "%d-%m-%Y")
->>>>>>> 5da2c8726fd05c03480cad620d87e1a03b73faf9
         return (
             today.year
             - birth_date.year

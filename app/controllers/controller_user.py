@@ -1,7 +1,7 @@
-from app import app
 from flask import request, jsonify, render_template
 from app.models.project_user import Project_user
 import json
+from app import app
 
 
 data = json.load(open("app/static/data_list.json"))
