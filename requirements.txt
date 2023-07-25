@@ -6,3 +6,5 @@ black
 requests
 pyjwt
 uuid
+pymongo
+Flask-PyMongo

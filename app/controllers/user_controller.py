@@ -1,15 +1,12 @@
-import json
 from flask import Blueprint, request, jsonify
+from bson.json_util import dumps
 from app.models.user import User
+from app import DB
 
 
 users_bp = Blueprint(
     "users_bp", __name__, template_folder="templates", static_folder="static"
 )
-
-
-data = json.load(open("app/static/users_list.json", mode="r", encoding="utf-8"))
-users_list = data if (len(data)) else []
 
 
 @users_bp.route("", methods=["GET"])
@@ -19,7 +16,8 @@ def index():
     Returns:
         str: users list
     """
-    return jsonify(users_list)
+    cursor = DB.users.find({})  # type: ignore
+    return jsonify(dumps(cursor))
 
 
 @users_bp.route("", methods=["POST"])
@@ -56,9 +54,9 @@ def show(id):
         str: succes or fail
     """
     if request.method == "GET":
-        for user in users_list:
-            if user["id"] == id:
-                return jsonify(user)
+        user = DB.users.find_one({"id": id})  # type: ignore
+        if user:
+            return jsonify(dumps(user))
         return jsonify({"message": "Not existe"}), 400
     else:
         try:

@@ -1,5 +1,5 @@
-import json
 from datetime import date, datetime
+from app import DB
 
 
 # pylint: disable=C0103
@@ -42,9 +42,7 @@ class User:
         Returns:
             void
         """
-        data = json.load(open("app/static/users_list.json", mode="r", encoding="utf-8"))
-        users_list = data if (len(data)) else []
-        users_list.append(
+        DB.users.insert_one(
             {
                 "id": self.id,
                 "first_name": self.first_name,
@@ -54,8 +52,6 @@ class User:
                 "birth_date": self.birth_date,
             }
         )
-        with open("app/static/users_list.json", mode="w", encoding="utf-8") as outfile:
-            json.dump(users_list, outfile)
 
     def update(self):
         """Update user
@@ -63,18 +59,15 @@ class User:
         Returns:
             void
         """
-        data = json.load(open("app/static/users_list.json", mode="r", encoding="utf-8"))
-        users_list = data if (len(data)) else []
-        for user in users_list:
-            if user["id"] == self.id:
-                user["first_name"] = self.first_name
-                user["last_name"] = self.last_name
-                user["email"] = self.email
-                user["password"] = self.password
-                user["birth_date"] = self.birth_date
-                with open(
-                    "app/static/users_list.json", mode="w", encoding="utf-8"
-                ) as outfile:
-                    json.dump(users_list, outfile)
-                return
-        raise Exception("Not existe")
+        DB.users.update_one(
+            {"id": self.id},
+            {
+                "$set": {
+                    "first_name": self.first_name,
+                    "last_name": self.last_name,
+                    "email": self.email,
+                    "password": self.password,
+                    "birth_date": self.birth_date,
+                }
+            },
+        )

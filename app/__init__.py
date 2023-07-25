@@ -1,75 +1,39 @@
 from flask import Flask
-
-app = Flask(__name__)
-
-# from flask_jwt import JWT
-# from flask_cors import CORS
-from app.models.user import User
-import datetime
-import json
-import logging
-import uuid
-from app.controllers.controller import controller_blueprint
 from flask_cors import CORS
-import uuid
+from flask_pymongo import PyMongo
 import app.config as conf
 
 
-# from flask_jwt import JWT # ------ uncomment if python version <= 3.9
-# from app.controllers.files_controller import files_bp
-# from app.controllers.user_controller import users_bp
-
-from app.controllers import *
+MODE = "development" # development - testing - production
 
 
-logging.basicConfig(
-    level=logging.INFO | logging.ERROR,
-    filename="log.log",
-    format="%(asctime)s %(levelname)s %(message)s",
-)
+# ------ Init App
+app = Flask(__name__)
+app.config.from_object(conf.config[MODE])
+CORS(app, resources={r"/": {"origins": "localhost:*"}})
+# ------ (JWT) uncomment if python version <= 3.9
+# from app.controllers import authController
+
+# ------ Init DB
+DB = PyMongo(app).db
+
+
+# ------ Register Blueprints
+from app.controllers.user_controller import users_bp
+app.register_blueprint(users_bp, url_prefix="/users")
+
+from app.controllers.files_controller import files_bp
+app.register_blueprint(files_bp, url_prefix="/upload")
+
+from app.controllers.controller import controller_blueprint
 app.register_blueprint(controller_blueprint, url_prefix="/controller")
 
-app.config["SECRET_KEY"] = uuid.uuid4().hex
-app.config["JWT_EXPERATION_DELTA"] = datetime.timedelta(days=2)
-app.config["JWT_AUTH_URL_RULE"] = "/auth"
 
-
-CORS(app, resources={r"/": {"origins": "localhost:*"}})
-# JWT(app=app, authentication_handler=conf.authenticate, identity_handler=conf.identity) # ------ uncomment if python version <= 3.9
-
-
-# Register Blueprints
-# app.register_blueprint(users_bp, url_prefix="/users")
-# app.register_blueprint(files_bp, url_prefix="/upload")
-
-
-def authenticate(username, password):
-    data = json.load(open("app/static/users_list.json"))
-    users_list = data if (len(data)) else []
-    for user in users_list:
-        if user["email"] == username and user["password"] == password:
-            return User(
-                user["id"],
-                user["firstName"],
-                user["lastName"],
-                user["email"],
-                user["password"],
-                user["birthDate"],
-            )
-    return None
-
-
-def identity(payload):
-    data = json.load(open("app/static/users_list.json"))
-    users_list = data if (len(data)) else []
-    for user in users_list:
-        if user["id"] == payload["identity"]:
-            return User(
-                user["id"],
-                user["firstName"],
-                user["lastName"],
-                user["email"],
-                user["password"],
-                user["birthDate"],
-            )
-    return None
+from app.controllers import (
+    controller,
+    controller_user,
+    film_controller,
+    item_controller,
+    jwt_controller,
+    posts_mongo_controller,
+)
