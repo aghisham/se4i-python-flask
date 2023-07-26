@@ -41,7 +41,7 @@ def store():
                 request.json["last_name"],
                 request.json["email"],
                 request.json["password"],
-                request.json["birthDate"],
+                request.json["birth_date"],
             )
             user_model.store()
     except Exception:
@@ -88,7 +88,7 @@ def update(id):
                 request.json["last_name"],
                 request.json["email"],
                 request.json["password"],
-                request.json["birthDate"],
+                request.json["birth_date"],
             )
             user_model.update()
         return jsonify({"message": "success"}), 200

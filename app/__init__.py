@@ -42,19 +42,5 @@ app.config.update(
 DOCS = FlaskApiSpec(app)
 
 
-# ------ Register Blueprints
-from app.controllers.controller import controller_blueprint
-
-app.register_blueprint(controller_blueprint, url_prefix="/controller")
-
-
-from app.controllers import (
-    controller,
-    controller_user,
-    film_controller,
-    item_controller,
-    jwt_controller,
-    posts_mongo_controller,
-    user_controller,
-    files_controller,
-)
+# ------ Import controllers
+from app.controllers import *
