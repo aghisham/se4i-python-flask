@@ -25,7 +25,7 @@ def index():
 
 @users_bp.route("", methods=["POST"], provide_automatic_options=False)
 @doc(description="Insert User", tags=["Users"])
-@use_kwargs(UserSchema, location=("json"))
+@use_kwargs(UserSchema, location="json")
 @marshal_with(DefaultResponseSchema())
 def store():
     """Add user to users list
@@ -45,14 +45,14 @@ def store():
             )
             user_model.store()
     except Exception:
-        return jsonify({"message": "fail"}), 400
-    return jsonify({"message": "success"}), 200
+        return {"message": "fail"}, 400
+    return {"message": "success"}, 200
 
 
-@users_bp.route("/<int:id>", methods=["GET"], provide_automatic_options=False)
+@users_bp.route("/<int:user_id>", methods=["GET"], provide_automatic_options=False)
 @doc(description="Get User", tags=["Users"])
 @marshal_with(UserSchema(many=False))
-def show(id):
+def show(user_id):
     """Get user by id
 
     Args:
@@ -61,17 +61,17 @@ def show(id):
     Returns:
         dict: User
     """
-    user = DB.users.find_one({"id": id})  # type: ignore
+    user = DB.users.find_one({"id": user_id})  # type: ignore
     if user:
         return jsonify(dumps(user))
-    return jsonify({"message": "Not existe"}), 400
+    return {"message": "Not existe"}, 400
 
 
-@users_bp.route("/<int:id>", methods=["PUT"], provide_automatic_options=False)
+@users_bp.route("/<int:user_id>", methods=["PUT"], provide_automatic_options=False)
 @doc(description="Update User", tags=["Users"])
-@use_kwargs(UserSchema, location=("json"))
+@use_kwargs(UserSchema, location="json")
 @marshal_with(DefaultResponseSchema())
-def update(id):
+def update(user_id):
     """Update user data
 
     Args:
@@ -83,7 +83,7 @@ def update(id):
     try:
         if request.json:
             user_model = User(
-                id,
+                user_id,
                 request.json["first_name"],
                 request.json["last_name"],
                 request.json["email"],
@@ -91,9 +91,9 @@ def update(id):
                 request.json["birth_date"],
             )
             user_model.update()
-        return jsonify({"message": "success"}), 200
+        return {"message": "success"}, 200
     except Exception:
-        return jsonify({"message": "Not existe"}), 400
+        return {"message": "Not existe"}, 400
 
 
 app.register_blueprint(users_bp, url_prefix="/users")
