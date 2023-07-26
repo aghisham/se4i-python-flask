@@ -4,7 +4,7 @@ from flask_pymongo import PyMongo
 import app.config as conf
 
 
-MODE = "development" # development - testing - production
+MODE = "development"  # development - testing - production
 
 
 # ------ Init App
@@ -20,12 +20,15 @@ DB = PyMongo(app).db
 
 # ------ Register Blueprints
 from app.controllers.user_controller import users_bp
+
 app.register_blueprint(users_bp, url_prefix="/users")
 
 from app.controllers.files_controller import files_bp
+
 app.register_blueprint(files_bp, url_prefix="/upload")
 
 from app.controllers.controller import controller_blueprint
+
 app.register_blueprint(controller_blueprint, url_prefix="/controller")
 
 

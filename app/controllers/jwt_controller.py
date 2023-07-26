@@ -2,8 +2,11 @@ from app import app
 from flask import request, jsonify, render_template
 import jwt
 
+from app.config import user_name, password, user_id
+
+
 # just to test, the user and pass should be retrieved from database and the pass should be encrypted.
-users = {"hisham": {"user_id": 124587, "password": "password123"}}
+users = {user_name : {"user_id": user_id, "password": password}}
 
 
 @app.route("/login-form")
