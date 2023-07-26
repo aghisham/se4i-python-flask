@@ -19,7 +19,7 @@ def authenticate(username, password):
             user["last_name"],
             user["email"],
             user["password"],
-            user["birthDate"],
+            user["birth_date"],
         )
     session["username"] = None
     return None
@@ -39,7 +39,7 @@ def identity(payload):
             user["last_name"],
             user["email"],
             user["password"],
-            user["birthDate"],
+            user["birth_date"],
         )
     return None
 

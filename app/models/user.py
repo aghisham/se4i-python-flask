@@ -1,5 +1,30 @@
 from datetime import date, datetime
+from marshmallow import Schema, fields
 from app import DB
+
+
+class DefaultFileResponseSchema(Schema):
+    """Default File Response Schema"""
+
+    message = fields.Str()
+    path = fields.Str()
+
+
+class DefaultResponseSchema(Schema):
+    """Default Response Schema"""
+
+    message = fields.Str()
+
+
+class UserSchema(Schema):
+    """User Schema"""
+
+    id = fields.Str()
+    first_name = fields.Str()
+    last_name = fields.Str()
+    email = fields.Str()
+    password = fields.Str()
+    birth_date = fields.Str()
 
 
 # pylint: disable=C0103
