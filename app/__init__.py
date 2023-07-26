@@ -1,10 +1,17 @@
+import os
 from flask import Flask
 from flask_cors import CORS
 from flask_pymongo import PyMongo
+from flask_apispec.extension import FlaskApiSpec
+from apispec import APISpec
+from apispec.ext.marshmallow import MarshmallowPlugin
+from dotenv import load_dotenv
 import app.config as conf
 
 
-MODE = "development" # development - testing - production
+load_dotenv(".env")
+
+MODE = os.environ.get("MODE") or "development"  # development - testing - production
 
 
 # ------ Init App
@@ -14,18 +21,30 @@ CORS(app, resources={r"/": {"origins": "localhost:*"}})
 # ------ (JWT) uncomment if python version <= 3.9
 # from app.controllers import authController
 
+
 # ------ Init DB
 DB = PyMongo(app).db
 
 
+# ------ Init Swagger
+app.config.update(
+    {
+        "APISPEC_SPEC": APISpec(
+            title="Swagger S4I",
+            version="v1",
+            plugins=[MarshmallowPlugin()],
+            openapi_version="2.0.0",
+        ),
+        "APISPEC_SWAGGER_URL": "/swagger/",  # URI to access API Doc JSON
+        "APISPEC_SWAGGER_UI_URL": "/swagger-ui/",  # URI to access UI of API Doc
+    }
+)
+DOCS = FlaskApiSpec(app)
+
+
 # ------ Register Blueprints
-from app.controllers.user_controller import users_bp
-app.register_blueprint(users_bp, url_prefix="/users")
-
-from app.controllers.files_controller import files_bp
-app.register_blueprint(files_bp, url_prefix="/upload")
-
 from app.controllers.controller import controller_blueprint
+
 app.register_blueprint(controller_blueprint, url_prefix="/controller")
 
 
@@ -36,4 +55,6 @@ from app.controllers import (
     item_controller,
     jwt_controller,
     posts_mongo_controller,
+    user_controller,
+    files_controller,
 )
