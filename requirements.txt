@@ -13,3 +13,4 @@ Flask-restful
 Flask-apispec
 apispec
 marshmallow
+pylint

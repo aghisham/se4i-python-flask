@@ -1,6 +1,7 @@
 import json
 from flask import jsonify
 from app import app
+
 data = json.load(open("app/static/films.json"))
 films_list = data if (len(data)) else []
 
