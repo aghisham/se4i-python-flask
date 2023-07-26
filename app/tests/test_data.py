@@ -13,12 +13,12 @@ def test_get_dec_route():
         assert dec == "original from Spain"
 
 
-def test_get_R():
+def test_get_r():
     response = app.test_client().get("/data/1")
     assert response.status_code == 200
 
 
-def test_post_R():
+def test_post_r():
     response = app.test_client().post(
         "/data",
         json={
@@ -33,7 +33,7 @@ def test_post_R():
     assert response.status_code == 200
 
 
-def test_put_R():
+def test_put_r():
     response = app.test_client().post(
         "/data/1",
         json={
@@ -47,6 +47,6 @@ def test_put_R():
     assert response.status_code == 200
 
 
-def test_delete_R():
+def test_delete_r():
     response = app.test_client().delete("/data/1")
     assert response.status_code == 200

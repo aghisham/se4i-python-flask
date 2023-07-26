@@ -8,3 +8,9 @@ pyjwt
 uuid
 pymongo
 Flask-PyMongo
+python-dotenv
+Flask-restful
+Flask-apispec
+apispec
+marshmallow
+pylint

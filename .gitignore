@@ -3,6 +3,7 @@ __pycache__
 .env
 .pytest_cache
 log.log
+venv
 .idea
 uploads/*
 config*
