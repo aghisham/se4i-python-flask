@@ -2,8 +2,11 @@ import pytest
 import json
 from app import app
 
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> bd3d1891ffd35bc74affc73cf67377842852e3da
 def test_get_dec_route():
     response = app.test_client().get("/get-dec")
     with open('app/static/data_list.json') as mon_fichier:

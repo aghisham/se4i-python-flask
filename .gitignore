@@ -6,3 +6,4 @@ log.log
 venv
 .idea
 uploads/*
+config*

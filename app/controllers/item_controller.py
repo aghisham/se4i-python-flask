@@ -2,9 +2,10 @@ from app import app
 from flask import jsonify, request
 from app.models.item import ItemStore
 import requests
+from app.config import api
 
 
-API_BASE_URL = "https://jsonplaceholder.typicode.com/posts"
+API_BASE_URL = api
 
 
 @app.route("/items", methods=["POST"])

@@ -2,8 +2,13 @@ from app import app
 from flask import request, jsonify, render_template
 import jwt
 
+from app.config import user_name, password, user_id
+from app.config import config
+
+print(user_id,user_name,password, config["development"].SECRET_KEY)
 # just to test, the user and pass should be retrieved from database and the pass should be encrypted.
-users = {"hisham": {"user_id": 124587, "password": "password123"}}
+users = {user_name : {"user_id": user_id, "password": password}}
+
 
 
 @app.route("/login-form")
@@ -11,11 +16,13 @@ def index_jwt():
     return render_template("jwt_login.html")
 
 
+
 @app.route("/jwt-login", methods=["POST"])
 def login():
-    if request.json:
-        username = request.json["username"]
-        password = request.json["password"]
+    if request.is_json:
+        data = request.get_json()
+        username = data.get("username")
+        password = data.get("password")
     else:
         username = request.form.get("username")
         password = request.form.get("password")
@@ -28,7 +35,7 @@ def login():
 
     user_id = users[username]["user_id"]
     payload = {"user_id": user_id, "username": username}
-    token = jwt.encode(payload, app.config["SECRET_KEY"], algorithm="HS256")
+    token = jwt.encode(payload, config["development"].SECRET_KEY, algorithm="HS256")
 
     return jsonify({"access_token": str(token)})
 
@@ -40,7 +47,7 @@ def protected():
         return jsonify({"message": "Missing token"}), 401
 
     try:
-        key = app.config["SECRET_KEY"]
+        key = config["development"].SECRET_KEY
         decoded_token = jwt.decode(token, key, True, "HS256")
         user_id = decoded_token["user_id"]
         username = decoded_token["username"]

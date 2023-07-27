@@ -13,6 +13,8 @@ import app.config as conf
 load_dotenv(".env")
 MODE = os.environ.get("MODE") or "development"  # development - testing - production
 
+MODE = os.environ.get("MODE") or "development"   # development - testing - production
+
 
 # ------ Init App
 app = Flask(__name__)
