@@ -19,12 +19,12 @@ class DefaultResponseSchema(Schema):
 class UserSchema(Schema):
     """User Schema"""
 
-    id = fields.Str()
-    first_name = fields.Str()
-    last_name = fields.Str()
-    email = fields.Str()
-    password = fields.Str()
-    birth_date = fields.Str()
+    id = fields.Int(required=True)
+    first_name = fields.Str(required=True)
+    last_name = fields.Str(required=True)
+    email = fields.Str(required=True)
+    password = fields.Str(required=True)
+    birth_date = fields.Str(required=True)
 
 
 # pylint: disable=C0103

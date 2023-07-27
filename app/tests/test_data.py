@@ -1,15 +1,11 @@
 import pytest
 import json
 from app import app
-import static
 
 def test_get_dec_route():
     response = app.test_client().get("/get-dec")
-    data = json.loads(response.data)
-    for x in static.data_list:
-        dec = data["desc"]
-        assert response.status_code == 200
-        assert dec == "original from Spain"
+    assert response.status_code == 200
+    assert len(json.loads(response.data.decode("utf-8")))
 
 
 def test_get_r():

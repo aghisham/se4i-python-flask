@@ -27,7 +27,7 @@ def index():
 @doc(description="Insert User", tags=["Users"])
 @use_kwargs(UserSchema, location="json")
 @marshal_with(DefaultResponseSchema())
-def store():
+def store(**kwargs):
     """Add user to users list
 
     Returns:
@@ -71,7 +71,7 @@ def show(user_id):
 @doc(description="Update User", tags=["Users"])
 @use_kwargs(UserSchema, location="json")
 @marshal_with(DefaultResponseSchema())
-def update(user_id):
+def update(user_id, **kwargs):
     """Update user data
 
     Args:
