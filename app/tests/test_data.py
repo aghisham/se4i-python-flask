@@ -3,7 +3,6 @@ import json
 from app import app
 import static
 
-
 def test_get_dec_route():
     response = app.test_client().get("/get-dec")
     data = json.loads(response.data)
