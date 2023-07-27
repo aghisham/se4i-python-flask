@@ -7,19 +7,21 @@ from apispec import APISpec
 from apispec.ext.marshmallow import MarshmallowPlugin
 from dotenv import load_dotenv
 import app.config as conf
+# from flask_jwt_extended import JWTManager
 
 
 load_dotenv(".env")
-
 MODE = os.environ.get("MODE") or "development"  # development - testing - production
 
 
 # ------ Init App
 app = Flask(__name__)
 app.config.from_object(conf.config[MODE])
+
+
+# ------ Init JWT and CORS
 CORS(app, resources={r"/": {"origins": "localhost:*"}})
-# ------ (JWT) uncomment if python version <= 3.9
-# from app.controllers import authController
+# JWTManager(app)
 
 
 # ------ Init DB

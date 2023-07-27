@@ -16,8 +16,8 @@ class Configurations:
 
     # ---------- JWT
     SECRET_KEY = uuid.uuid4().hex
+    JWT_SECRET_KEY = uuid.uuid4().hex
     JWT_EXPERATION_DELTA = datetime.timedelta(days=2)
-    JWT_AUTH_URL_RULE = "/auth"
 
 
 class DevelopmentConfig(Configurations):

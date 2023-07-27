@@ -1,10 +1,13 @@
-# from flask import session
-# from flask_jwt import JWT
-# from app.models.user import User
+# from flask import session, jsonify, Blueprint
+# from flask_jwt_extended import create_access_token, get_jwt_identity, jwt_required
 # from app import DB, app
 
 
-# def authenticate(username, password):
+# auth_bp = Blueprint("auth_bp", __name__)
+
+
+# @auth_bp.route("", methods=["POST"])
+# def login(username, password):
 #     """Authenticate user
 
 #     Returns:
@@ -13,35 +16,21 @@
 #     user = DB.users.find_one({"email": username, "password": password})  # type: ignore
 #     if user:
 #         session["username"] = f"{user['first_name']} {user['last_name']}"
-#         return User(
-#             user["id"],
-#             user["first_name"],
-#             user["last_name"],
-#             user["email"],
-#             user["password"],
-#             user["birth_date"],
-#         )
+#         access_token = create_access_token(identity=username)
+#         return jsonify({"access_token": access_token}), 200
 #     session["username"] = None
-#     return None
+#     return jsonify({"message": "email or password is incorrect"}), 400
 
 
-# def identity(payload):
+# @auth_bp.route("/me", methods=["POST"])
+# @jwt_required()
+# def identity():
 #     """Get current user
 
 #     Returns:
 #         User|None
 #     """
-#     user = DB.users.find_one({"id": payload["identity"]})  # type: ignore
-#     if user:
-#         return User(
-#             user["id"],
-#             user["first_name"],
-#             user["last_name"],
-#             user["email"],
-#             user["password"],
-#             user["birth_date"],
-#         )
-#     return None
+#     return get_jwt_identity()
 
 
-# JWT(app=app, authentication_handler=authenticate, identity_handler=identity)
+# app.register_blueprint(auth_bp, url_prefix="/auth")
