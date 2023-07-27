@@ -1,10 +1,15 @@
 from app import app
-from flask import request, jsonify
+from flask import request, jsonify, render_template
 from app.models.film import Film
 import json
 
 data = json.load(open("app/static/films.json"))
 films_list = data
+
+
+@app.route('/')
+def index():
+    return render_template('filmIndex.html')
 
 
 @app.route("/films/<title>", methods=["GET"])

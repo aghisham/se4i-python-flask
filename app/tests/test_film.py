@@ -9,6 +9,7 @@ films_list = data if (len(data)) else []
 def test_display_all_route():
     response = app.test_client().get("/films")
     assert response.status_code == 200
+    assert response.json == films_list
     assert len(json.loads(response.data.decode("utf-8")))
 
 
