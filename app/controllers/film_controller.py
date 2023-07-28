@@ -1,6 +1,7 @@
 from app import app
 from flask import request, jsonify, render_template
 from app.models.film import Film
+from pymongo import MongoClient
 import json
 
 data = json.load(open("app/static/films.json"))
