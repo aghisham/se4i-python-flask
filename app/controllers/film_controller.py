@@ -6,6 +6,10 @@ import json
 data = json.load(open("app/static/films.json"))
 films_list = data
 
+app.config['MONGO_URI'] = 'mongodb://localhost:27017/mydatabase'
+mongo = MongoClient(app.config['MONGO_URI'])
+db = mongo.mydatabase
+
 
 @app.route('/')
 def index():
