@@ -1,3 +1,4 @@
+from pymongo import MongoClient
 from app import app
 from flask import request, jsonify, render_template
 from app.models.film import Film
@@ -12,9 +13,9 @@ mongo = MongoClient(app.config['MONGO_URI'])
 db = mongo.mydatabase
 
 
-@app.route('/')
+@app.route("/")
 def index():
-    return render_template('filmIndex.html')
+    return render_template("filmIndex.html")
 
 
 @app.route("/films/<title>", methods=["GET"])
