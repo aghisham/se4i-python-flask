@@ -58,9 +58,9 @@ def get_all_datas_mongo():
 def get_data_mongo(post_id):
     try:
         collection = mongo_singleton.get_collection()
-        post = collection.find_one({"id": int(post_id)})
+        post = collection.find_one({"_id": ObjectId(post_id)})
         if post:
-            post["id"] = int(post["id"])
+            post["_id"] = str(post["_id"])
             return jsonify({"success": True, "data": post})
         else:
             return jsonify({"success": False, "message": "Post not found"}), 404
