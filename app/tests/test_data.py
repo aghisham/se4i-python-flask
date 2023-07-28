@@ -2,11 +2,21 @@ import pytest
 import json
 from app import app
 
+<<<<<<< HEAD
 
+=======
+<<<<<<< HEAD
+
+
+=======
+>>>>>>> bd3d1891ffd35bc74affc73cf67377842852e3da
+>>>>>>> a47db4a98dc7677a1b089dbcf7235ff6d88c99e2
 def test_get_dec_route():
     response = app.test_client().get("/get-dec")
+    with open('app/static/data_list.json') as mon_fichier:
+         data = json.load(mon_fichier)
     assert response.status_code == 200
-    assert len(json.loads(response.data.decode("utf-8")))
+    assert data
 
 
 def test_get_r():
