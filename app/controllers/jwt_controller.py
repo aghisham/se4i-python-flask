@@ -5,16 +5,14 @@ import jwt
 from app.config import user_name, password, user_id
 from app.config import config
 
-print(user_id,user_name,password, config["development"].SECRET_KEY)
+print(user_id, user_name, password, config["development"].SECRET_KEY)
 # just to test, the user and pass should be retrieved from database and the pass should be encrypted.
-users = {user_name : {"user_id": user_id, "password": password}}
-
+users = {user_name: {"user_id": user_id, "password": password}}
 
 
 @app.route("/login-form")
 def index_jwt():
     return render_template("jwt_login.html")
-
 
 
 @app.route("/jwt-login", methods=["POST"])

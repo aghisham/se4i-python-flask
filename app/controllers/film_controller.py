@@ -7,9 +7,9 @@ data = json.load(open("app/static/films.json"))
 films_list = data
 
 
-@app.route('/')
+@app.route("/")
 def index():
-    return render_template('filmIndex.html')
+    return render_template("filmIndex.html")
 
 
 @app.route("/films/<title>", methods=["GET"])
