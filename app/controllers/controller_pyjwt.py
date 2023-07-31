@@ -51,7 +51,7 @@ def protected1():
         username = decoded_token["username"]
 
         # Perform any additional authentication or authorization checks based on user_id or username
-        if user_id1 == 1234:
+        if user_id1 == 147852:
             return jsonify({"message": f"Authorized user {username} with ID {user_id1}"})
         return jsonify(
             {"message": f"Protected resource for user {username} with ID {user_id1}"}
