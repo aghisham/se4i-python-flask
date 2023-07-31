@@ -1,5 +1,5 @@
 from app import app
-from flask import request, jsonify, render_template
+from flask import Blueprint,request, jsonify, render_template
 import jwt
 
 
@@ -9,6 +9,7 @@ from app.config import config
 print(user_id1, user_name1, password1, config["development"].SECRET_KEY)
 # just to test, the user and pass should be retrieved from database and the pass should be encrypted.
 users = {user_name1: {"user_id": user_id1, "password": password1}}
+
 
 @app.route("/pylogin-form")
 def index1_jwt():
@@ -40,7 +41,8 @@ def login1():
 
 @app.route("/pyjwt-protected", methods=["GET"])
 def protected1():
-    token = request.args["Authorization"]
+    token = request.args.get("Authorization")
+    print(token)
     if not token:
         return jsonify({"message": "Missing token"}), 401
 
@@ -51,7 +53,7 @@ def protected1():
         username = decoded_token["username"]
 
         # Perform any additional authentication or authorization checks based on user_id or username
-        if user_id1 == 147852:
+        if user_id1 == 1234:
             return jsonify({"message": f"Authorized user {username} with ID {user_id1}"})
         return jsonify(
             {"message": f"Protected resource for user {username} with ID {user_id1}"}
