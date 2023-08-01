@@ -49,7 +49,7 @@ def add(title):
                 }
             )
         else:
-            return jsonify({"success": False, "message": "Post not found"}), 404
+            return jsonify({"success": False, "message": "Film not found"}), 404
     except:
         return jsonify({"message": "fail"}), 400
 
@@ -77,7 +77,7 @@ def create_film():
         return jsonify(
             {
                 "success": True,
-                "message": "Post created successfully",
+                "message": "Film created successfully",
                 "post_id": str(id_created),
             }
         ), 200
@@ -106,3 +106,24 @@ def update_film(title):
             {"success": False, "message": str(e)}, 500
 
         )
+
+
+# delete film by title
+@app.route("/films/<title>", methods=["DELETE"])
+def delete_film(title):
+    try:
+        existed_coll = db_connector.get_collection()
+        film = existed_coll.find_one({"Title": title})
+        del_result = existed_coll.delete_one({"_id": ObjectId(film["_id"])})
+        if del_result == 1:
+            return(
+                {"success": True, "message": "Film is deleted"}
+            )
+        else:
+            return(
+                {"success": False, "message": "Film is Not Found"}
+            )
+    except Exception as e:
+        return(
+                {"success": False, "message": str(e)}
+            )
