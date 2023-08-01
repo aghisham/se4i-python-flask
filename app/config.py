@@ -1,10 +1,8 @@
-
 import logging
 import uuid
 import datetime
 import os
 import json
-
 
 
 logging.basicConfig(
@@ -15,7 +13,7 @@ logging.basicConfig(
 
 
 class Configurations:
-    #Configurations Class
+    """Configurations Class"""
 
     # ---------- JWT
     SECRET_KEY = uuid.uuid4().hex
@@ -24,14 +22,14 @@ class Configurations:
 
 
 class DevelopmentConfig(Configurations):
-    #Development Configuration Class
+    """Development Configuration Class"""
 
     DEBUG = os.environ.get("DEBUG") or True
     MONGO_URI = os.environ.get("MONGO_URI") or "mongodb://localhost:27017/se4idata"
 
 
 class TestingConfig(Configurations):
-    #Testing Configuration Class
+    """Testing Configuration Class"""
 
     DEBUG = os.environ.get("DEBUG") or False
     TESTING = os.environ.get("TESTING") or True
@@ -39,7 +37,7 @@ class TestingConfig(Configurations):
 
 
 class ProductionConfig(Configurations):
-    #Production Configuration Class
+    """Production Configuration Class"""
 
     DEBUG = os.environ.get("DEBUG") or False
     MONGO_URI = os.environ.get("MONGO_URI") or ""
@@ -51,8 +49,8 @@ config = {
     "production": ProductionConfig,
 }
 
-#read data from config.yaml one time and share it between the files
 
+#read data from config.yaml one time and share it between the files
 with open('app/config.yaml', 'r') as file:
     config_data = json.load(file)
 

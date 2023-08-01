@@ -14,3 +14,4 @@ Flask-apispec
 apispec
 marshmallow
 pylint
+Flask-socketio
