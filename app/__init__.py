@@ -2,18 +2,17 @@ import os
 from flask import Flask
 from flask_cors import CORS
 from flask_pymongo import PyMongo
+# from flask_socketio import SocketIO
 from flask_apispec.extension import FlaskApiSpec
 from apispec import APISpec
 from apispec.ext.marshmallow import MarshmallowPlugin
 from dotenv import load_dotenv
 import app.config as conf
-
 # from flask_jwt_extended import JWTManager
 
 
 load_dotenv(".env")
 MODE = os.environ.get("MODE") or "development"  # development - testing - production
-
 
 
 # ------ Init App
@@ -28,6 +27,10 @@ CORS(app, resources={r"/": {"origins": "localhost:*"}})
 
 # ------ Init DB
 DB = PyMongo(app).db
+
+
+# ------ Init Socket
+# socketio = SocketIO(app)
 
 
 # ------ Init Swagger
