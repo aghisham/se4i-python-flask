@@ -62,15 +62,19 @@ class DataStore:
                 return data
         return None
 
-    def update_data(self, id, brand,model,year, des):
-        data = self.get_data(id)
-        if data:
-            data.brand = brand
-            data.model = model
-            data.year = year
-            data.description = des
-            return data
-        return None
+    def update_data(self):
+        
+          DB.datas.update_one(
+            {"id": self.id},
+            {
+                "$set": {
+                    "brand": self.brand,
+                    "model": self.model,
+                    "year": self.year,
+                    "des": self.des,
+                }
+            },
+          )
 
     def delete_data(self, id):
         data = self.get_data(id)

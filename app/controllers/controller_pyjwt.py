@@ -1,6 +1,7 @@
 from app import app
 from flask import Blueprint,request, jsonify, render_template
 import jwt
+import requests
 
 
 from app.config import user_name1, password1, user_id1
@@ -41,14 +42,15 @@ def login1():
 
 @app.route("/pyjwt-protected", methods=["GET"])
 def protected1():
-    token = request.args.get("Authorization")
+    #token = requests.post('http://127.0.0.1:8080/pyjwt-login',data={"username":user_name1,"password":password1}).json()["access_token"]
+    token = request.headers.get('Authorization')
     print(token)
     if not token:
         return jsonify({"message": "Missing token"}), 401
 
     try:
-        key = app.config["SECRET_KEY"]
-        decoded_token = jwt.decode(token, key, True, "HS256")
+        key = config["development"].SECRET_KEY
+        decoded_token = jwt.decode(token, key, "HS256")
         user_id1 = decoded_token["user_id"]
         username = decoded_token["username"]
 

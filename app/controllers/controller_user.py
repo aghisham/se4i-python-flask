@@ -16,7 +16,7 @@ datas_bp = Blueprint(
 )
 
 @datas_bp.route("", methods=["GET"], provide_automatic_options=False)
-@doc(description="Get All Datas", tags=["datas"])
+@doc(description="Get All Datas", tags=["Datas"])
 @marshal_with(DataSchema(many=True))
 #@app.route("/home/")
 def home_page():
@@ -50,14 +50,26 @@ def indexofcars(user_id):
         return jsonify(dumps(user))
     return {"message": "Not existe"}, 400
 
-@app.route("/data/<int:id>", methods=["GET"])
-def get_data(id):
-    response = requests.get(f"data/{id}")
-    if response.status_code == 200:
-        data = response.json()
-        return jsonify(data)
-    else:
-        return jsonify({"error": "Data not found"}), response.status_code
+@datas_bp.route("/data/<int:user_id>", methods=["PUT"], provide_automatic_options=False)
+@doc(description="Update User", tags=["Datas"])
+@use_kwargs(DataSchema, location="json")
+@marshal_with(DefaultResponseSchema())
+def update(data_id, **kwargs):
+
+    try:
+        if request.json:
+            data_model = Data(
+                data_id,
+                request.json["brand"],
+                request.json["model"],
+                request.json["year"],
+                request.json["des"],
+            )
+            data_model.update()
+        return {"message": "success"}, 200
+    except Exception:
+        return {"message": "Not existe"}, 400
+
     
 @app.route("/get-dec")
 def get_dec():
@@ -69,6 +81,6 @@ def get_dec():
 
 app.register_blueprint(datas_bp, url_prefix="/datas")
 DOCS.register(indexofcars, blueprint="datas_bp")
-#DOCS.register(get_dec, blueprint="datas_bp")
-#DOCS.register(get_data, blueprint="datas_bp")
+DOCS.register(update, blueprint="datas_bp")
 DOCS.register(home_page, blueprint="datas_bp")
+#DOCS.register(get_data, blueprint="datas_bp")
