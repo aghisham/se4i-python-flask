@@ -6,4 +6,4 @@ log.log
 venv
 .idea
 uploads/*
-config*
+app/config.yaml
