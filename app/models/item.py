@@ -1,3 +1,6 @@
+from marshmallow import Schema, fields
+
+
 class Item:
     def __init__(self, id, name, description):
         self.id = id
@@ -36,3 +39,24 @@ class ItemStore:
             self.items.remove(item)
             return item
         return None
+
+
+class DefaultFileResponseSchema(Schema):
+    """Default File Response Schema"""
+
+    message = fields.Str()
+    path = fields.Str()
+
+
+class DefaultResponseSchema(Schema):
+    """Default Response Schema"""
+
+    message = fields.Str()
+
+
+class ItemSchema(Schema):
+    """Item Schema"""
+
+    id = fields.Int()
+    name = fields.Str()
+    description = fields.Str()

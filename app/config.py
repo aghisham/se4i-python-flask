@@ -51,18 +51,31 @@ config = {
 #read data from config.yaml one time and share it between the files
 import json
 
-with open('app/config.yaml', 'r') as file:
-    config_data = json.load(file)
+import json
 
-mongodb_host = config_data["mongodb"]["host"]
-port = config_data["mongodb"]["port"]
-database_name = config_data["mongodb"]["database_name"]
-collection_name = config_data["mongodb"]["collection_name"][0]
-user_name = config_data["jwt_credentials"]["user_name"][0]
-password = config_data["jwt_credentials"]["password"][0]
-user_id = config_data["jwt_credentials"]["user_id"][0]
-api = config_data["api"]["host"]
-collection_car = config_data["mongodb"]["collection_name"][1]
-user_name1 = config_data["jwt_credentials"]["user_name"][1]
-password1 = config_data["jwt_credentials"]["password"][1]
-user_id1 = config_data["jwt_credentials"]["user_id"][1]
+try:
+    with open('app/config.yaml', 'r') as file:
+        config_data = json.load(file)
+
+    mongodb_host = config_data["mongodb"]["host"]
+    port = config_data["mongodb"]["port"]
+    database_name = config_data["mongodb"]["database_name"]
+    collection_name = config_data["mongodb"]["collection_name"][0]
+    user_name = config_data["jwt_credentials"]["user_name"][0]
+    password = config_data["jwt_credentials"]["password"][0]
+    user_id = config_data["jwt_credentials"]["user_id"][0]
+    api = config_data["api"]["host"]
+    collection_car = config_data["mongodb"]["collection_name"][1]
+    user_name1 = config_data["jwt_credentials"]["user_name"][1]
+    password1 = config_data["jwt_credentials"]["password"][1]
+    user_id1 = config_data["jwt_credentials"]["user_id"][1]
+
+except FileNotFoundError as e:
+    print("Config file not found. Please make sure the file 'app/config.yaml' exists.")
+
+except json.JSONDecodeError as e:
+    print("Error decoding the JSON data from the config file.")
+
+except KeyError as e:
+    print("Key not found in the config data.")
+
