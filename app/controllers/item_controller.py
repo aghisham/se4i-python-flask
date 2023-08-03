@@ -1,49 +1,71 @@
-from app import app
-from flask import jsonify, request
-from app.models.item import ItemStore
+from flask import jsonify, request, Blueprint
 import requests
 from app.config import api
-
+from marshmallow import Schema, fields
+from flask_apispec import doc, use_kwargs, marshal_with
+from app.models.item import ItemSchema, DefaultResponseSchema
+from app import app, DOCS
 
 API_BASE_URL = api
 
+# Define the Flask Blueprint
+items_bp = Blueprint("items_bp", __name__)
 
-@app.route("/items", methods=["POST"])
-def create_item():
-    data = request.get_json()
+
+@items_bp.route("/items", methods=["POST"], provide_automatic_options=False)
+@doc(description="Create Item", tags=["Items"])
+@use_kwargs(ItemSchema, location="json")
+@marshal_with(ItemSchema())
+def create_item(**kwargs):
+    data = kwargs
     response = requests.post(API_BASE_URL, json=data)
     if response.status_code == 201:
         item = response.json()
-        return jsonify(item), 201
+        return item, 201
     else:
-        return jsonify({"error": "Failed to create item"}), response.status_code
+        return {"error": "Failed to create item"}, response.status_code
 
 
-@app.route("/items/<int:id>", methods=["GET"])
+@items_bp.route("/items/<int:id>", methods=["GET"], provide_automatic_options=False)
+@doc(description="Get Item", tags=["Items"])
+@marshal_with(ItemSchema())
 def get_item(id):
     response = requests.get(f"{API_BASE_URL}/{id}")
     if response.status_code == 200:
         item = response.json()
-        return jsonify(item)
+        return item
     else:
-        return jsonify({"error": "Item not found"}), response.status_code
+        return {"error": "Item not found"}, response.status_code
 
 
-@app.route("/items/<int:id>", methods=["PUT"])
-def update_item(id):
-    data = request.get_json()
+@items_bp.route("/items/<int:id>", methods=["PUT"], provide_automatic_options=False)
+@doc(description="Update Item", tags=["Items"])
+@use_kwargs(ItemSchema, location="json")
+@marshal_with(ItemSchema())
+def update_item(id, **kwargs):
+    data = kwargs
     response = requests.put(f"{API_BASE_URL}/{id}", json=data)
     if response.status_code == 200:
         item = response.json()
-        return jsonify(item)
+        return item
     else:
-        return jsonify({"error": "Item not found"}), response.status_code
+        return {"error": "Item not found"}, response.status_code
 
 
-@app.route("/items/<int:id>", methods=["DELETE"])
+@items_bp.route("/items/<int:id>", methods=["DELETE"], provide_automatic_options=False)
+@doc(description="Delete Item", tags=["Items"])
 def delete_item(id):
     response = requests.delete(f"{API_BASE_URL}/{id}")
     if response.status_code == 200:
-        return jsonify({"message": "Item deleted"})
+        return {"message": "Item deleted"}
     else:
-        return jsonify({"error": "Item not found"}), response.status_code
+        return {"error": "Item not found"}, response.status_code
+
+
+# Register the Blueprint with the Flask application
+app.register_blueprint(items_bp, url_prefix="/api")
+# Registering the API endpoints with Flask-apispec
+DOCS.register(create_item, blueprint="items_bp")
+DOCS.register(get_item, blueprint="items_bp")
+DOCS.register(update_item, blueprint="items_bp")
+DOCS.register(delete_item, blueprint="items_bp")

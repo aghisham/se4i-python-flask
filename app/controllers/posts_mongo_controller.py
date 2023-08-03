@@ -1,14 +1,19 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, Blueprint
 from bson.objectid import ObjectId
-from app import app
 from app.models.mongo_singleton import MongoDBSingleton
 import requests
 import json
+from app.config import api
 from bson import json_util
+from marshmallow import Schema, fields
+from flask_apispec import doc, use_kwargs, marshal_with, FlaskApiSpec
+from app import app, DOCS
 from app.config import mongodb_host, port, database_name, collection_name, api
 
-
 API_BASE_URL = api
+
+# Define the Flask Blueprint
+posts_bp = Blueprint("posts_bp", __name__)
 
 # Singleton MongoDB connection instance for database 'se4i' and collection 'posts' with a custom MongoDB URL
 custom_mongo_url = mongodb_host + f":{port}/"
@@ -17,11 +22,18 @@ mongo_singleton = MongoDBSingleton(
     database_name=database_name,
     collection_name=collection_name,
 )
-# Routes for CRUD operations
 
 
-# Controller: Insert data from API into MongoDB
-@app.route("/api/store", methods=["GET"])
+class PostSchema(Schema):
+    """Post Schema"""
+
+    _id = fields.Str(data_key="_id")
+    title = fields.Str()
+    content = fields.Str()
+
+
+@posts_bp.route("/store", methods=["GET"], provide_automatic_options=False)
+@doc(description="Store Data", tags=["Posts"])
 def store_data():
     response = requests.get(API_BASE_URL)
     if response.status_code == 200:
@@ -44,79 +56,95 @@ def store_data():
         )
 
 
-# Create a new post
-@app.route("/api/posts", methods=["POST"])
-def create_post_mongo():
-    data = request.get_json()
+@posts_bp.route("/posts", methods=["POST"], provide_automatic_options=False)
+@doc(description="Create Post", tags=["Posts"])
+@use_kwargs(PostSchema, location="json")
+@marshal_with(PostSchema())
+def create_post_mongo(**kwargs):
+    data = kwargs
     try:
         collection = mongo_singleton.get_collection()
         # Insert the data into the collection
         post_id = collection.insert_one(data).inserted_id
-        return jsonify(
-            {
-                "success": True,
-                "message": "Post created successfully",
-                "post_id": str(post_id),
-            }
-        )
+        data["_id"] = str(post_id)
+        return data
     except Exception as e:
-        return jsonify({"success": False, "error": str(e)}), 500
+        return {"error": str(e)}, 500
 
 
-# Read all posts
-@app.route("/api/posts", methods=["GET"])
+@posts_bp.route("/posts", methods=["GET"], provide_automatic_options=False)
+@doc(description="Get All Posts", tags=["Posts"])
+@marshal_with(PostSchema(many=True))
 def get_all_posts_mongo():
     try:
         collection = mongo_singleton.get_collection()
         posts = list(collection.find({}))
         for post in posts:
             post["_id"] = str(post["_id"])
-        return jsonify({"success": True, "data": posts})
+        return posts
     except Exception as e:
-        return jsonify({"success": False, "error": str(e)}), 500
+        return {"error": str(e)}, 500
 
 
-# Read a specific post by ID
-@app.route("/api/posts/<post_id>", methods=["GET"])
+@posts_bp.route("/posts/<post_id>", methods=["GET"], provide_automatic_options=False)
+@doc(description="Get Post", tags=["Posts"])
+@marshal_with(PostSchema())
 def get_post_mongo(post_id):
     try:
         collection = mongo_singleton.get_collection()
         post = collection.find_one({"_id": ObjectId(post_id)})
         if post:
             post["_id"] = str(post["_id"])
-            return jsonify({"success": True, "data": post})
+            return post
         else:
-            return jsonify({"success": False, "message": "Post not found"}), 404
+            return {"message": "Post not found"}, 404
     except Exception as e:
-        return jsonify({"success": False, "error": str(e)}), 500
+        return {"error": str(e)}, 500
 
 
-# Update a post by ID
-@app.route("/api/posts/<post_id>", methods=["PUT"])
-def update_post_mongo(post_id):
-    data = request.get_json()
+@posts_bp.route("/posts/<post_id>", methods=["PUT"], provide_automatic_options=False)
+@doc(description="Update Post", tags=["Posts"])
+@use_kwargs(PostSchema, location="json")
+@marshal_with(PostSchema())
+def update_post_mongo(post_id, **kwargs):
+    data = kwargs
     try:
         collection = mongo_singleton.get_collection()
         # Update the post in the collection
         result = collection.update_one({"_id": ObjectId(post_id)}, {"$set": data})
         if result.modified_count == 1:
-            return jsonify({"success": True, "message": "Post updated successfully"})
+            data["_id"] = str(post_id)
+            return data
         else:
-            return jsonify({"success": False, "message": "Post not found"}), 404
+            return {"message": "Post not found"}, 404
     except Exception as e:
-        return jsonify({"success": False, "error": str(e)}), 500
+        return {"error": str(e)}, 500
 
 
-# Delete a post by ID
-@app.route("/api/posts/<post_id>", methods=["DELETE"])
+@posts_bp.route("/posts/<post_id>", methods=["DELETE"], provide_automatic_options=False)
+@doc(description="Delete Post", tags=["Posts"])
 def delete_post_mongo(post_id):
     try:
         collection = mongo_singleton.get_collection()
         # Delete the post from the collection
         result = collection.delete_one({"_id": ObjectId(post_id)})
         if result.deleted_count == 1:
-            return jsonify({"success": True, "message": "Post deleted successfully"})
+            return {"message": "Post deleted successfully"}
         else:
-            return jsonify({"success": False, "message": "Post not found"}), 404
+            return {"message": "Post not found"}, 404
     except Exception as e:
-        return jsonify({"success": False, "error": str(e)}), 500
+        return {"error": str(e)}, 500
+
+
+# Register the Blueprint with the Flask application
+app.register_blueprint(posts_bp, url_prefix="/api")
+
+# Create an instance of FlaskApiSpec
+
+# Register the API endpoints with Flask-apispec
+DOCS.register(store_data, blueprint="posts_bp")
+DOCS.register(create_post_mongo, blueprint="posts_bp")
+DOCS.register(get_all_posts_mongo, blueprint="posts_bp")
+DOCS.register(get_post_mongo, blueprint="posts_bp")
+DOCS.register(update_post_mongo, blueprint="posts_bp")
+DOCS.register(delete_post_mongo, blueprint="posts_bp")
