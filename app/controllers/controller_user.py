@@ -1,12 +1,10 @@
 from flask import Blueprint,request, jsonify, render_template
-from app.models.project_user import Project_user,Data,DataSchema,DefaultResponseSchema
-import json
+from app.models.project_user import Data,DataSchema
+from app.models.user import DefaultResponseSchema
 import requests
 from bson.json_util import dumps
 from flask_apispec import doc, use_kwargs, marshal_with
 from app import app, DB, DOCS
-
-
 
 
 #users_list = datas if (len(datas)) else []
@@ -14,6 +12,7 @@ from app import app, DB, DOCS
 datas_bp = Blueprint(
     "datas_bp", __name__, template_folder="templates", static_folder="static"
 )
+
 
 @datas_bp.route("", methods=["GET"], provide_automatic_options=False)
 @doc(description="Get All Datas", tags=["Datas"])
@@ -27,7 +26,6 @@ def home_page():
 @app.route('/projects/')
 def projects():
     return 'The project page'
-
 
 @app.errorhandler(404)
 def page_not_found(error):
@@ -50,7 +48,7 @@ def indexofcars(user_id):
         return jsonify(dumps(user))
     return {"message": "Not existe"}, 400
 
-@datas_bp.route("/data/<int:user_id>", methods=["PUT"], provide_automatic_options=False)
+@datas_bp.route("/update/<int:user_id>", methods=["PUT"], provide_automatic_options=False)
 @doc(description="Update User", tags=["Datas"])
 @use_kwargs(DataSchema, location="json")
 @marshal_with(DefaultResponseSchema())
@@ -71,11 +69,11 @@ def update(data_id, **kwargs):
         return {"message": "Not existe"}, 400
 
     
-@app.route("/get-dec")
-def get_dec():
-    project_user = Project_user(datas_bp)
+#@app.route("/get-dec")
+#def get_dec():
+   # project_user = Project_user(datas_bp)
 
-    return jsonify({"dec": project_user.get_dec()})
+ #   return jsonify({"dec": project_user.})
 
 
 

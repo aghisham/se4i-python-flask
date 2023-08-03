@@ -1,8 +1,10 @@
-from app import app
+from app import app , DB, DOCS
 from flask import Blueprint,request, jsonify, render_template
+from app.models.project_user import LoginSchema,DataSchema
+from app.models.user import DefaultResponseSchema
 import jwt
 import requests
-
+from flask_apispec import doc, use_kwargs, marshal_with
 
 from app.config import user_name1, password1, user_id1
 from app.config import config
@@ -10,14 +12,19 @@ from app.config import config
 print(user_id1, user_name1, password1, config["development"].SECRET_KEY)
 # just to test, the user and pass should be retrieved from database and the pass should be encrypted.
 users = {user_name1: {"user_id": user_id1, "password": password1}}
+datas_jwt = Blueprint(
+    "datas_jwt", __name__, template_folder="templates", static_folder="static"
+)
 
-
-@app.route("/pylogin-form")
+@datas_jwt.route("/pylogin-form", methods=["GET"], provide_automatic_options=False)
+@doc(description="Login Page", tags=["Datas"])
+@marshal_with(LoginSchema(many=True))
 def index1_jwt():
     return render_template("login.html")
 
-
-@app.route("/pyjwt-login", methods=["POST"])
+@datas_jwt.route("/pyjwt-login", methods=["POST"], provide_automatic_options=False)
+@doc(description="authontification Page", tags=["Datas"])
+@marshal_with(LoginSchema(many=True))
 def login1():
     if request.is_json:
         data = request.get_json()
@@ -64,3 +71,7 @@ def protected1():
         return jsonify({"message": "Token has expired"}), 401
     except jwt.InvalidTokenError:
         return jsonify({"message": "Invalid token"}), 401
+    
+app.register_blueprint(datas_jwt, url_prefix="/datas")
+DOCS.register(index1_jwt, blueprint="datas_jwt")
+DOCS.register(login1, blueprint="datas_jwt")

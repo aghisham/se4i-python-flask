@@ -3,19 +3,6 @@ from marshmallow import Schema, fields
 from app import DB
 
 
-class DefaultFileResponseSchema(Schema):
-    """Default File Response Schema"""
-
-    message = fields.Str()
-    path = fields.Str()
-
-
-class DefaultResponseSchema(Schema):
-    """Default Response Schema"""
-
-    message = fields.Str()
-
-
 class DataSchema(Schema):
     """User Schema"""
 
@@ -25,7 +12,11 @@ class DataSchema(Schema):
     year = fields.Int(required=True)
     des = fields.Str(required=True)
     
-
+class LoginSchema(Schema):
+    """User Schema"""
+    id = fields.Int(required=True)
+    user_name = fields.Str(required=True)
+    password = fields.Str(required=True)
 
 class Project_user:
     def __init__(self, dec) -> None:
