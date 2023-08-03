@@ -13,8 +13,13 @@ def jwt_log_form():
 
 @app.route("/log", methods=["POST"])
 def jwt_login():
-    username = request.json["username"]
-    password = request.json["password"]
+    if request.is_json:
+        data = request.get_json()
+        username = data.json["username"]
+        password = data.json["password"]
+    else:
+        username = request.form.get("username")
+        password = request.form.get("password")
     if not username or not password:
         return jsonify({"message": "please check username or password is empty"}), 400
     if username not in user_coll or password2 != user_coll[username]["password"]:
