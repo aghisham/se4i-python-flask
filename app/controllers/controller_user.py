@@ -8,23 +8,15 @@ from app.models.project_user import (
     Project_user,
     Data,
     DataSchema,
-    DefaultResponseSchema,
 )
 import json
->>>>>>> 4928baf94275704aca5042d89e94695480bdb5a8
 import requests
 from bson.json_util import dumps
 from flask_apispec import doc, use_kwargs, marshal_with
 from app import app, DB, DOCS
 
-
-<<<<<<< HEAD
 #users_list = datas if (len(datas)) else []
 #users = {user_name1: {"user_id": user_id1, "password": password1}}
-=======
-# users_list = datas if (len(datas)) else []
-# users = {user_name1: {"user_id": user_id1, "password": password1}}
->>>>>>> 4928baf94275704aca5042d89e94695480bdb5a8
 datas_bp = Blueprint(
     "datas_bp", __name__, template_folder="templates", static_folder="static"
 )
@@ -33,7 +25,6 @@ datas_bp = Blueprint(
 @datas_bp.route("", methods=["GET"], provide_automatic_options=False)
 @doc(description="Get All Datas", tags=["Datas"])
 @marshal_with(DataSchema(many=True))
-# @app.route("/home/")
 def home_page():
     cursor = DB.datas.find({}).limit(20)
     return jsonify(dumps(cursor))
@@ -89,7 +80,6 @@ def update(data_id, **kwargs):
     except Exception:
         return {"message": "Not existe"}, 400
 
-<<<<<<< HEAD
     
 #@app.route("/get-dec")
 #def get_dec():

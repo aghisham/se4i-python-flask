@@ -11,16 +11,12 @@ class DataSchema(Schema):
     model = fields.Str(required=True)
     year = fields.Int(required=True)
     des = fields.Str(required=True)
-<<<<<<< HEAD
     
 class LoginSchema(Schema):
     """User Schema"""
     id = fields.Int(required=True)
     user_name = fields.Str(required=True)
     password = fields.Str(required=True)
-=======
-
->>>>>>> 4928baf94275704aca5042d89e94695480bdb5a8
 
 class Project_user:
     def __init__(self, dec) -> None:
