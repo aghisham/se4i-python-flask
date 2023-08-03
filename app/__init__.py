@@ -2,14 +2,12 @@ import os
 from flask import Flask
 from flask_cors import CORS
 from flask_pymongo import PyMongo
-
 from flask_socketio import SocketIO
 from flask_apispec.extension import FlaskApiSpec
 from apispec import APISpec
 from apispec.ext.marshmallow import MarshmallowPlugin
 from dotenv import load_dotenv
 import app.config as conf
-
 # from flask_jwt_extended import JWTManager
 
 
@@ -20,22 +18,6 @@ MODE = os.environ.get("MODE") or "development"  # development - testing - produc
 # ------ Init App
 app = Flask(__name__)
 app.config.from_object(conf.config[MODE])
-
-
-# ------ Init JWT and CORS
-CORS(app, resources={r"/": {"origins": "localhost:*"}})
-# JWTManager(app)
-
-
-# ------ Init DB
-DB = PyMongo(app).db
-
-
-# ------ Init Socket
-socketio = SocketIO(app)
-
-
-# ------ Init Swagger
 app.config.update(
     {
         "APISPEC_SPEC": APISpec(
@@ -48,7 +30,14 @@ app.config.update(
         "APISPEC_SWAGGER_UI_URL": "/swagger-ui/",  # URI to access UI of API Doc
     }
 )
+
+
+# ------ Init Modules
+CORS(app, resources={r"/": {"origins": "localhost:*"}})
+DB = PyMongo(app).db
 DOCS = FlaskApiSpec(app)
+# JWT = JWTManager(app)
+socketio = SocketIO(app, transports=['websocket'], cors_allowed_origins="*", engineio_logger=True)
 
 
 # ------ Import controllers
