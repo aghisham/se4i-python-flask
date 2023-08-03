@@ -73,7 +73,7 @@ def create_film():
     data_to_create = request.get_json()
     try:
         existed_coll = db_connector.get_collection()
-        id_created = existed_coll.insert_one(data_to_create).inserted_id()
+        id_created = existed_coll.insert_one(data_to_create).inserted_id
         return jsonify(
             {
                 "success": True,
@@ -114,15 +114,19 @@ def delete_film(title):
     try:
         existed_coll = db_connector.get_collection()
         film = existed_coll.find_one({"Title": title})
-        del_result = existed_coll.delete_one({"_id": ObjectId(film["_id"])})
-        if del_result == 1:
-            return(
-                {"success": True, "message": "Film is deleted"}
-            )
+        if film:
+            del_result = existed_coll.delete_one({"Title": title})
+            if del_result.deleted_count == 1:
+                return(
+                    {"success": True, "message": "Film is deleted"}, 204
+                )
+            else:
+                return(
+                    {"success": False, "message": "Film is Not Found"}, 404
+                )
         else:
-            return(
-                {"success": False, "message": "Film is Not Found"}
-            )
+            return {"success": False, "message": "Film is Not Found"}, 404
+
     except Exception as e:
         return(
                 {"success": False, "message": str(e)}
