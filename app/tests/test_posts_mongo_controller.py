@@ -2,8 +2,6 @@ import pytest
 from app import app
 
 
-
-
 def test_store_data():
     """Test the '/api/store' endpoint."""
     response = app.test_client().get("/api/store")
@@ -33,11 +31,10 @@ def test_get_all_posts_mongo():
     assert response.status_code == 200
 
 
-
 def test_get_post_mongo():
     """Test the '/api/posts/<post_id>' endpoint for getting a specific post."""
     # Assuming you have some post ID, replace 'POST_ID_HERE' with a valid post ID.
-    post_id = '64c2638dd9da151e1db56627'
+    post_id = "64c2638dd9da151e1db56627"
     response = app.test_client().get(f"/api/posts/{post_id}")
     assert response.status_code in [200, 404]
     data = response.get_json()
@@ -51,7 +48,7 @@ def test_get_post_mongo():
 def test_update_post_mongo():
     """Test the '/api/posts/<post_id>' endpoint for updating a specific post."""
     # Assuming you have some post ID, replace 'POST_ID_HERE' with a valid post ID.
-    post_id = '64c2638dd9da151e1db56627'
+    post_id = "64c2638dd9da151e1db56627"
     updated_data = {
         "title": "Updated Test Post",
         "content": "This post has been updated.",
@@ -70,7 +67,7 @@ def test_update_post_mongo():
 def test_delete_post_mongo():
     """Test the '/api/posts/<post_id>' endpoint for deleting a specific post."""
     # Assuming you have some post ID, replace 'POST_ID_HERE' with a valid post ID.
-    post_id = '64c2638dd9da151e1db56627'
+    post_id = "64c2638dd9da151e1db56627"
     response = app.test_client().delete(f"/api/posts/{post_id}")
     assert response.status_code in [200, 404]
     data = response.get_json()
@@ -79,5 +76,3 @@ def test_delete_post_mongo():
         assert data["message"] == "Post deleted successfully"
     else:
         assert "message" in data
-
-

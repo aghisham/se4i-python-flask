@@ -76,6 +76,7 @@ def protected():
     except jwt.InvalidTokenError:
         return jsonify({"message": "Invalid token"}), 401
 
+
 # Add the Blueprint to the app and register the API endpoints with Flask-apispec
 app.register_blueprint(jwt_authentication_bp, url_prefix="/api")
 DOCS.register(login)

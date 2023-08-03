@@ -12,7 +12,6 @@ API_BASE_URL = api
 items_bp = Blueprint("items_bp", __name__)
 
 
-
 @items_bp.route("/items", methods=["POST"], provide_automatic_options=False)
 @doc(description="Create Item", tags=["Items"])
 @use_kwargs(ItemSchema, location="json")
@@ -61,6 +60,7 @@ def delete_item(id):
         return {"message": "Item deleted"}
     else:
         return {"error": "Item not found"}, response.status_code
+
 
 # Register the Blueprint with the Flask application
 app.register_blueprint(items_bp, url_prefix="/api")

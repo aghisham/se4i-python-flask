@@ -31,7 +31,8 @@ def test_post():
 
 def test_put():
     response = app.test_client().put(
-        "/api/items/1", json={"title": "Updated Title", "body": "Updated Body", "userId": 1}
+        "/api/items/1",
+        json={"title": "Updated Title", "body": "Updated Body", "userId": 1},
     )
     assert response.status_code == 200
 

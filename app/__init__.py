@@ -2,12 +2,14 @@ import os
 from flask import Flask
 from flask_cors import CORS
 from flask_pymongo import PyMongo
-# from flask_socketio import SocketIO
+
+from flask_socketio import SocketIO
 from flask_apispec.extension import FlaskApiSpec
 from apispec import APISpec
 from apispec.ext.marshmallow import MarshmallowPlugin
 from dotenv import load_dotenv
 import app.config as conf
+
 # from flask_jwt_extended import JWTManager
 
 
@@ -30,7 +32,7 @@ DB = PyMongo(app).db
 
 
 # ------ Init Socket
-# socketio = SocketIO(app)
+socketio = SocketIO(app)
 
 
 # ------ Init Swagger

@@ -12,7 +12,9 @@ API_BASE_URL = api
 # Singleton MongoDB connection instance for database 'se4i' and collection 'posts' with a custom MongoDB URL
 custom_mongo_url = mongodb_host + f":{port}/"
 mongo_singleton = MongoDBSingleton(
-    mongo_url=custom_mongo_url, database_name=database_name, collection_name=collection_name
+    mongo_url=custom_mongo_url,
+    database_name=database_name,
+    collection_name=collection_name,
 )
 # Routes for CRUD operations
 

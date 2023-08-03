@@ -14,7 +14,7 @@ films_list = data
 db_connector = MongoDBSingleton(
     mongo_url="mongodb://localhost:27017",
     database_name=database_name,
-    collection_name=collection_film
+    collection_name=collection_film,
 )
 
 
@@ -29,7 +29,7 @@ def store_films():
     try:
         coll = db_connector.get_collection()
         coll.insert_many(data)
-        return 'data imported', 200
+        return "data imported", 200
     except Exception as e:
         return jsonify({"message": str(e)}), 500
 
@@ -42,12 +42,7 @@ def add(title):
         film = existed_coll.find_one({"Title": title})
         if film:
             film["_id"] = str(film["_id"])
-            return (
-                {
-                    "success": True,
-                    "data": film
-                }
-            )
+            return {"success": True, "data": film}
         else:
             return jsonify({"success": False, "message": "Film not found"}), 404
     except:
@@ -61,7 +56,7 @@ def display():
         existed_coll = db_connector.get_collection()
         films = list(existed_coll.find({}))
         for film in films:
-            film['_id'] = str(film['_id'])
+            film["_id"] = str(film["_id"])
         return jsonify({"success": True, "data": films})
     except Exception as e:
         return jsonify({"message": str(e)}), 500
@@ -74,13 +69,16 @@ def create_film():
     try:
         existed_coll = db_connector.get_collection()
         id_created = existed_coll.insert_one(data_to_create).inserted_id()
-        return jsonify(
-            {
-                "success": True,
-                "message": "Film created successfully",
-                "post_id": str(id_created),
-            }
-        ), 200
+        return (
+            jsonify(
+                {
+                    "success": True,
+                    "message": "Film created successfully",
+                    "post_id": str(id_created),
+                }
+            ),
+            200,
+        )
     except Exception as e:
         return jsonify({"message": str(e)}), 500
 
@@ -94,18 +92,11 @@ def update_film(title):
         film = existed_coll.find_one({"Title": title})
         if film:
             existed_coll.update_one({"_id": ObjectId(film["_id"])}, {"$set": data}), 200
-            return (
-                {"success": True, "message": "Film is updated successfully"}, 200
-            )
+            return ({"success": True, "message": "Film is updated successfully"}, 200)
         else:
-            return(
-                {"success": False, "message": "Film is Not Found"}, 404
-            )
+            return ({"success": False, "message": "Film is Not Found"}, 404)
     except Exception as e:
-        return (
-            {"success": False, "message": str(e)}, 500
-
-        )
+        return ({"success": False, "message": str(e)}, 500)
 
 
 # delete film by title
@@ -116,14 +107,8 @@ def delete_film(title):
         film = existed_coll.find_one({"Title": title})
         del_result = existed_coll.delete_one({"_id": ObjectId(film["_id"])})
         if del_result == 1:
-            return(
-                {"success": True, "message": "Film is deleted"}
-            )
+            return {"success": True, "message": "Film is deleted"}
         else:
-            return(
-                {"success": False, "message": "Film is Not Found"}
-            )
+            return {"success": False, "message": "Film is Not Found"}
     except Exception as e:
-        return(
-                {"success": False, "message": str(e)}
-            )
+        return {"success": False, "message": str(e)}

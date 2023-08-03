@@ -50,11 +50,11 @@ config = {
 }
 
 
-#read data from config.yaml one time and share it between the files
+# read data from config.yaml one time and share it between the files
 import json
 
 try:
-    with open('app/config.yaml', 'r') as file:
+    with open("app/config.yaml", "r") as file:
         config_data = json.load(file)
 
     mongodb_host = config_data["mongodb"]["host"]
@@ -81,4 +81,3 @@ except json.JSONDecodeError as e:
 
 except KeyError as e:
     print("Key not found in the config data.")
-

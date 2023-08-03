@@ -27,7 +27,7 @@ def jwt_login():
     return jsonify({"access_token": str(token)})
 
 
-@app.route('/unprotected_route', methods=["GET"])
+@app.route("/unprotected_route", methods=["GET"])
 def protected_route():
     token = request.args["Authorization"]
     if not token:
@@ -37,15 +37,13 @@ def protected_route():
         decoded_token = jwt.decode(token, key, True, "HS256")
         user_id = decoded_token["user_id"]
         username = decoded_token["username"]
-        return(
-            "welcome this is protected route and you are eligible to see it"
-        )
+        return "welcome this is protected route and you are eligible to see it"
     except jwt.ExpiredSignatureError:
         return jsonify({"message": "Token has expired"}), 401
     except jwt.InvalidTokenError:
         return jsonify({"message": "Invalid token"}), 401
 
 
-@app.route('/unprotected_route', methods=["GET"])
+@app.route("/unprotected_route", methods=["GET"])
 def unprotected_route():
-    return 'This is an unprotected route'
+    return "This is an unprotected route"
