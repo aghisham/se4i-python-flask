@@ -7,5 +7,3 @@ venv
 .idea
 uploads/*
 app/config.yaml
-app/controllers/flask_socket_io.py
-app/templates/flask_socketio.html
