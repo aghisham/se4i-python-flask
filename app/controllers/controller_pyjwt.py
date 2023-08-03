@@ -1,7 +1,12 @@
+<<<<<<< HEAD
 from app import app , DB, DOCS
 from flask import Blueprint,request, jsonify, render_template
 from app.models.project_user import LoginSchema,DataSchema
 from app.models.user import DefaultResponseSchema
+=======
+from app import app
+from flask import Blueprint, request, jsonify, render_template
+>>>>>>> 4928baf94275704aca5042d89e94695480bdb5a8
 import jwt
 import requests
 from flask_apispec import doc, use_kwargs, marshal_with
@@ -49,8 +54,8 @@ def login1():
 
 @app.route("/pyjwt-protected", methods=["GET"])
 def protected1():
-    #token = requests.post('http://127.0.0.1:8080/pyjwt-login',data={"username":user_name1,"password":password1}).json()["access_token"]
-    token = request.headers.get('Authorization')
+    # token = requests.post('http://127.0.0.1:8080/pyjwt-login',data={"username":user_name1,"password":password1}).json()["access_token"]
+    token = request.headers.get("Authorization")
     print(token)
     if not token:
         return jsonify({"message": "Missing token"}), 401
@@ -63,7 +68,9 @@ def protected1():
 
         # Perform any additional authentication or authorization checks based on user_id or username
         if user_id1 == 1234:
-            return jsonify({"message": f"Authorized user {username} with ID {user_id1}"})
+            return jsonify(
+                {"message": f"Authorized user {username} with ID {user_id1}"}
+            )
         return jsonify(
             {"message": f"Protected resource for user {username} with ID {user_id1}"}
         )

@@ -13,8 +13,13 @@ def jwt_log_form():
 
 @app.route("/log", methods=["POST"])
 def jwt_login():
-    username = request.json["username"]
-    password = request.json["password"]
+    if request.is_json:
+        data = request.get_json()
+        username = data["username"]
+        password = data["password"]
+    else:
+        username = request.form.get("username")
+        password = request.form.get("password")
     if not username or not password:
         return jsonify({"message": "please check username or password is empty"}), 400
     if username not in user_coll or password2 != user_coll[username]["password"]:
@@ -27,25 +32,23 @@ def jwt_login():
     return jsonify({"access_token": str(token)})
 
 
-@app.route('/unprotected_route', methods=["GET"])
+@app.route("/unprotected_route", methods=["POST"])
 def protected_route():
-    token = request.args["Authorization"]
+    token = request.headers.get("Authorization")
     if not token:
         return jsonify({"message": "Missing token"}), 401
     try:
         key = config["development"].SECRET_KEY
-        decoded_token = jwt.decode(token, key, True, "HS256")
+        decoded_token = jwt.decode(token, key, algorithms=["HS256"])
         user_id = decoded_token["user_id"]
         username = decoded_token["username"]
-        return(
-            "welcome this is protected route and you are eligible to see it"
-        )
+        return jsonify({"message": "welcome this is protected route and you are eligible to see it"})
     except jwt.ExpiredSignatureError:
         return jsonify({"message": "Token has expired"}), 401
     except jwt.InvalidTokenError:
         return jsonify({"message": "Invalid token"}), 401
 
 
-@app.route('/unprotected_route', methods=["GET"])
+@app.route("/unprotected_route", methods=["GET"])
 def unprotected_route():
-    return 'This is an unprotected route'
+    return "This is an unprotected route"

@@ -28,9 +28,13 @@ Tutorial: https://pyjwt.readthedocs.io/en/stable/
 
 Swagger
 Tutorial: https://github.com/swagger-api/swagger-ui
+          https://medium.com/pythonistas/automated-swagger-api-doc-with-flask-restful-a78119bc4473
 
 blueprints
 Tutorial: https://realpython.com/flask-blueprint/
 
 MongoDB
 Tutorial: https://www.w3schools.com/python/python_mongodb_getstarted.asp
+
+flask-socketio:
+Tutorial: https://flask-socketio.readthedocs.io/en/latest/

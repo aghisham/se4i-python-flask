@@ -11,12 +11,16 @@ class DataSchema(Schema):
     model = fields.Str(required=True)
     year = fields.Int(required=True)
     des = fields.Str(required=True)
+<<<<<<< HEAD
     
 class LoginSchema(Schema):
     """User Schema"""
     id = fields.Int(required=True)
     user_name = fields.Str(required=True)
     password = fields.Str(required=True)
+=======
+
+>>>>>>> 4928baf94275704aca5042d89e94695480bdb5a8
 
 class Project_user:
     def __init__(self, dec) -> None:
@@ -27,8 +31,10 @@ class Project_user:
 
     def home_page(self):
         return self
+
+
 class Data:
-    def __init__(self, id, brand,model,year, des):
+    def __init__(self, id, brand, model, year, des):
         self.id = id
         self.brand = brand
         self.model = model
@@ -41,8 +47,8 @@ class DataStore:
         self.datas = []
         self.next_id = 1
 
-    def create_data(self, id, brand,model,year, des):
-        data = Data(self, id, brand,model,year, des)
+    def create_data(self, id, brand, model, year, des):
+        data = Data(self, id, brand, model, year, des)
         self.datas.append(data)
         self.next_id += 1
         return data
@@ -54,8 +60,7 @@ class DataStore:
         return None
 
     def update_data(self):
-        
-          DB.datas.update_one(
+        DB.datas.update_one(
             {"id": self.id},
             {
                 "$set": {
@@ -65,7 +70,7 @@ class DataStore:
                     "des": self.des,
                 }
             },
-          )
+        )
 
     def delete_data(self, id):
         data = self.get_data(id)
