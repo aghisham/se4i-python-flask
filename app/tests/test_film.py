@@ -62,10 +62,28 @@ def test_delete_film():
 
 
 def test_set_login_cred():
-    response = app.test_client().post("/log", json={
-        "username": "Mohamed Ali",
-        "password": "passcode"
-    })
-
+    data = {"username": "Mohamed Ali", "password": "passcode"}
+    response = app.test_client().post("/log", json=data)
     assert response.status_code == 200
     assert "access_token" in response.get_json()
+
+
+"""
+def test_protected_route(caplog):
+    data = {"username": "Mohamed Ali", "password": "passcode"}
+    log_response = app.test_client().post("/log", json=data)
+    assert log_response.status_code == 200
+    assert "access_token" in log_response.get_json()
+    res = log_response.data.decode("utf-8")
+    res_dict = json.loads(res)
+    access_token = res_dict["access_token"]
+    headers = {
+        "Authorization": f"Bearer {access_token}"
+    }
+    access_response = app.test_client().post("/unprotected_route", headers=headers)
+    for record in caplog.records:
+        print(record.message)
+    print(access_response.data.decode("utf-8"))
+    print(access_response.headers)
+    assert access_response.status_code == 200
+"""""
