@@ -1,12 +1,7 @@
-<<<<<<< HEAD
 from app import app , DB, DOCS
 from flask import Blueprint,request, jsonify, render_template
 from app.models.project_user import LoginSchema,DataSchema
 from app.models.user import DefaultResponseSchema
-=======
-from app import app
-from flask import Blueprint, request, jsonify, render_template
->>>>>>> 4928baf94275704aca5042d89e94695480bdb5a8
 import jwt
 import requests
 from flask_apispec import doc, use_kwargs, marshal_with

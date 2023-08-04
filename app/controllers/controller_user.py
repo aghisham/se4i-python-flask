@@ -1,8 +1,7 @@
-<<<<<<< HEAD
 from flask import Blueprint,request, jsonify, render_template
 from app.models.project_user import Data,DataSchema
 from app.models.user import DefaultResponseSchema
-=======
+
 from flask import Blueprint, request, jsonify, render_template
 from app.models.project_user import (
     Project_user,
@@ -56,12 +55,8 @@ def indexofcars(user_id):
         return jsonify(dumps(user))
     return {"message": "Not existe"}, 400
 
-<<<<<<< HEAD
-@datas_bp.route("/update/<int:user_id>", methods=["PUT"], provide_automatic_options=False)
-=======
 
-@datas_bp.route("/data/<int:user_id>", methods=["PUT"], provide_automatic_options=False)
->>>>>>> 4928baf94275704aca5042d89e94695480bdb5a8
+
 @doc(description="Update User", tags=["Datas"])
 @use_kwargs(DataSchema, location="json")
 @marshal_with(DefaultResponseSchema())
@@ -84,18 +79,17 @@ def update(data_id, **kwargs):
 #@app.route("/get-dec")
 #def get_dec():
    # project_user = Project_user(datas_bp)
-=======
+
 
 @app.route("/get-dec")
 def get_dec():
     project_user = Project_user(datas_bp)
->>>>>>> 4928baf94275704aca5042d89e94695480bdb5a8
 
  #   return jsonify({"dec": project_user.})
 
 
 app.register_blueprint(datas_bp, url_prefix="/datas")
 DOCS.register(indexofcars, blueprint="datas_bp")
-DOCS.register(update, blueprint="datas_bp")
+#DOCS.register(update, blueprint="datas_bp")
 DOCS.register(home_page, blueprint="datas_bp")
 # DOCS.register(get_data, blueprint="datas_bp")

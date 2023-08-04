@@ -20,7 +20,7 @@ db_connector = MongoDBSingleton(
 
 @app.route("/")
 def index():
-    return render_template("filmIndex.html")
+    return render_template("film_index.html")
 
 
 # save data to DB

@@ -1,21 +1,21 @@
-from flask import Flask, request, jsonify, Blueprint
-from bson.objectid import ObjectId
-from app.models.mongo_singleton import MongoDBSingleton
-import requests
 import json
-from app.config import api
+from flask import jsonify, Blueprint
 from bson import json_util
+from bson.objectid import ObjectId
+import requests
 from marshmallow import Schema, fields
-from flask_apispec import doc, use_kwargs, marshal_with, FlaskApiSpec
+from flask_apispec import doc, use_kwargs, marshal_with
+from app.models.mongo_singleton import MongoDBSingleton
 from app import app, DOCS
 from app.config import mongodb_host, port, database_name, collection_name, api
-
+REQUEST_TIMEOUT = 10
 API_BASE_URL = api
 
 # Define the Flask Blueprint
 posts_bp = Blueprint("posts_bp", __name__)
 
-# Singleton MongoDB connection instance for database 'se4i' and collection 'posts' with a custom MongoDB URL
+# Singleton MongoDB connection instance for database 'se4i'
+# and collection 'posts' with a custom MongoDB URL
 custom_mongo_url = mongodb_host + f":{port}/"
 mongo_singleton = MongoDBSingleton(
     mongo_url=custom_mongo_url,
@@ -35,7 +35,12 @@ class PostSchema(Schema):
 @posts_bp.route("/store", methods=["GET"], provide_automatic_options=False)
 @doc(description="Store Data", tags=["Posts"])
 def store_data():
-    response = requests.get(API_BASE_URL)
+    """Fetch data from an external API and store it in the MongoDB collection.
+
+    Returns:
+        JSON response: A JSON response indicating the status of the data insertion process.
+    """
+    response = requests.get(API_BASE_URL, timeout=REQUEST_TIMEOUT)
     if response.status_code == 200:
         api_data = response.json()
         json_data = json.loads(
@@ -49,11 +54,11 @@ def store_data():
         return jsonify(
             {"message": "Data inserted successfully", "inserted_ids": inserted_ids}
         )
-    else:
-        return (
-            jsonify({"message": "Failed to fetch data from the API"}),
-            response.status_code,
-        )
+
+    return (
+        jsonify({"message": "Failed to fetch data from the API"}),
+        response.status_code,
+    )
 
 
 @posts_bp.route("/posts", methods=["POST"], provide_automatic_options=False)
@@ -61,6 +66,14 @@ def store_data():
 @use_kwargs(PostSchema, location="json")
 @marshal_with(PostSchema())
 def create_post_mongo(**kwargs):
+    """Create a new post in the MongoDB collection.
+
+    Args:
+        **kwargs: Keyword arguments containing the data for the new post.
+
+    Returns:
+        JSON response: A JSON response containing the created post data.
+    """
     data = kwargs
     try:
         collection = mongo_singleton.get_collection()
@@ -68,38 +81,50 @@ def create_post_mongo(**kwargs):
         post_id = collection.insert_one(data).inserted_id
         data["_id"] = str(post_id)
         return data
-    except Exception as e:
-        return {"error": str(e)}, 500
+    except Exception as exception:
+        return {"error": str(exception)}, 500
 
 
 @posts_bp.route("/posts", methods=["GET"], provide_automatic_options=False)
 @doc(description="Get All Posts", tags=["Posts"])
 @marshal_with(PostSchema(many=True))
 def get_all_posts_mongo():
+    """Get all posts from the MongoDB collection.
+
+    Returns:
+        JSON response: A JSON response containing the list of all posts.
+    """
     try:
         collection = mongo_singleton.get_collection()
         posts = list(collection.find({}))
         for post in posts:
             post["_id"] = str(post["_id"])
         return posts
-    except Exception as e:
-        return {"error": str(e)}, 500
+    except Exception as exception:
+        return {"error": str(exception)}, 500
 
 
 @posts_bp.route("/posts/<post_id>", methods=["GET"], provide_automatic_options=False)
 @doc(description="Get Post", tags=["Posts"])
 @marshal_with(PostSchema())
 def get_post_mongo(post_id):
+    """Get a specific post from the MongoDB collection.
+
+    Args:
+        post_id (str): The ID of the post to retrieve.
+
+    Returns:
+        JSON response: A JSON response containing the retrieved post data or an error message if not found.
+    """
     try:
         collection = mongo_singleton.get_collection()
         post = collection.find_one({"_id": ObjectId(post_id)})
         if post:
             post["_id"] = str(post["_id"])
             return post
-        else:
-            return {"message": "Post not found"}, 404
-    except Exception as e:
-        return {"error": str(e)}, 500
+        return {"message": "Post not found"}, 404
+    except Exception as exception:
+        return {"error": str(exception)}, 500
 
 
 @posts_bp.route("/posts/<post_id>", methods=["PUT"], provide_automatic_options=False)
@@ -107,6 +132,16 @@ def get_post_mongo(post_id):
 @use_kwargs(PostSchema, location="json")
 @marshal_with(PostSchema())
 def update_post_mongo(post_id, **kwargs):
+    """Update a specific post in the MongoDB collection.
+
+    Args:
+        post_id (str): The ID of the post to update.
+        **kwargs: Keyword arguments containing the updated data for the post.
+
+    Returns:
+        JSON response: A JSON response containing 
+        the updated post data or an error message if not found.
+    """
     data = kwargs
     try:
         collection = mongo_singleton.get_collection()
@@ -115,25 +150,31 @@ def update_post_mongo(post_id, **kwargs):
         if result.modified_count == 1:
             data["_id"] = str(post_id)
             return data
-        else:
-            return {"message": "Post not found"}, 404
-    except Exception as e:
-        return {"error": str(e)}, 500
+        return {"message": "Post not found"}, 404
+    except Exception as exception:
+        return {"error": str(exception)}, 500
 
 
 @posts_bp.route("/posts/<post_id>", methods=["DELETE"], provide_automatic_options=False)
 @doc(description="Delete Post", tags=["Posts"])
 def delete_post_mongo(post_id):
+    """Delete a specific post from the MongoDB collection.
+
+    Args:
+        post_id (str): The ID of the post to delete.
+
+    Returns:
+        JSON response: A JSON response indicating the status of the deletion process.
+    """
     try:
         collection = mongo_singleton.get_collection()
         # Delete the post from the collection
         result = collection.delete_one({"_id": ObjectId(post_id)})
         if result.deleted_count == 1:
             return {"message": "Post deleted successfully"}
-        else:
-            return {"message": "Post not found"}, 404
-    except Exception as e:
-        return {"error": str(e)}, 500
+        return {"message": "Post not found"}, 404
+    except Exception as exception:
+        return {"error": str(exception)}, 500
 
 
 # Register the Blueprint with the Flask application
