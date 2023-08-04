@@ -57,7 +57,7 @@ def login(**kwargs):
 @doc(description="Protected resource using JWT token", tags=["Protected"])
 @marshal_with(ProtectedResponseSchema())
 def protected():
-    token = request.args.get("Authorization")
+    token = request.headers.get("Authorization")
     if not token:
         return jsonify({"message": "Missing token"}), 401
 

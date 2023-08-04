@@ -58,7 +58,7 @@ def test_update_film():
 
 def test_delete_film():
     response = app.test_client().delete("/films/300")
-    assert response.status_code == 204
+    assert response.status_code == 200
 
 
 def test_set_login_cred():
@@ -86,4 +86,4 @@ def test_protected_route(caplog):
     print(access_response.data.decode("utf-8"))
     print(access_response.headers)
     assert access_response.status_code == 200
-"""""
+"""

@@ -1,10 +1,7 @@
-from pymongo import MongoClient
 from app import app
-from flask import request, jsonify, render_template
-from app.models.film import Film
-from pymongo import MongoClient
+from flask import request, jsonify, render_template, Blueprint
 from app.models.mongo_singleton import MongoDBSingleton
-from app.config import mongodb_host, port, database_name, collection_film, api
+from app.config import mongodb_host, port, database_name, collection_film
 from bson import ObjectId
 import json
 
@@ -18,13 +15,16 @@ db_connector = MongoDBSingleton(
 )
 
 
-@app.route("/")
+film_blueprint = Blueprint('film_blueprint', __name__,)
+
+
+@film_blueprint.route("/")
 def index():
     return render_template("filmIndex.html")
 
 
 # save data to DB
-@app.route("/films/save", methods=["GET"])
+@film_blueprint.route("/films/save", methods=["GET"])
 def store_films():
     try:
         coll = db_connector.get_collection()
@@ -35,7 +35,7 @@ def store_films():
 
 
 # get film by title
-@app.route("/films/<title>", methods=["GET"])
+@film_blueprint.route("/films/<title>", methods=["GET"])
 def add(title):
     try:
         existed_coll = db_connector.get_collection()
@@ -50,7 +50,7 @@ def add(title):
 
 
 # get all films in DB
-@app.route("/films", methods=["GET"])
+@film_blueprint.route("/films", methods=["GET"])
 def display():
     try:
         existed_coll = db_connector.get_collection()
@@ -63,7 +63,7 @@ def display():
 
 
 # create film
-@app.route("/films", methods=["POST"])
+@film_blueprint.route("/films", methods=["POST"])
 def create_film():
     data_to_create = request.get_json()
     try:
@@ -82,14 +82,14 @@ def create_film():
 
 
 # update film by title
-@app.route("/films/<title>", methods=["PUT"])
+@film_blueprint.route("/films/<title>", methods=["PUT"])
 def update_film(title):
     try:
         data = request.get_json()
         existed_coll = db_connector.get_collection()
         film = existed_coll.find_one({"Title": title})
         if film:
-            existed_coll.update_one({"_id": ObjectId(film["_id"])}, {"$set": data}), 200
+            existed_coll.update_one({"_id": ObjectId(film["_id"])}, {"$set": data})
             return {"success": True, "message": "Film is updated successfully"}, 200
         else:
             return {"success": False, "message": "Film is Not Found"}, 404
@@ -98,16 +98,17 @@ def update_film(title):
 
 
 # delete film by title
-@app.route("/films/<title>", methods=["DELETE"])
+@film_blueprint.route("/films/<title>", methods=["DELETE"])
 def delete_film(title):
     try:
         existed_coll = db_connector.get_collection()
         film = existed_coll.find_one({"Title": title})
+
         if film:
             del_result = existed_coll.delete_one({"Title": title})
             if del_result.deleted_count == 1:
                 return (
-                    {"success": True, "message": "Film is deleted"}, 204
+                    {"success": True, "message": "Film is deleted"}, 200
                 )
             else:
                 return (
@@ -117,3 +118,6 @@ def delete_film(title):
             return {"success": False, "message": "Film is Not Found"}, 404
     except Exception as e:
         return {"success": False, "message": str(e)}
+
+
+app.register_blueprint(film_blueprint)
