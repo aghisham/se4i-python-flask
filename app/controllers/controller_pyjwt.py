@@ -7,7 +7,7 @@ from app.config import user_name1, password1, user_id1
 from app.config import config
 
 
-print(user_id1, user_name1, password1, config["development"].SECRET_KEY)
+# print(user_id1, user_name1, password1, config["development"].SECRET_KEY)
 # just to test, the user and pass should be retrieved from database and the pass should be encrypted.
 users = {user_name1: {"user_id": user_id1, "password": password1}}
 datas_jwt = Blueprint(
@@ -51,7 +51,6 @@ def login1():
 def protected1():
     # token = requests.post('http://127.0.0.1:8080/pyjwt-login',data={"username":user_name1,"password":password1}).json()["access_token"]
     token = request.headers.get("Authorization")
-    print(token)
     if not token:
         return jsonify({"message": "Missing token"}), 401
 

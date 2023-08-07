@@ -1,9 +1,11 @@
-from flask import Flask, request, jsonify, Blueprint
-from bson.objectid import ObjectId
-from app.models.mongo_singleton import MongoDBSingleton
 import requests
-from marshmallow import Schema, fields
+import json
+from bson import json_util
+from bson.objectid import ObjectId
+from flask import jsonify, Blueprint
 from flask_apispec import doc, use_kwargs, marshal_with
+from marshmallow import Schema, fields
+from app.models.mongo_singleton import MongoDBSingleton
 from app.models.mongo_singleton import MongoDBSingleton
 from app import app, DOCS
 from app.config import mongodb_host, port, database_name, collection_name, api
@@ -147,7 +149,8 @@ def update_post_mongo(post_id, **kwargs):
     try:
         collection = mongo_singleton.get_collection()
         # Update the post in the collection
-        result = collection.update_one({"_id": ObjectId(post_id)}, {"$set": data})
+        result = collection.update_one(
+            {"_id": ObjectId(post_id)}, {"$set": data})
         if result.modified_count == 1:
             data["_id"] = str(post_id)
             return data
