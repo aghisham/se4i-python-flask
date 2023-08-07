@@ -1,9 +1,9 @@
-from flask import request, jsonify, render_template, Blueprint
 import json
+from flask import request, jsonify, render_template, Blueprint
 from bson import ObjectId
-from app import app
 from app.models.mongo_singleton import MongoDBSingleton
 from app.config import database_name, collection_film, mongodb_host, port
+from app import app
 
 
 data = json.load(open("app/static/films.json"))
@@ -88,7 +88,6 @@ def create_film():
         return jsonify({"message": str(e)}), 500
 
 
-#
 @film_blueprint.route("/films/<title>", methods=["PUT"])
 def update_film(title):
     """update film by title"""
