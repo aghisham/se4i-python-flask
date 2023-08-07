@@ -31,22 +31,20 @@ class Project_user:
         return self
 
 
-class Data:
+class DataStore:
     def __init__(self, id, brand, model, year, des):
         self.id = id
         self.brand = brand
         self.model = model
         self.year = year
         self.description = des
-
-
-class DataStore:
-    def __init__(self):
+        
+    def __init1__(self):
         self.datas = []
         self.next_id = 1
 
-    def create_data(self, id, brand, model, year, des):
-        data = Data(id, brand, model, year, des)
+    def create_data(self, id, brand, model, year, description):
+        data = DataStore(id, brand, model, year, description)
         self.datas.append(data)
         self.next_id += 1
         return data
@@ -57,15 +55,21 @@ class DataStore:
                 return data
         return None
 
-    def update_data(self, data):
+    def update_data(self):
+         
+        """Update user
+
+        Returns:
+            void
+        """
         DB.datas.update_one(
-            {"id": data.id},
+            {"id": self.id},
             {
                 "$set": {
-                    "brand": data.brand,
-                    "model": data.model,
-                    "year": data.year,
-                    "des": data.des,
+                    "brand": self.brand,
+                    "model": self.model,
+                    "year": self.year,
+                    "des": self.description,
                 }
             },
         )
