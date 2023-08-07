@@ -1,6 +1,6 @@
 from datetime import date, datetime
 from marshmallow import Schema, fields
-from app import DB
+from app import DB, SQL_DB
 
 
 class DefaultFileResponseSchema(Schema):
@@ -28,8 +28,14 @@ class UserSchema(Schema):
 
 
 # pylint: disable=C0103
-class User:
+class User (SQL_DB.Model):
     """User Class"""
+
+    id = SQL_DB.Column(SQL_DB.Integer, primary_key=True)
+    first_name = SQL_DB.Column(SQL_DB.String(255), nullable=False)
+    last_name = SQL_DB.Column(SQL_DB.String(255), nullable=False)
+    email = SQL_DB.Column(SQL_DB.String(255), unique=True, nullable=False)
+    password = SQL_DB.Column(SQL_DB.String(255), nullable=False)
 
     def __init__(self, id, first_name, last_name, email, password, birth_date) -> None:
         self.id = id

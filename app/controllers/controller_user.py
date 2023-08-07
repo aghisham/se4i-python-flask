@@ -1,5 +1,5 @@
 
-from flask import Blueprint,request, jsonify, render_template
+from flask import Blueprint, request, jsonify, render_template
 from app.models.user import DefaultResponseSchema
 from app.config import api
 from flask import Blueprint, request, jsonify, render_template
@@ -16,8 +16,8 @@ from app import app, DB, DOCS
 
 API_BASE_URL = api
 
-#users_list = datas if (len(datas)) else []
-#users = {user_name1: {"user_id": user_id1, "password": password1}}
+# users_list = datas if (len(datas)) else []
+# users = {user_name1: {"user_id": user_id1, "password": password1}}
 datas_bp = Blueprint(
     "datas_bp", __name__, template_folder="templates", static_folder="static"
 )
@@ -27,14 +27,14 @@ datas_bp = Blueprint(
 @doc(description="Get All Datas", tags=["Datas"])
 @marshal_with(DataSchema(many=True))
 def store_data():
-    
-    cursor = DB.datas.find({}).limit(20)
+    cursor = DB.datas.find({}).limit(20)  # type: ignore
     return jsonify(dumps(cursor))
 
 
 @app.route("/projects/")
 def projects():
     return "The project page"
+
 
 @app.errorhandler(404)
 def page_not_found(error):
@@ -83,14 +83,14 @@ def update(
         return {"message": "Not existe"}, 400
 
 
-#@app.route("/get-dec")
-#def get_dec():
+# @app.route("/get-dec")
+# def get_dec():
    # project_user = Project_user(datas_bp)
 
 
-@app.route("/get-dec")
-def get_dec():
-    project_user = Project_user(datas_bp)
+# @app.route("/get-dec")
+# def get_dec():
+#     project_user = Project_user(datas_bp)
 
 
 # return jsonify({"dec
@@ -104,6 +104,7 @@ def delete_data(id):
         return {"message": "Car deleted"}
     else:
         return {"error": "Car not found"}, response.status_code
+
 
 app.register_blueprint(datas_bp, url_prefix="/datas")
 DOCS.register(indexofcars, blueprint="datas_bp")
