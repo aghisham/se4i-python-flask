@@ -23,7 +23,7 @@ film_blueprint = Blueprint("film_blueprint", __name__, url_prefix="/films")
 
 class StringResponseSchema(Schema):
     """Default Response Schema"""
-
+    success = fields.Bool()
     message = fields.Str()
 
 
@@ -42,13 +42,14 @@ def store_films():
     try:
         coll = db_connector.get_collection()
         coll.insert_many(data)
-        return {"message": "data imported"}, 200
+        return {"success": True, "message": "data imported"}, 200
     except Exception as e:
-        return {"message": str(e)}, 500
+        return {"success": False, "message": str(e)}, 500
 
 
 @film_blueprint.route("/<title>", methods=["GET"], provide_automatic_options=False)
 @doc(description="get films", tags=["Films"])
+@marshal_with(FilmSchema(many=False))
 def add(title):
     """get film by title"""
     try:
@@ -65,6 +66,7 @@ def add(title):
 
 @film_blueprint.route("", methods=["GET"])
 @doc(description="get films", tags=["Films"])
+@marshal_with(FilmSchema(many=True))
 def display():
     """get all films in DB"""
     try:
@@ -79,6 +81,8 @@ def display():
 
 @film_blueprint.route("", methods=["POST"])
 @doc(description="get films", tags=["Films"])
+@use_kwargs(FilmSchema, location="json")
+@marshal_with(StringResponseSchema())
 def create_film():
     """create film"""
     data_to_create = request.get_json()
@@ -102,6 +106,8 @@ def create_film():
 
 @film_blueprint.route("/<title>", methods=["PUT"])
 @doc(description="get films", tags=["Films"])
+@use_kwargs(FilmSchema, location="json")
+@marshal_with(StringResponseSchema())
 def update_film(title):
     """update film by title"""
     try:
@@ -119,6 +125,7 @@ def update_film(title):
 
 @film_blueprint.route("/<title>", methods=["DELETE"])
 @doc(description="get films", tags=["Filmes"])
+@marshal_with(StringResponseSchema())
 def delete_film(title):
     """delete film by title"""
     try:
