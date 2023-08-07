@@ -21,7 +21,7 @@ def get_sent_messages():
 
 @socketio.on("connect")
 def handle_connect():
-    print('Client connected')
+    print("Client connected")
 
     # Send all the sent messages to the newly connected client
     socketio.emit("all_messages", sent_messages)
@@ -29,12 +29,12 @@ def handle_connect():
 
 @socketio.on("disconnect")
 def handle_disconnect():
-    print('Client disconnected')
+    print("Client disconnected")
+
 
 @socketio.on("message")
-@socketio.on("message")
 def handle_message(data):
-    print('Received message:', data)
+    print("Received message:", data)
     sent_messages.append(data)
     socketio.emit("response", data)
     socketio.emit("all_messages", sent_messages)

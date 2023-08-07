@@ -57,7 +57,10 @@ def indexofcars(data_id):
         return jsonify(dumps(user))
     return {"message": "Not existe"}, 400
 
-@datas_bp.route("/update/<int:data_id>", methods=["PUT"], provide_automatic_options=False)
+
+@datas_bp.route(
+    "/update/<int:data_id>", methods=["PUT"], provide_automatic_options=False
+)
 @doc(description="Update Car", tags=["Datas"])
 @use_kwargs(DataSchema, location="json")
 @marshal_with(DefaultResponseSchema())
@@ -88,7 +91,8 @@ def update(data_id, **kwargs):
 #     # return jsonify({"dec
 
 
-    #return jsonify({"dec
+# return jsonify({"dec
+
 
 @datas_bp.route("/delete/<int:id>", methods=["DELETE"], provide_automatic_options=False)
 @doc(description="Delete Car", tags=["Datas"])
@@ -102,6 +106,6 @@ def delete_data(id):
 
 app.register_blueprint(datas_bp, url_prefix="/datas")
 DOCS.register(indexofcars, blueprint="datas_bp")
-#DOCS.register(update, blueprint="datas_bp")
+# DOCS.register(update, blueprint="datas_bp")
 DOCS.register(home_page, blueprint="datas_bp")
 DOCS.register(delete_data, blueprint="datas_bp")
