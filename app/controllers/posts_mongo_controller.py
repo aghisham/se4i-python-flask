@@ -3,7 +3,7 @@ import json
 from flask import jsonify, Blueprint
 from bson import json_util
 from bson.objectid import ObjectId
-from flask_apispec import doc, use_kwargs, marshal_with, FlaskApiSpec
+from flask_apispec import doc, use_kwargs, marshal_with
 from marshmallow import Schema, fields
 from app.models.mongo_singleton import MongoDBSingleton
 from app.config import api
