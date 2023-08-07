@@ -56,12 +56,8 @@ def indexofcars(data_id):
         return jsonify(dumps(user))
     return {"message": "Not existe"}, 400
 
-<<<<<<< HEAD
-@datas_bp.route("/update/<int:user_id>", methods=["PUT"], provide_automatic_options=False)
-=======
 
 @datas_bp.route("/data/<int:user_id>", methods=["PUT"], provide_automatic_options=False)
->>>>>>> 4928baf94275704aca5042d89e94695480bdb5a8
 @doc(description="Update User", tags=["Datas"])
 @use_kwargs(DataSchema, location="json")
 @marshal_with(DefaultResponseSchema())
@@ -89,7 +85,6 @@ def update(data_id, **kwargs):
 @app.route("/get-dec")
 def get_dec():
     project_user = Project_user(datas_bp)
->>>>>>> 4928baf94275704aca5042d89e94695480bdb5a8
 
  #   return jsonify({"dec": project_user.})
 
