@@ -1,17 +1,17 @@
-from flask import jsonify, render_template, request, Blueprint
 import jwt
+from flask import jsonify, render_template, request, Blueprint
+from flask_apispec import doc, use_kwargs, marshal_with
+from marshmallow import Schema, fields
 from app import DOCS, app
 from app.config import user_name, password, user_id
 from app.config import config
-from marshmallow import Schema, fields
-from flask_apispec import doc, use_kwargs, marshal_with
 
-print(user_id, user_name, password, config["development"].SECRET_KEY)
+# print(user_id, user_name, password, config["development"].SECRET_KEY)
 # just to test, the user and pass should be retrieved from the database and the pass should be encrypted.
 users = {user_name: {"user_id": user_id, "password": password}}
 
 
-class LoginSchema(Schema):
+class LoginnSchema(Schema):
     username = fields.String(required=True)
     password = fields.String(required=True)
 
@@ -34,7 +34,7 @@ def index_jwt():
 
 @app.route("/jwt-login", methods=["POST"], provide_automatic_options=False)
 @doc(description="Login and get JWT token", tags=["Authentication"])
-@use_kwargs(LoginSchema, location="json")
+@use_kwargs(LoginnSchema, location="json")
 @marshal_with(TokenResponseSchema())
 def login(**kwargs):
     username = kwargs["username"]
@@ -57,7 +57,7 @@ def login(**kwargs):
 @doc(description="Protected resource using JWT token", tags=["Protected"])
 @marshal_with(ProtectedResponseSchema())
 def protected():
-    token = request.args.get("Authorization")
+    token = request.headers.get("Authorization")
     if not token:
         return jsonify({"message": "Missing token"}), 401
 

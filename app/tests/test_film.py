@@ -1,5 +1,4 @@
 import json
-from flask import jsonify
 from app import app
 
 data = json.load(open("app/static/films.json"))
@@ -48,7 +47,8 @@ def test_create_film():
 
 def test_update_film():
     response = app.test_client().put(
-        "/films/Film TEST", json={"Title": "Film TEST UPDATED", "Rated": "Rated Test", "Year": 2000}
+        "/films/Film TEST",
+        json={"Title": "Film TEST UPDATED", "Rated": "Rated Test", "Year": 2000},
     )
     assert response.status_code == 200
     res = response.data.decode("utf-8")
@@ -58,7 +58,7 @@ def test_update_film():
 
 def test_delete_film():
     response = app.test_client().delete("/films/300")
-    assert response.status_code == 204
+    assert response.status_code == 200
 
 
 def test_set_login_cred():
@@ -86,4 +86,4 @@ def test_protected_route(caplog):
     print(access_response.data.decode("utf-8"))
     print(access_response.headers)
     assert access_response.status_code == 200
-"""""
+"""

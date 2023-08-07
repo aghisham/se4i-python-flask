@@ -1,10 +1,10 @@
-from flask import jsonify, request, Blueprint
 import requests
-from app.config import api
-from marshmallow import Schema, fields
+from flask import Blueprint
 from flask_apispec import doc, use_kwargs, marshal_with
-from app.models.item import ItemSchema, DefaultResponseSchema
+from app.config import api
+from app.models.item import ItemSchema
 from app import app, DOCS
+
 
 API_BASE_URL = api
 

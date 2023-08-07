@@ -62,7 +62,8 @@ def indexofcars(data_id):
 @doc(description="Update Car", tags=["Datas"])
 @use_kwargs(DataSchema, location="json")
 @marshal_with(DefaultResponseSchema())
-def update(data_id, **kwargs):
+def update(
+    data_id, **kwargs):
     try:
         if request.json:
             data_model = Data(

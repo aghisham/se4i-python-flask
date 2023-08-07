@@ -1,10 +1,16 @@
 import json
 from app import app
 
+
 def test_get_dec_route():
     response = app.test_client().get("/datas")
+<<<<<<< HEAD
     with open('app/static/data_list.json') as mon_fichier:
      data = json.load(mon_fichier)
+=======
+    with open("app/static/data_list.json") as mon_fichier:
+        data = json.load(mon_fichier)
+>>>>>>> 20a05e57f5760910703b2db02357eb38baf8d5fc
     assert response.status_code == 200
     assert data
     

@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import jsonify
 from bson.objectid import ObjectId
 from app import app
 from app.models.mongo_singleton import MongoDBSingleton
