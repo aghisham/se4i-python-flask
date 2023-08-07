@@ -1,11 +1,12 @@
-from flask import Flask, request, jsonify
-from bson.objectid import ObjectId
-from app import app
-from app.models.mongo_singleton import MongoDBSingleton
 import requests
 import json
+from flask import jsonify
+from bson.objectid import ObjectId
 from bson import json_util
+from app import app
+from app.models.mongo_singleton import MongoDBSingleton
 from app.config import mongodb_host, port, database_name, collection_name, api
+
 
 API_BASE_URL = api
 
@@ -19,9 +20,9 @@ mongo_singleton = MongoDBSingleton(
 # Routes for CRUD operations
 
 
-# Controller: Insert data from API into MongoDB
 @app.route("/datas/save", methods=["GET"])
 def show_data():
+    """Controller: Insert data from API into MongoDB"""
     response = requests.get(API_BASE_URL)
     if response.status_code == 200:
         show_data = response.json()
@@ -43,9 +44,9 @@ def show_data():
         )
 
 
-# Read all datas
 @app.route("/datas/store", methods=["GET"])
 def get_all_datas_mongo():
+    """Read all datas"""
     try:
         collection = mongo_singleton.get_collection()
         posts = list(collection.find({}))
@@ -56,9 +57,9 @@ def get_all_datas_mongo():
         return jsonify({"success": False, "error": str(e)}), 500
 
 
-# Read a specific data by ID
 @app.route("/datas/store/<post_id>", methods=["GET"])
 def get_data_mongo(post_id):
+    """Read a specific data by ID"""
     try:
         collection = mongo_singleton.get_collection()
         post = collection.find_one({"_id": ObjectId(post_id)})

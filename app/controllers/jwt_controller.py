@@ -1,10 +1,11 @@
-from flask import jsonify, render_template, request, Blueprint
 import jwt
+from flask import jsonify, render_template, request, Blueprint
+from flask_apispec import doc, use_kwargs, marshal_with
+from marshmallow import Schema, fields
 from app import DOCS, app
 from app.config import user_name, password, user_id
 from app.config import config
-from marshmallow import Schema, fields
-from flask_apispec import doc, use_kwargs, marshal_with
+
 
 print(user_id, user_name, password, config["development"].SECRET_KEY)
 # just to test, the user and pass should be retrieved from the database and the pass should be encrypted.

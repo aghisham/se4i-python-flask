@@ -11,12 +11,15 @@ class DataSchema(Schema):
     model = fields.Str(required=True)
     year = fields.Int(required=True)
     des = fields.Str(required=True)
-    
+
+
 class LoginSchema(Schema):
     """User Schema"""
+
     id = fields.Int(required=True)
     user_name = fields.Str(required=True)
     password = fields.Str(required=True)
+
 
 class Project_user:
     def __init__(self, dec) -> None:
@@ -44,7 +47,7 @@ class DataStore:
         self.next_id = 1
 
     def create_data(self, id, brand, model, year, des):
-        data = Data(self, id, brand, model, year, des)
+        data = Data(id, brand, model, year, des)
         self.datas.append(data)
         self.next_id += 1
         return data
@@ -55,15 +58,15 @@ class DataStore:
                 return data
         return None
 
-    def update_data(self):
+    def update_data(self, data):
         DB.datas.update_one(
-            {"id": self.id},
+            {"id": data.id},
             {
                 "$set": {
-                    "brand": self.brand,
-                    "model": self.model,
-                    "year": self.year,
-                    "des": self.des,
+                    "brand": data.brand,
+                    "model": data.model,
+                    "year": data.year,
+                    "des": data.des,
                 }
             },
         )

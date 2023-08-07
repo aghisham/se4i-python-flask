@@ -1,14 +1,15 @@
-from flask import Flask, request, jsonify, Blueprint
-from bson.objectid import ObjectId
-from app.models.mongo_singleton import MongoDBSingleton
 import requests
 import json
-from app.config import api
+from flask import jsonify, Blueprint
 from bson import json_util
-from marshmallow import Schema, fields
+from bson.objectid import ObjectId
 from flask_apispec import doc, use_kwargs, marshal_with, FlaskApiSpec
+from marshmallow import Schema, fields
+from app.models.mongo_singleton import MongoDBSingleton
+from app.config import api
 from app import app, DOCS
 from app.config import mongodb_host, port, database_name, collection_name, api
+
 
 API_BASE_URL = api
 
@@ -138,9 +139,6 @@ def delete_post_mongo(post_id):
 
 # Register the Blueprint with the Flask application
 app.register_blueprint(posts_bp, url_prefix="/api")
-
-# Create an instance of FlaskApiSpec
-
 # Register the API endpoints with Flask-apispec
 DOCS.register(store_data, blueprint="posts_bp")
 DOCS.register(create_post_mongo, blueprint="posts_bp")

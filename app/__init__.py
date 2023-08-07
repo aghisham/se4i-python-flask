@@ -37,7 +37,9 @@ CORS(app, resources={r"/": {"origins": "localhost:*"}})
 DB = PyMongo(app).db
 DOCS = FlaskApiSpec(app)
 # JWT = JWTManager(app)
-socketio = SocketIO(app, transports=['websocket'], cors_allowed_origins="*", engineio_logger=True)
+socketio = SocketIO(
+    app, transports=["websocket"], cors_allowed_origins="*", engineio_logger=True
+)
 
 
 # ------ Import controllers
