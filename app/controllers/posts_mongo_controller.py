@@ -1,15 +1,17 @@
-from flask import Flask, request, jsonify, Blueprint
-from bson.objectid import ObjectId
-from app.models.mongo_singleton import MongoDBSingleton
 import requests
-from marshmallow import Schema, fields
+import json
+from bson import json_util
+from bson.objectid import ObjectId
+from flask import jsonify, Blueprint
 from flask_apispec import doc, use_kwargs, marshal_with
+from marshmallow import Schema, fields
 from app.models.mongo_singleton import MongoDBSingleton
-from app import app, DOCS
 from app.config import mongodb_host, port, database_name, collection_name, api
+from app import app, DOCS
+
 
 API_BASE_URL = api
-
+REQUEST_TIMEOUT = 10
 # Define the Flask Blueprint
 posts_bp = Blueprint("posts_bp", __name__)
 

@@ -33,7 +33,6 @@ def handle_disconnect():
 
 
 @socketio.on("message")
-@socketio.on("message")
 def handle_message(data):
     print("Received message:", data)
     sent_messages.append(data)

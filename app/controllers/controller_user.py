@@ -1,7 +1,5 @@
-import requests
+
 from flask import Blueprint, request, jsonify, render_template
-from flask_apispec import doc, use_kwargs, marshal_with
-from bson.json_util import dumps
 from app.models.user import DefaultResponseSchema
 from app.config import api
 from flask import Blueprint, request, jsonify, render_template
@@ -10,8 +8,11 @@ from app.models.project_user import (
     Data,
     DataSchema,
 )
-from app import app, DB, DOCS
 
+import requests
+from bson.json_util import dumps
+from flask_apispec import doc, use_kwargs, marshal_with
+from app import app, DB, DOCS
 
 API_BASE_URL = api
 
@@ -25,7 +26,7 @@ datas_bp = Blueprint(
 @datas_bp.route("", methods=["GET"], provide_automatic_options=False)
 @doc(description="Get All Datas", tags=["Datas"])
 @marshal_with(DataSchema(many=True))
-def home_page():
+def store_data():
     cursor = DB.datas.find({}).limit(20)  # type: ignore
     return jsonify(dumps(cursor))
 
@@ -82,13 +83,12 @@ def update(data_id, **kwargs):
 
 # @app.route("/get-dec")
 # def get_dec():
-# project_user = Project_user(datas_bp)
+   # project_user = Project_user(datas_bp)
 
 
-# @app.route("/get-dec", methods=["GET"])
+# @app.route("/get-dec")
 # def get_dec():
 #     project_user = Project_user(datas_bp)
-#     # return jsonify({"dec
 
 
 # return jsonify({"dec
@@ -107,5 +107,6 @@ def delete_data(id):
 app.register_blueprint(datas_bp, url_prefix="/datas")
 DOCS.register(indexofcars, blueprint="datas_bp")
 # DOCS.register(update, blueprint="datas_bp")
-DOCS.register(home_page, blueprint="datas_bp")
+DOCS.register(update, blueprint="datas_bp")
+DOCS.register(store_data, blueprint="datas_bp")
 DOCS.register(delete_data, blueprint="datas_bp")

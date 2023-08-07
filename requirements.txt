@@ -15,3 +15,7 @@ apispec
 marshmallow
 pylint
 Flask-socketio
+Flask-restx
+Flask-SQLAlchemy
+Flask-Babel
+mysqlclient 

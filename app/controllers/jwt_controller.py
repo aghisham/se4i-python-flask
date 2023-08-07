@@ -6,13 +6,12 @@ from app import DOCS, app
 from app.config import user_name, password, user_id
 from app.config import config
 
-
-print(user_id, user_name, password, config["development"].SECRET_KEY)
+# print(user_id, user_name, password, config["development"].SECRET_KEY)
 # just to test, the user and pass should be retrieved from the database and the pass should be encrypted.
 users = {user_name: {"user_id": user_id, "password": password}}
 
 
-class LoginSchema(Schema):
+class LoginnSchema(Schema):
     username = fields.String(required=True)
     password = fields.String(required=True)
 
@@ -35,7 +34,7 @@ def index_jwt():
 
 @app.route("/jwt-login", methods=["POST"], provide_automatic_options=False)
 @doc(description="Login and get JWT token", tags=["Authentication"])
-@use_kwargs(LoginSchema, location="json")
+@use_kwargs(LoginnSchema, location="json")
 @marshal_with(TokenResponseSchema())
 def login(**kwargs):
     username = kwargs["username"]

@@ -3,9 +3,9 @@ import json
 from flask import jsonify
 from bson.objectid import ObjectId
 from bson import json_util
-from app import app
 from app.models.mongo_singleton import MongoDBSingleton
-from app.config import mongodb_host, port, database_name, collection_name, api
+from app.config import mongodb_host, port, database_name, collection_cars, api
+from app import app
 
 
 API_BASE_URL = api
@@ -15,7 +15,7 @@ custom_mongo_url = mongodb_host + f":{port}/"
 mongo_singleton = MongoDBSingleton(
     mongo_url=custom_mongo_url,
     database_name=database_name,
-    collection_name=collection_name,
+    collection_name=collection_cars,
 )
 # Routes for CRUD operations
 
@@ -25,9 +25,9 @@ def show_data():
     """Controller: Insert data from API into MongoDB"""
     response = requests.get(API_BASE_URL)
     if response.status_code == 200:
-        show_data = response.json()
+        data = response.json()
         json_data = json.loads(
-            json_util.dumps(show_data)
+            json_util.dumps(data)
         )  # Convert the ObjectId objects to strings
         inserted_ids = (
             mongo_singleton.get_collection().insert_many(json_data).inserted_ids
