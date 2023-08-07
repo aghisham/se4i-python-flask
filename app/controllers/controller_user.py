@@ -26,7 +26,8 @@ datas_bp = Blueprint(
 @datas_bp.route("", methods=["GET"], provide_automatic_options=False)
 @doc(description="Get All Datas", tags=["Datas"])
 @marshal_with(DataSchema(many=True))
-def home_page():
+def store_data():
+    
     cursor = DB.datas.find({}).limit(20)
     return jsonify(dumps(cursor))
 
@@ -101,5 +102,5 @@ def delete_data(id):
 app.register_blueprint(datas_bp, url_prefix="/datas")
 DOCS.register(indexofcars, blueprint="datas_bp")
 DOCS.register(update, blueprint="datas_bp")
-DOCS.register(home_page, blueprint="datas_bp")
+DOCS.register(store_data, blueprint="datas_bp")
 DOCS.register(delete_data, blueprint="datas_bp")
