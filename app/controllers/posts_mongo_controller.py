@@ -9,9 +9,11 @@ from app.models.mongo_singleton import MongoDBSingleton
 from app.models.mongo_singleton import MongoDBSingleton
 from app import app, DOCS
 from app.config import mongodb_host, port, database_name, collection_name, api
+import json
+from bson import json_util
 
 API_BASE_URL = api
-
+REQUEST_TIMEOUT = 10
 # Define the Flask Blueprint
 posts_bp = Blueprint("posts_bp", __name__)
 
@@ -140,7 +142,7 @@ def update_post_mongo(post_id, **kwargs):
         **kwargs: Keyword arguments containing the updated data for the post.
 
     Returns:
-        JSON response: A JSON response containing 
+        JSON response: A JSON response containing
         the updated post data or an error message if not found.
     """
     data = kwargs

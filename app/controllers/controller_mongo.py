@@ -5,7 +5,9 @@ from app.models.mongo_singleton import MongoDBSingleton
 import requests
 import json
 from bson import json_util
-from app.config import mongodb_host, port, database_name, collection_cars, api
+from app.config import mongodb_host, port, database_name, collection_cars,api
+
+
 
 API_BASE_URL = api
 
@@ -16,7 +18,7 @@ mongo_singleton = MongoDBSingleton(
 )
 # Routes for CRUD operations
 
-
+print(collection_cars)
 # Controller: Insert data from API into MongoDB
 @app.route("/datas/save", methods=["GET"])
 def show_data():

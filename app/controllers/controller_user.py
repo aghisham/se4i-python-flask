@@ -58,7 +58,10 @@ def indexofcars(data_id):
         return jsonify(dumps(user))
     return {"message": "Not existe"}, 400
 
-@datas_bp.route("/update/<int:data_id>", methods=["PUT"], provide_automatic_options=False)
+
+@datas_bp.route(
+    "/update/<int:data_id>", methods=["PUT"], provide_automatic_options=False
+)
 @doc(description="Update Car", tags=["Datas"])
 @use_kwargs(DataSchema, location="json")
 @marshal_with(DefaultResponseSchema())
@@ -89,7 +92,8 @@ def get_dec():
     project_user = Project_user(datas_bp)
 
 
-    #return jsonify({"dec
+# return jsonify({"dec
+
 
 @datas_bp.route("/delete/<int:id>", methods=["DELETE"], provide_automatic_options=False)
 @doc(description="Delete Car", tags=["Datas"])
