@@ -51,8 +51,6 @@ config = {
 
 
 # read data from config.yaml one time and share it between the files
-import json
-
 try:
     with open("app/config.yaml", "r") as file:
         config_data = json.load(file)

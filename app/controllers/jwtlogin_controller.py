@@ -1,7 +1,7 @@
-from flask import Flask, jsonify, request, make_response, render_template
+import jwt
+from flask import jsonify, request, render_template
 from app import app
 from app.config import config, user_name2, password2, user_id2
-import jwt
 
 user_coll = {user_name2: {"password": password2, "user_id": user_id2}}
 
@@ -42,7 +42,11 @@ def protected_route():
         decoded_token = jwt.decode(token, key, algorithms=["HS256"])
         user_id = decoded_token["user_id"]
         username = decoded_token["username"]
-        return jsonify({"message": "welcome this is protected route and you are eligible to see it"})
+        return jsonify(
+            {
+                "message": "welcome this is protected route and you are eligible to see it"
+            }
+        )
     except jwt.ExpiredSignatureError:
         return jsonify({"message": "Token has expired"}), 401
     except jwt.InvalidTokenError:

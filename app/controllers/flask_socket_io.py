@@ -21,8 +21,7 @@ def get_sent_messages():
 
 @socketio.on("connect")
 def handle_connect():
-    """Event handler for client connection."""
-    print("Client connected")
+    print('Client connected')
 
     # Send all the sent messages to the newly connected client
     socketio.emit("all_messages", sent_messages)
@@ -30,14 +29,12 @@ def handle_connect():
 
 @socketio.on("disconnect")
 def handle_disconnect():
-    """Event handler for client disconnection."""
-    print("Client disconnected")
-
+    print('Client disconnected')
 
 @socketio.on("message")
+@socketio.on("message")
 def handle_message(data):
-    """Event handler for receiving messages from the client."""
-    print("Received message:", data)
+    print('Received message:', data)
     sent_messages.append(data)
     socketio.emit("response", data)
     socketio.emit("all_messages", sent_messages)

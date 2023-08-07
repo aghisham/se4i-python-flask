@@ -1,11 +1,11 @@
-import pytest
 import json
 from app import app
 
+
 def test_get_dec_route():
     response = app.test_client().get("/datas")
-    with open('app/static/data_list.json') as mon_fichier:
-         data = json.load(mon_fichier)
+    with open("app/static/data_list.json") as mon_fichier:
+        data = json.load(mon_fichier)
     assert response.status_code == 200
     assert data
 
