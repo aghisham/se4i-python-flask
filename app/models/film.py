@@ -6,6 +6,7 @@ class Film:
         self.title = (title,)
         self.year = year
         self.rated = rated
+        self.films_list = []
 
     def add_film(self):
         films_list = []
