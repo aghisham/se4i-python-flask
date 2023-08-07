@@ -18,16 +18,17 @@ db_connector = MongoDBSingleton(
 film_blueprint = Blueprint(
     "film_blueprint",
     __name__,
+    url_prefix="/films"
 )
 
 
 @film_blueprint.route("/")
 def index():
     """index"""
-    return render_template("filmIndex.html")
+    return render_template("film_index.html")
 
 
-@film_blueprint.route("/films/save", methods=["GET"])
+@film_blueprint.route("/save", methods=["GET"])
 def store_films():
     """save data to DB"""
     try:
@@ -38,7 +39,7 @@ def store_films():
         return jsonify({"message": str(e)}), 500
 
 
-@film_blueprint.route("/films/<title>", methods=["GET"])
+@film_blueprint.route("/<title>", methods=["GET"])
 def add(title):
     """get film by title"""
     try:

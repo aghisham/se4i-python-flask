@@ -8,6 +8,7 @@ from apispec import APISpec
 from apispec.ext.marshmallow import MarshmallowPlugin
 from dotenv import load_dotenv
 import app.config as conf
+
 # from flask_jwt_extended import JWTManager
 
 

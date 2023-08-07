@@ -138,7 +138,7 @@ def update_post_mongo(post_id, **kwargs):
         **kwargs: Keyword arguments containing the updated data for the post.
 
     Returns:
-        JSON response: A JSON response containing 
+        JSON response: A JSON response containing
         the updated post data or an error message if not found.
     """
     data = kwargs
