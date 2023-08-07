@@ -2,33 +2,32 @@ import json
 from app import app
 
 
+
 def test_get_dec_route():
     response = app.test_client().get("/datas")
-<<<<<<< HEAD
     with open('app/static/data_list.json') as mon_fichier:
      data = json.load(mon_fichier)
-=======
-    with open("app/static/data_list.json") as mon_fichier:
-        data = json.load(mon_fichier)
->>>>>>> 20a05e57f5760910703b2db02357eb38baf8d5fc
     assert response.status_code == 200
     assert data
     
 def test_put_r():
+    id_car=1
     response = app.test_client().put(
-        "/datas/update/1",
+        "/datas/update/{id_car}",
         json={
-            "id": 1,
+            "id": id_car ,
             "brand": "Ford",
             "model": "Mustang",
             "year": 1964,
             "dec": "original from America",
         },
     )
-    assert response.status_code == 200
-    
+    assert response.status_code == 202
+
+ 
+ 
 def test_post_r():
-    response = app.test_client().post(
+    response = app.test_client().get(
         "/datas/1",
         json={
             "id": 1,

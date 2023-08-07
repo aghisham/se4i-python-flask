@@ -5,7 +5,7 @@ from app.config import api
 from flask import Blueprint, request, jsonify, render_template
 from app.models.project_user import (
     Project_user,
-    Data,
+    DataStore,
     DataSchema,
 )
 
@@ -67,16 +67,17 @@ def indexofcars(data_id):
 @marshal_with(DefaultResponseSchema())
 def update(
     data_id, **kwargs):
+    
     try:
         if request.json:
-            data_model = Data(
+            data_model = DataStore(
                 data_id,
                 request.json["brand"],
                 request.json["model"],
                 request.json["year"],
                 request.json["des"],
             )
-            data_model.update()
+            data_model.update_data()
         return {"message": "success"}, 200
     except Exception:
         return {"message": "Not existe"}, 400
