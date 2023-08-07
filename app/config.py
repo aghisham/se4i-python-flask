@@ -26,6 +26,7 @@ class DevelopmentConfig(Configurations):
 
     DEBUG = os.environ.get("DEBUG") or True
     MONGO_URI = os.environ.get("MONGO_URI") or "mongodb://localhost:27017/se4idata"
+    SQLALCHEMY_DATABASE_URI = os.environ.get("SQLALCHEMY_DATABASE_URI") or "mysql://root:root@localhost/se4idata"
 
 
 class TestingConfig(Configurations):
@@ -34,6 +35,7 @@ class TestingConfig(Configurations):
     DEBUG = os.environ.get("DEBUG") or False
     TESTING = os.environ.get("TESTING") or True
     MONGO_URI = os.environ.get("MONGO_URI") or "mongodb://localhost:27017/se4idata"
+    SQLALCHEMY_DATABASE_URI = os.environ.get("SQLALCHEMY_DATABASE_URI") or "mysql://root:root@localhost/se4idata"
 
 
 class ProductionConfig(Configurations):
@@ -41,6 +43,7 @@ class ProductionConfig(Configurations):
 
     DEBUG = os.environ.get("DEBUG") or False
     MONGO_URI = os.environ.get("MONGO_URI") or ""
+    SQLALCHEMY_DATABASE_URI = os.environ.get("SQLALCHEMY_DATABASE_URI") or ""
 
 
 config = {

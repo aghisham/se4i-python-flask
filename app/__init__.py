@@ -4,6 +4,9 @@ from flask_cors import CORS
 from flask_pymongo import PyMongo
 from flask_socketio import SocketIO
 from flask_apispec.extension import FlaskApiSpec
+from flask_babel import Babel
+from flask_restx import Api
+from flask_sqlalchemy import SQLAlchemy
 from apispec import APISpec
 from apispec.ext.marshmallow import MarshmallowPlugin
 from dotenv import load_dotenv
@@ -38,7 +41,14 @@ DB = PyMongo(app).db
 DOCS = FlaskApiSpec(app)
 # JWT = JWTManager(app)
 socketio = SocketIO(app)
+BABEL = Babel(app, locale_selector="en", timezone_selector="UTC+1")
+API = Api(app)
+SQL_DB = SQLAlchemy(app)
 
 
 # ------ Import controllers
 from app.controllers import *
+from app.models import *
+
+with app.app_context():
+    SQL_DB.create_all()
