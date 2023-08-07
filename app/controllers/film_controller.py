@@ -9,11 +9,11 @@ data = json.load(open("app/static/films.json"))
 films_list = data
 
 db_connector = MongoDBSingleton(
-    mongo_url="mongodb://localhost:27017",
+    mongo_url=mongodb_host + "/" + str(port),
     database_name=database_name,
     collection_name=collection_film,
 )
-
+0
 
 film_blueprint = Blueprint('film_blueprint', __name__,)
 
