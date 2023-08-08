@@ -23,6 +23,7 @@ film_blueprint = Blueprint("film_blueprint", __name__, url_prefix="/films")
 
 class StringResponseSchema(Schema):
     """Default Response Schema"""
+
     success = fields.Bool()
     message = fields.Str()
 

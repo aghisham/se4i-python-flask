@@ -36,6 +36,7 @@ class User(SQL_DB.Model):
     last_name = SQL_DB.Column(SQL_DB.String(255), nullable=False)
     email = SQL_DB.Column(SQL_DB.String(255), unique=True, nullable=False)
     password = SQL_DB.Column(SQL_DB.String(255), nullable=False)
+    birth_date = SQL_DB.Column(SQL_DB.String(255), nullable=False)
 
     def __init__(self, id, first_name, last_name, email, password, birth_date) -> None:
         self.id = id

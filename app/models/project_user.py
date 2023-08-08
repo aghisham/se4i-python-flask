@@ -38,7 +38,7 @@ class DataStore:
         self.model = model
         self.year = year
         self.description = des
-        
+
     def __init1__(self):
         self.datas = []
         self.next_id = 1
@@ -56,7 +56,6 @@ class DataStore:
         return None
 
     def update_data(self):
-         
         """Update user
 
         Returns:

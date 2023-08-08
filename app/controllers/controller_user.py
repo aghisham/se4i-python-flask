@@ -1,4 +1,3 @@
-
 from flask import Blueprint, request, jsonify, render_template
 from app.models.user import DefaultResponseSchema
 from app.config import api
@@ -65,9 +64,7 @@ def indexofcars(data_id):
 @doc(description="Update Car", tags=["Datas"])
 @use_kwargs(DataSchema, location="json")
 @marshal_with(DefaultResponseSchema())
-def update(
-    data_id, **kwargs):
-    
+def update(data_id, **kwargs):
     try:
         if request.json:
             data_model = DataStore(
@@ -85,7 +82,7 @@ def update(
 
 # @app.route("/get-dec")
 # def get_dec():
-   # project_user = Project_user(datas_bp)
+# project_user = Project_user(datas_bp)
 
 
 # @app.route("/get-dec")
