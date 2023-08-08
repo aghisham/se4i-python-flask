@@ -15,7 +15,7 @@ import app.config as conf
 # from flask_jwt_extended import JWTManager
 
 
-load_dotenv(".env")
+load_dotenv(dotenv_path=f"{os.getcwd()}/.env")
 MODE = os.environ.get("MODE") or "development"  # development - testing - production
 
 
