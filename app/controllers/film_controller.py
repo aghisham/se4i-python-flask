@@ -100,7 +100,7 @@ def create_film(**kwargs):
 @doc(description="update film by title", tags=["Films"])
 @use_kwargs(FilmSchema, location="json")
 @marshal_with(StringResponseSchema())
-def update_film(title):
+def update_film(title, **kwargs):
     """update film by title"""
     try:
         data = request.get_json()
@@ -118,7 +118,7 @@ def update_film(title):
 @film_blueprint.route("/<title>", methods=["DELETE"], provide_automatic_options=False)
 @doc(description="Delete film by title", tags=["Films"])
 @marshal_with(StringResponseSchema())
-def delete_film(title):
+def delete_film(title, **kwargs):
     """delete film by title"""
     try:
         existed_coll = db_connector.get_collection()
