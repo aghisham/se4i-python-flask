@@ -6,8 +6,9 @@ from marshmallow import Schema, fields
 class FilmSchema(Schema):
     """Film Schema"""
 
-    title = fields.Str(required=True)
-    year = fields.Str(required=True)
+    Title = fields.Str(required=False)
+    Year = fields.Str(required=False)
+    Rated = fields.Str(required=True)
 
 
 class Film:
