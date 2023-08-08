@@ -80,7 +80,6 @@ try:
     password1 = config_data["jwt_credentials"]["password"][1]
     user_id1 = config_data["jwt_credentials"]["user_id"][1]
     collection_film = config_data["mongodb"]["collection_name"][2]
-    print(collection_film)
     user_name2 = config_data["jwt_credentials"]["user_name"][2]
     password2 = config_data["jwt_credentials"]["password"][2]
     user_id2 = config_data["jwt_credentials"]["user_id"][2]
