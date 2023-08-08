@@ -28,7 +28,7 @@ class DevelopmentConfig(Configurations):
     MONGO_URI = os.environ.get("MONGO_URI") or "mongodb://localhost:27017/se4idata"
     SQLALCHEMY_DATABASE_URI = (
         os.environ.get("SQLALCHEMY_DATABASE_URI")
-        or "mysql://root:root@localhost/se4idata"
+        or "mysql://root:sqlpass@localhost/se4idata"
     )
 
 
@@ -40,7 +40,7 @@ class TestingConfig(Configurations):
     MONGO_URI = os.environ.get("MONGO_URI") or "mongodb://localhost:27017/se4idata"
     SQLALCHEMY_DATABASE_URI = (
         os.environ.get("SQLALCHEMY_DATABASE_URI")
-        or "mysql://root:root@localhost/se4idata"
+        or "mysql://root:sqlpass@localhost/se4idata"
     )
 
 
@@ -77,6 +77,7 @@ try:
     password1 = config_data["jwt_credentials"]["password"][1]
     user_id1 = config_data["jwt_credentials"]["user_id"][1]
     collection_film = config_data["mongodb"]["collection_name"][2]
+    print(collection_film)
     user_name2 = config_data["jwt_credentials"]["user_name"][2]
     password2 = config_data["jwt_credentials"]["password"][2]
     user_id2 = config_data["jwt_credentials"]["user_id"][2]

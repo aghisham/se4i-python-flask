@@ -7,26 +7,7 @@ class FilmSchema(Schema):
     """Film Schema"""
 
     title = fields.Str(required=True)
-    Year = fields.Str(required=True)
-    Rated = fields.Str(required=True)
-    Released = fields.Str(required=True)
-    Runtime = fields.Str(required=True)
-    Genre = fields.Str(required=True)
-    Director = fields.Str(required=True)
-    Writer = fields.Str(required=True)
-    Actors = fields.Str(required=True)
-    Plot = fields.Str(required=True)
-    Language = fields.Str(required=True)
-    Country = fields.Str(required=True)
-    Awards = fields.Str(required=True)
-    Poster = fields.Str(required=True)
-    Metascore = fields.Str(required=True)
-    imdbRating = fields.Str(required=True)
-    imdbVotes = fields.Str(required=True)
-    imdbID = fields.Str(required=True)
-    Type = fields.Str(required=True)
-    Response = fields.Str(required=True)
-    Images = fields.List(fields.Str(required=False))
+    year = fields.Str(required=True)
 
 
 class Film:
