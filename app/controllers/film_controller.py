@@ -18,7 +18,7 @@ db_connector = MongoDBSingleton(
     collection_name=collection_film,
 )
 
-film_blueprint = Blueprint("film_blueprint", __name__, url_prefix="/films")
+film_blueprint = Blueprint("film_blueprint", __name__)
 
 
 class StringResponseSchema(Schema):
@@ -27,15 +27,14 @@ class StringResponseSchema(Schema):
     message = fields.Str()
 
 
-@film_blueprint.route("", provide_automatic_options=False)
-@doc(description="get films", tags=["Films"])
-def index():
-    """index"""
-    return render_template("film_index.html")
+class DataResponseSchema(Schema):
+    """Default Response Schema"""
+    data = FilmSchema
+    success = fields.Str()
 
 
 @film_blueprint.route("/save", methods=["GET"], provide_automatic_options=False)
-@doc(description="get films", tags=["Films"])
+@doc(description="Store Films in DB", tags=["Films"])
 @marshal_with(StringResponseSchema())
 def store_films():
     """save data to DB"""
@@ -48,8 +47,8 @@ def store_films():
 
 
 @film_blueprint.route("/<title>", methods=["GET"], provide_automatic_options=False)
-@doc(description="get films", tags=["Films"])
-@marshal_with(FilmSchema(many=False))
+@doc(description="get film by title", tags=["Films"])
+@marshal_with(DataResponseSchema(many=False))
 def add(title):
     """get film by title"""
     try:
@@ -57,15 +56,15 @@ def add(title):
         film = existed_coll.find_one({"Title": title})
         if film:
             film["_id"] = str(film["_id"])
-            return {"data": film}
+            return {"data": film, "success": True}, 200
         else:
             return jsonify({"message": "Film not found"}), 404
     except Exception as e:
         return jsonify({"message": "fail"}), 400
 
 
-@film_blueprint.route("", methods=["GET"])
-@doc(description="get films", tags=["Films"])
+@film_blueprint.route("/all", methods=["GET"], provide_automatic_options=False)
+@doc(description="get all films", tags=["Films"])
 @marshal_with(FilmSchema(many=True))
 def display():
     """get all films in DB"""
@@ -74,13 +73,13 @@ def display():
         films = list(existed_coll.find({}))
         for film in films:
             film["_id"] = str(film["_id"])
-        return jsonify({"success": True, "data": films})
+        return films, 200
     except Exception as e:
-        return jsonify({"message": str(e)}), 500
+        return {"message": str(e)}, 500
 
 
-@film_blueprint.route("", methods=["POST"])
-@doc(description="get films", tags=["Films"])
+@film_blueprint.route("", methods=["POST"], provide_automatic_options=False)
+@doc(description="create film", tags=["Films"])
 @use_kwargs(FilmSchema, location="json")
 @marshal_with(StringResponseSchema())
 def create_film():
@@ -104,8 +103,8 @@ def create_film():
         return jsonify({"message": str(e)}), 500
 
 
-@film_blueprint.route("/<title>", methods=["PUT"])
-@doc(description="get films", tags=["Films"])
+@film_blueprint.route("/<title>", methods=["PUT"], provide_automatic_options=False)
+@doc(description="update film by title", tags=["Films"])
 @use_kwargs(FilmSchema, location="json")
 @marshal_with(StringResponseSchema())
 def update_film(title):
@@ -123,8 +122,8 @@ def update_film(title):
         return {"success": False, "message": str(e)}, 500
 
 
-@film_blueprint.route("/<title>", methods=["DELETE"])
-@doc(description="get films", tags=["Filmes"])
+@film_blueprint.route("/<title>", methods=["DELETE"], provide_automatic_options=False)
+@doc(description="Delete film by title", tags=["Films"])
 @marshal_with(StringResponseSchema())
 def delete_film(title):
     """delete film by title"""
@@ -145,5 +144,9 @@ def delete_film(title):
 
 
 app.register_blueprint(film_blueprint, url_prefix="/films")
-DOCS.register(index, blueprint="film_blueprint")
 DOCS.register(store_films, blueprint="film_blueprint")
+DOCS.register(add, blueprint="film_blueprint")
+DOCS.register(display, blueprint="film_blueprint")
+DOCS.register(create_film, blueprint="film_blueprint")
+DOCS.register(update_film, blueprint="film_blueprint")
+DOCS.register(delete_film, blueprint="film_blueprint")
