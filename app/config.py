@@ -3,7 +3,10 @@ import uuid
 import datetime
 import os
 import json
+from dotenv import load_dotenv
 
+
+load_dotenv(dotenv_path=f"{os.getcwd()}/.env")
 
 logging.basicConfig(
     level=logging.INFO | logging.ERROR,
@@ -28,7 +31,7 @@ class DevelopmentConfig(Configurations):
     MONGO_URI = os.environ.get("MONGO_URI") or "mongodb://localhost:27017/se4idata"
     SQLALCHEMY_DATABASE_URI = (
         os.environ.get("SQLALCHEMY_DATABASE_URI")
-        or "mysql://root:sqlpass@localhost/se4idata"
+        or "mysql://root:root@localhost/se4idata"
     )
 
 
@@ -40,7 +43,7 @@ class TestingConfig(Configurations):
     MONGO_URI = os.environ.get("MONGO_URI") or "mongodb://localhost:27017/se4idata"
     SQLALCHEMY_DATABASE_URI = (
         os.environ.get("SQLALCHEMY_DATABASE_URI")
-        or "mysql://root:sqlpass@localhost/se4idata"
+        or "mysql://root:root@localhost/se4idata"
     )
 
 
