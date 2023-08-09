@@ -8,7 +8,6 @@ from app.models.film import FilmSchema
 from app.config import database_name, collection_film, mongodb_host, port
 from app import app, DOCS
 
-
 data = json.load(open("app/static/films.json"))
 films_list = data
 
@@ -30,6 +29,7 @@ class StringResponseSchema(Schema):
 
 class DataResponseSchema(Schema):
     """Default Response Schema"""
+
     data = FilmSchema
     success = fields.Str()
 
@@ -49,7 +49,7 @@ def store_films():
 
 @film_blueprint.route("/<title>", methods=["GET"], provide_automatic_options=False)
 @doc(description="get film by title", tags=["Films"])
-@marshal_with(DataResponseSchema(many=False))
+@marshal_with(FilmSchema(many=False))
 def add(title):
     """get film by title"""
     try:
@@ -57,7 +57,7 @@ def add(title):
         film = existed_coll.find_one({"Title": title})
         if film:
             film["_id"] = str(film["_id"])
-            return {"data": film, "success": True}, 200
+            return film, 200
         else:
             return jsonify({"message": "Film not found"}), 404
     except Exception as e:
@@ -83,23 +83,15 @@ def display():
 @doc(description="create film", tags=["Films"])
 @use_kwargs(FilmSchema, location="json")
 @marshal_with(StringResponseSchema())
-def create_film():
+def create_film(**kwargs):
     """create film"""
+    print(kwargs)
     data_to_create = request.get_json()
+    print(data_to_create)
     try:
         existed_coll = db_connector.get_collection()
-        id_created = existed_coll.insert_one(data_to_create).inserted_id
-        return (
-            jsonify(
-                {
-                    "success": True,
-                    "message": "Film created successfully",
-                    "post_id": str(id_created),
-                }
-            ),
-            200,
-        )
-
+        existed_coll.insert_one(kwargs)
+        return {"success": True, "message": "Film created successfully"}, 200
     except Exception as e:
         return jsonify({"message": str(e)}), 500
 
@@ -108,7 +100,7 @@ def create_film():
 @doc(description="update film by title", tags=["Films"])
 @use_kwargs(FilmSchema, location="json")
 @marshal_with(StringResponseSchema())
-def update_film(title):
+def update_film(title, **kwargs):
     """update film by title"""
     try:
         data = request.get_json()
@@ -126,7 +118,7 @@ def update_film(title):
 @film_blueprint.route("/<title>", methods=["DELETE"], provide_automatic_options=False)
 @doc(description="Delete film by title", tags=["Films"])
 @marshal_with(StringResponseSchema())
-def delete_film(title):
+def delete_film(title, **kwargs):
     """delete film by title"""
     try:
         existed_coll = db_connector.get_collection()

@@ -3,6 +3,7 @@ from flask_apispec import doc, use_kwargs, marshal_with
 from flask_apispec.views import MethodResource
 from app import API, SQL_DB
 from app.models.user import User, UserSchema, DefaultResponseSchema
+
 # from app import DOCS
 
 
