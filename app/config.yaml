@@ -1,0 +1,17 @@
+{
+  "mongodb":{
+  "host": "mongodb://localhost",
+  "port": 27017,
+  "database_name": "se4idata",
+  "collection_name": ["posts" , "datas", "films"]
+  },
+  "jwt_credentials":
+  {
+    "user_name" : ["hisham" , "zakaria", "Mohamed Ali"],
+    "password" : ["password123", "password789", "passcode"],
+    "user_id" : [124587 , 147852, 123698]
+  },
+  "api": {
+     "host": "https://jsonplaceholder.typicode.com/posts"
+  }
+}

@@ -1,6 +1,6 @@
 from marshmallow import Schema, fields
-from app import DB
-
+from app import DB,SQL_DB
+from sqlalchemy.sql import func
 
 class DataSchema(Schema):
     """User Schema"""
@@ -31,14 +31,24 @@ class Project_user:
         return self
 
 
-class DataStore:
+class DataStore(SQL_DB.Model):
+    # ...
+
+    id = SQL_DB.Column(SQL_DB.Integer, primary_key=True)
+    firstname = SQL_DB.Column(SQL_DB.String(100), nullable=False)
+    lastname = SQL_DB.Column(SQL_DB.String(100), nullable=False)
+    email = SQL_DB.Column(SQL_DB.String(80), unique=True, nullable=False)
+    age = SQL_DB.Column(SQL_DB.Integer)
+    created_at = SQL_DB.Column(SQL_DB.DateTime(timezone=True),server_default=func.now())
+    bio = SQL_DB.Column(SQL_DB.Text)
+    
     def __init__(self, id, brand, model, year, des):
         self.id = id
         self.brand = brand
         self.model = model
         self.year = year
         self.description = des
-        
+
     def __init1__(self):
         self.datas = []
         self.next_id = 1
@@ -56,7 +66,6 @@ class DataStore:
         return None
 
     def update_data(self):
-         
         """Update user
 
         Returns:
