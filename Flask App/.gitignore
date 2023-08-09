@@ -5,3 +5,5 @@ __pycache__
 log.log
 venv
 .idea
+uploads/*
+app/config.yaml
