@@ -64,11 +64,7 @@ config = {
 
 # read data from config.yaml one time and share it between the files
 try:
-<<<<<<< HEAD
     with open(f"{os.getcwd()}/app/config.yaml", "r") as file:
-=======
-    with open(f"{os.getcwd()}app/config.yaml", "r") as file:
->>>>>>> d433ae0fe2d3c7d92b0d2b2b757f67c0814e0c85
         config_data = json.load(file)
 
     mongodb_host = config_data["mongodb"]["host"]

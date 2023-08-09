@@ -11,7 +11,6 @@ from apispec import APISpec
 from apispec.ext.marshmallow import MarshmallowPlugin
 from dotenv import load_dotenv
 import app.config as conf
-from app.models.project_user import Student
 
 # from flask_jwt_extended import JWTManager
 

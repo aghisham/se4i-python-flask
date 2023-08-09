@@ -29,6 +29,7 @@ class Project_user:
 
     def home_page(self):
         return self
+    
 class Student(SQL_DB.Model):
     id = SQL_DB.Column(SQL_DB.Integer, primary_key=True)
     firstname = SQL_DB.Column(SQL_DB.String(100), nullable=False)
@@ -40,7 +41,6 @@ class Student(SQL_DB.Model):
     
 
 class DataStore():
-    # ...
     def __init__(self, id, brand, model, year, des):
         self.id = id
         self.brand = brand
