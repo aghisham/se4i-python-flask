@@ -53,3 +53,4 @@ from app.models import *
 
 with app.app_context():
     SQL_DB.create_all()
+    
