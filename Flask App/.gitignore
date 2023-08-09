@@ -1,9 +1,4 @@
-__pycache__
-.vscode
-.env
-.pytest_cache
 log.log
 venv
-.idea
 uploads/*
 app/config.yaml

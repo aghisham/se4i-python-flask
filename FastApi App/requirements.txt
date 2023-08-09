@@ -1,0 +1,9 @@
+pytest
+black
+requests
+pyjwt
+python-dotenv
+apispec
+pylint
+fastapi
+uvicorn
