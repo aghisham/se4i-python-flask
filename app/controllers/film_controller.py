@@ -18,7 +18,7 @@ db_connector = MongoDBSingleton(
     collection_name=collection_film,
 )
 
-film_blueprint = Blueprint("film_blueprint", __name__, url_prefix="/films")
+film_blueprint = Blueprint("film_blueprint", __name__)
 
 
 class StringResponseSchema(Schema):
@@ -27,11 +27,7 @@ class StringResponseSchema(Schema):
     message = fields.Str()
 
 
-@film_blueprint.route("", provide_automatic_options=False)
-@doc(description="get films", tags=["Films"])
-def index():
-    """index"""
-    return render_template("film_index.html")
+
 
 
 @film_blueprint.route("/save", methods=["GET"], provide_automatic_options=False)
