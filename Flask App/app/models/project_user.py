@@ -29,19 +29,18 @@ class Project_user:
 
     def home_page(self):
         return self
-
-
-class DataStore(SQL_DB.Model):
-    # ...
-
+class Student(SQL_DB.Model):
     id = SQL_DB.Column(SQL_DB.Integer, primary_key=True)
     firstname = SQL_DB.Column(SQL_DB.String(100), nullable=False)
     lastname = SQL_DB.Column(SQL_DB.String(100), nullable=False)
     email = SQL_DB.Column(SQL_DB.String(80), unique=True, nullable=False)
     age = SQL_DB.Column(SQL_DB.Integer)
-    created_at = SQL_DB.Column(SQL_DB.DateTime(timezone=True),server_default=func.now())
+    #created_at = SQL_DB.Column(SQL_DB.DateTime(timezone=True),server_default=func.current_date())
     bio = SQL_DB.Column(SQL_DB.Text)
     
+
+class DataStore():
+    # ...
     def __init__(self, id, brand, model, year, des):
         self.id = id
         self.brand = brand
