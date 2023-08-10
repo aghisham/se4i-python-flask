@@ -31,7 +31,7 @@ class DevelopmentConfig(Configurations):
     MONGO_URI = os.environ.get("MONGO_URI") or "mongodb://localhost:27017/se4idata"
     SQLALCHEMY_DATABASE_URI = (
         os.environ.get("SQLALCHEMY_DATABASE_URI")
-        or "mysql://root:sqlpass@localhost/se4idata"
+        or "mysql://root:root@localhost/se4idata"
     )
 
 
@@ -43,7 +43,7 @@ class TestingConfig(Configurations):
     MONGO_URI = os.environ.get("MONGO_URI") or "mongodb://localhost:27017/se4idata"
     SQLALCHEMY_DATABASE_URI = (
         os.environ.get("SQLALCHEMY_DATABASE_URI")
-        or "mysql://root:sqlpass@localhost/se4idata"
+        or "mysql://root:root@localhost:27017/se4idata"
     )
 
 
@@ -65,7 +65,7 @@ config = {
 # read data from config.yaml one time and share it between the files
 try:
     print(os.getcwd())
-    with open(f"{os.getcwd()}/config.yaml", "r") as file:
+    with open(f"{os.getcwd()}/Flask App/app/config.yaml", "r") as file:
         config_data = json.load(file)
 
     mongodb_host = config_data["mongodb"]["host"]

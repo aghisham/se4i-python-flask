@@ -3,7 +3,7 @@ import mysql.connector
 # Replace 'root' and 'localhost' with your MySQL root username and password
 username = 'root'
 password = 'root'
-database_name = 'se4idatatest'
+database_name = 'se4ida'
 
 # Connect to the MySQL server
 try:
