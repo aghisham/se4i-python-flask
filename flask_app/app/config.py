@@ -64,8 +64,7 @@ config = {
 
 # read data from config.yaml one time and share it between the files
 try:
-    print(os.getcwd())
-    with open(f"{os.getcwd()}/Flask App/app/config.yaml", "r") as file:
+    with open(f"{os.getcwd()}/app/config.yaml", "r") as file:
         config_data = json.load(file)
 
     mongodb_host = config_data["mongodb"]["host"]
