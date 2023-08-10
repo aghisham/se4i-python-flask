@@ -7,3 +7,5 @@ apispec
 pylint
 fastapi
 uvicorn
+sqlalchemy
+mysqlclient

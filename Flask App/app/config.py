@@ -10,7 +10,7 @@ load_dotenv(dotenv_path=f"{os.getcwd()}/.env")
 
 logging.basicConfig(
     level=logging.INFO | logging.ERROR,
-    filename="log.log",
+    filename=f"{os.getcwd()}/log.log",
     format="%(asctime)s %(levelname)s %(message)s",
 )
 
