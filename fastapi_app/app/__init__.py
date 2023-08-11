@@ -1,9 +1,9 @@
 """Init App"""
 from fastapi import FastAPI
-from sqlalchemy import create_engine
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker
+from fastapi.staticfiles import StaticFiles
+from fastapi.testclient import TestClient
 import app.config as conf
+from app.routers import home_controller, user_controller
 
 
 app = FastAPI(
@@ -13,9 +13,10 @@ app = FastAPI(
     debug=conf.DEBUG,
 )
 
-engine = create_engine(url=conf.SQLALCHEMY_DATABASE_URL)
-SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
-Base = declarative_base()
+app.mount("/static", StaticFiles(directory="app/static"), name="static")
+
+app.include_router(home_controller.ROUTER)
+app.include_router(user_controller.ROUTER)
 
 
-from app.controllers import *
+CLIENT = TestClient(app)
