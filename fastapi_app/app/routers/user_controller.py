@@ -35,8 +35,12 @@ async def update(user_id: int):
 async def create(user: UserSchema):
     """Create user"""
     try:
-        new_user = User(name=user.name, email=user.email,
-                        password=user.password)
+        new_user = User(
+            name=user.name,
+            email=user.email,
+            password=user.password,
+            is_active=user.is_active,
+        )
         DB.add(new_user)
         DB.commit()
         DB.refresh(new_user)

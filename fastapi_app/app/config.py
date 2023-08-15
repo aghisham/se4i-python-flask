@@ -10,4 +10,6 @@ APP_VERSION = "0.0.1"
 APP_NAME = "FastApi exemple"
 APP_DESCRIPTION = "FastApi exemple"
 API_PREFIX = "/api"
-SQLALCHEMY_DATABASE_URL = os.environ.get("SQLALCHEMY_DATABASE_URL") or "mysql://root:root@localhost/se4idata"
+SQLALCHEMY_DATABASE_URL = (
+    os.environ.get("SQLALCHEMY_DATABASE_URL") or "mysql://root:root@localhost/se4idata"
+)

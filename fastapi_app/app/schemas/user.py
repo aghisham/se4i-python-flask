@@ -3,6 +3,7 @@ from pydantic import BaseModel
 
 class User(BaseModel):
     """User schema class"""
+
     id: int
     name: str
     email: str
