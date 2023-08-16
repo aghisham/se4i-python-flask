@@ -1,18 +1,20 @@
 """User controller"""
-from fastapi import APIRouter
+from typing import Annotated
+from fastapi import APIRouter, Depends
 from app.schemas.user import User as UserSchema
 from app.schemas.default import DefaultResponse
 from app.models.user import User
 from app.db import DB
+from app.dependecies import common_parameters
 
 
-ROUTER = APIRouter(prefix="/user", tags=["Users"])
+ROUTER = APIRouter()
 
 
 @ROUTER.get("/", description="Get all users")
-async def index(skip: int = 0, limit: int = 10):
+async def index(commons: Annotated[dict, Depends(common_parameters)]):
     """Get all users"""
-    return DB.query(User).offset(skip).limit(limit).all()
+    return DB.query(User).offset(commons["skip"]).limit(commons["limit"]).all()
 
 
 @ROUTER.get("/{user_id}", description="Get user", response_model=UserSchema)

@@ -10,3 +10,4 @@ uvicorn
 sqlalchemy
 mysqlclient
 httpx
+python-multipart

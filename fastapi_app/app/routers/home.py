@@ -2,7 +2,7 @@
 from fastapi import APIRouter
 
 
-ROUTER = APIRouter(tags=["Home"])
+ROUTER = APIRouter()
 
 
 @ROUTER.get("/", description="Home")
