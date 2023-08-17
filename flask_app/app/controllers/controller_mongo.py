@@ -5,8 +5,7 @@ from app.models.mongo_singleton import MongoDBSingleton
 import requests
 import json
 from bson import json_util
-from app.config import mongodb_host, port, database_name, collection_cars,api
-
+from app.config import mongodb_host, port, database_name, collection_cars, api
 
 
 API_BASE_URL = api
@@ -14,9 +13,12 @@ API_BASE_URL = api
 # Singleton MongoDB connection instance for database 'se4i' and collection 'posts' with a custom MongoDB URL
 custom_mongo_url = mongodb_host + f":{port}/"
 mongo_singleton = MongoDBSingleton(
-    mongo_url=custom_mongo_url, database_name=database_name, collection_name=collection_cars
+    mongo_url=custom_mongo_url,
+    database_name=database_name,
+    collection_name=collection_cars,
 )
 # Routes for CRUD operations
+
 
 # Controller: Insert data from API into MongoDB
 @app.route("/datas/save", methods=["GET"])

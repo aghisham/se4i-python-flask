@@ -22,8 +22,8 @@ def create_item(**kwargs):
     if response.status_code == 201:
         item = response.json()
         return item, 201
-    else:
-        return {"error": "Failed to create item"}, response.status_code
+
+    return {"error": "Failed to create item"}, response.status_code
 
 
 @items_bp.route("/items/<int:id>", methods=["GET"], provide_automatic_options=False)

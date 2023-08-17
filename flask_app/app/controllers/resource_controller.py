@@ -1,8 +1,10 @@
 from flask_restx import Resource
+
 # from flask_apispec import doc, use_kwargs, marshal_with
 # from flask_apispec.views import MethodResource
 from app import API, SQL_DB
 from app.models.user import User, UserSchema, DefaultResponseSchema
+
 # from app import DOCS
 
 
@@ -61,5 +63,6 @@ class UserCrud(Resource):
     #         return {"message": "success"}
     #     except Exception:
     #         return {"message": "Failed"}
+
 
 # DOCS.register(UserCrud, endpoint="user")

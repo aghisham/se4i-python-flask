@@ -8,6 +8,7 @@ from app.models.film import FilmSchema
 from app.config import database_name, collection_film, mongodb_host, port
 from app import app, DOCS
 import os
+
 print(os.getcwd())
 data = json.load(open(f"{os.getcwd()}/flask_app/app/static/films.json"))
 films_list = data
