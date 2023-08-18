@@ -10,16 +10,19 @@ controller_blueprint = Blueprint("controller_blueprint", __name__)
 @controller_blueprint.route("/", provide_automatic_options=False)
 @doc(description="Get Home page", tags=["Home"])
 def home_page():
+    """home_page"""
     return "hello from homepage"
 
 
 @controller_blueprint.route("/about")
 def about():
+    """about"""
     return "about page is here"
 
 
 @controller_blueprint.route("/get-name")
 def get_name():
+    """get_name"""
     project = Project("SE4I project")
 
     return {"name": project.get_name()}

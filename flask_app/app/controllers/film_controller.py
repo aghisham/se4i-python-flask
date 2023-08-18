@@ -1,4 +1,5 @@
 import json
+import os
 from flask import request, jsonify, render_template, Blueprint
 from bson import ObjectId
 from flask_apispec import doc, use_kwargs, marshal_with
@@ -7,10 +8,9 @@ from app.models.mongo_singleton import MongoDBSingleton
 from app.models.film import FilmSchema
 from app.config import database_name, collection_film, mongodb_host, port
 from app import app, DOCS
-import os
 
-print(os.getcwd())
-data = json.load(open(f"{os.getcwd()}/flask_app/app/static/films.json"))
+
+data = json.load(open(f"{os.getcwd()}/app/static/films.json"))
 films_list = data
 
 db_connector = MongoDBSingleton(

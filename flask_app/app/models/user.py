@@ -1,3 +1,5 @@
+"""User Model"""
+
 from datetime import date, datetime
 from marshmallow import Schema, fields
 from app import DB, SQL_DB

@@ -1,17 +1,14 @@
-from flask import Blueprint, request, jsonify, render_template
-from app.models.user import DefaultResponseSchema
-from app.config import api
-from flask import Blueprint, request, jsonify, render_template
-from app.models.project_user import DataStore, DataSchema
 import requests
-from bson.json_util import dumps
+from flask import Blueprint, request, jsonify, render_template
 from flask_apispec import doc, use_kwargs, marshal_with
+from bson.json_util import dumps
+from app.models.user import DefaultResponseSchema
+from app.models.project_user import DataStore, DataSchema
+from app.config import api
 from app import app, DB, DOCS
 
 API_BASE_URL = api
 
-# users_list = datas if (len(datas)) else []
-# users = {user_name1: {"user_id": user_id1, "password": password1}}
 datas_bp = Blueprint(
     "datas_bp", __name__, template_folder="templates", static_folder="static"
 )
@@ -21,17 +18,20 @@ datas_bp = Blueprint(
 @doc(description="Get All Datas", tags=["Datas"])
 @marshal_with(DataSchema(many=True))
 def store_data():
+    """Get All Data"""
     cursor = DB.datas.find({}).limit(20)  # type: ignore
     return jsonify(dumps(cursor))
 
 
 @app.route("/projects/")
 def projects():
+    """projects"""
     return "The project page"
 
 
 @app.errorhandler(404)
 def page_not_found(error):
+    """page_not_found"""
     return render_template("page_not_found.html"), 404
 
 
@@ -60,6 +60,14 @@ def indexofcars(data_id):
 @use_kwargs(DataSchema, location="json")
 @marshal_with(DefaultResponseSchema())
 def update(data_id, **kwargs):
+    """Update Car
+
+    Args:
+        data_id (id)
+
+    Returns:
+        str
+    """
     try:
         if request.json:
             data_model = DataStore(
@@ -75,22 +83,16 @@ def update(data_id, **kwargs):
         return {"message": "Not existe"}, 400
 
 
-# @app.route("/get-dec")
-# def get_dec():
-# project_user = Project_user(datas_bp)
-
-
-# @app.route("/get-dec")
-# def get_dec():
-#     project_user = Project_user(datas_bp)
-
-
-# return jsonify({"dec
-
-
 @datas_bp.route("/delete/<int:id>", methods=["DELETE"], provide_automatic_options=False)
 @doc(description="Delete Car", tags=["Datas"])
 def delete_data(id):
+    """Delete Car
+
+    Args:
+        id (int)
+    Returns:
+        str
+    """
     response = requests.delete(f"{API_BASE_URL}/{id}")
     if response.status_code == 200:
         return {"message": "Car deleted"}
@@ -100,7 +102,6 @@ def delete_data(id):
 
 app.register_blueprint(datas_bp, url_prefix="/datas")
 DOCS.register(indexofcars, blueprint="datas_bp")
-# DOCS.register(update, blueprint="datas_bp")
 DOCS.register(update, blueprint="datas_bp")
 DOCS.register(store_data, blueprint="datas_bp")
 DOCS.register(delete_data, blueprint="datas_bp")

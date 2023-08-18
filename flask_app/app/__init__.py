@@ -1,3 +1,5 @@
+"""Init Flask app"""
+
 import os
 from flask import Flask
 from flask_cors import CORS
@@ -15,8 +17,8 @@ import app.config as conf
 # from flask_jwt_extended import JWTManager
 
 
-load_dotenv(dotenv_path=f"{os.getcwd()}/.env")
-MODE = os.environ.get("MODE") or "development"  # development - testing - production
+load_dotenv(dotenv_path=f"{os.getcwd()}/.env")  # development - testing - production
+MODE = os.environ.get("MODE") or "development"
 
 
 # ------ Init App
@@ -38,18 +40,18 @@ app.config.update(
 
 # ------ Init Modules
 CORS(app, resources={r"/": {"origins": "localhost:*"}})
+# JWT = JWTManager(app)
 DB = PyMongo(app).db
 DOCS = FlaskApiSpec(app)
-# JWT = JWTManager(app)
-socketio = SocketIO(app)
 BABEL = Babel(app, locale_selector="en", timezone_selector="UTC+1")
 API = Api(app)
 SQL_DB = SQLAlchemy(app)
+socketio = SocketIO(app)
 
 
 # ------ Import controllers
-from app.controllers import *
 from app.models import *
+from app.controllers import *
 
 with app.app_context():
     SQL_DB.create_all()

@@ -1,7 +1,7 @@
 import os
 from flask import Blueprint, request, jsonify
-from werkzeug.utils import secure_filename
 from flask_apispec import doc, marshal_with
+from werkzeug.utils import secure_filename
 from app import app, DOCS
 from app.models.user import DefaultResponseSchema, DefaultFileResponseSchema
 
@@ -21,13 +21,12 @@ def upload_file():
         str: message
     """
     try:
-        # One file upload
+        # --------- One file upload
         if request.files["file"]:
             file = request.files["file"]
-            # type: ignore
-            file.save(f"{os.getcwd()}/uploads/{secure_filename(str(file.filename))}")
+            file.save(f"{os.getcwd()}/uploads/{secure_filename(str(file.filename))}")  # type: ignore
             return jsonify({"message": "File Uploaded"})
-        # Multiple files upload
+        # -------- Multiple files upload
         elif request.files["files"]:
             files = request.files["files"]
             for file in files:

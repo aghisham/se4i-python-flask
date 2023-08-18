@@ -1,6 +1,5 @@
-from flask import Flask, jsonify, request
-from flask_sqlalchemy import SQLAlchemy
-from app import API, SQL_DB, app
+from flask import jsonify, request
+from app import SQL_DB, app
 
 
 class Post(SQL_DB.Model):
@@ -9,9 +8,9 @@ class Post(SQL_DB.Model):
     content = SQL_DB.Column(SQL_DB.String(50))
 
 
-# Route to get all posts
 @app.route("/get_all_posts", methods=["GET"])
 def get_all_posts():
+    """Route to get all posts"""
     posts = Post.query.all()
     post_list = []
     for post in posts:
@@ -19,9 +18,9 @@ def get_all_posts():
     return jsonify({"posts": post_list})
 
 
-# Route to create a new post
 @app.route("/create_post", methods=["POST"])
 def create_post():
+    """Route to create a new post"""
     data = request.get_json()
     title = data.get("title")
     content = data.get("content")
@@ -31,9 +30,9 @@ def create_post():
     return jsonify({"message": "Post created successfully"})
 
 
-# Route to get a post by ID
 @app.route("/get_post/<int:post_id>", methods=["GET"])
 def get_post(post_id):
+    """Route to get a post by ID"""
     post = Post.query.get(post_id)
     if post:
         return jsonify({"id": post.id, "title": post.title, "content": post.content})
@@ -41,9 +40,9 @@ def get_post(post_id):
         return jsonify({"message": "Post not found"})
 
 
-# Route to update a post by ID
 @app.route("/update_post/<int:post_id>", methods=["PUT"])
 def update_post(post_id):
+    """Route to update a post by ID"""
     post = Post.query.get(post_id)
     if post:
         data = request.get_json()
@@ -55,9 +54,9 @@ def update_post(post_id):
         return jsonify({"message": "Post not found"})
 
 
-# Route to delete a post by ID
 @app.route("/delete_post/<int:post_id>", methods=["DELETE"])
 def delete_post(post_id):
+    """Route to delete a post by ID"""
     post = Post.query.get(post_id)
     if post:
         SQL_DB.session.delete(post)

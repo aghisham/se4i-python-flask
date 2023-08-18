@@ -17,6 +17,7 @@ items_bp = Blueprint("items_bp", __name__)
 @use_kwargs(ItemSchema, location="json")
 @marshal_with(ItemSchema())
 def create_item(**kwargs):
+    """Create Item"""
     data = kwargs
     response = requests.post(API_BASE_URL, json=data)
     if response.status_code == 201:
@@ -30,6 +31,7 @@ def create_item(**kwargs):
 @doc(description="Get Item", tags=["Items"])
 @marshal_with(ItemSchema())
 def get_item(id):
+    """Get Item"""
     response = requests.get(f"{API_BASE_URL}/{id}")
     if response.status_code == 200:
         item = response.json()
@@ -43,6 +45,7 @@ def get_item(id):
 @use_kwargs(ItemSchema, location="json")
 @marshal_with(ItemSchema())
 def update_item(id, **kwargs):
+    """Update Item"""
     data = kwargs
     response = requests.put(f"{API_BASE_URL}/{id}", json=data)
     if response.status_code == 200:
@@ -55,6 +58,7 @@ def update_item(id, **kwargs):
 @items_bp.route("/items/<int:id>", methods=["DELETE"], provide_automatic_options=False)
 @doc(description="Delete Item", tags=["Items"])
 def delete_item(id):
+    """Delete Item"""
     response = requests.delete(f"{API_BASE_URL}/{id}")
     if response.status_code == 200:
         return {"message": "Item deleted"}

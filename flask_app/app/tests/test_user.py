@@ -43,7 +43,7 @@ def test_store_route():
         },
     )
 
-    # assert response.status_code == 200
+    assert response.status_code == 200
 
 
 def test_update_route():
@@ -64,4 +64,4 @@ def test_update_route():
         },
     )
 
-    # assert response.status_code == 200
+    assert response.status_code == 200

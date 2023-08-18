@@ -1,10 +1,9 @@
 from marshmallow import Schema, fields
 from app import DB, SQL_DB
-from sqlalchemy.sql import func
 
 
 class DataSchema(Schema):
-    """User Schema"""
+    """Data Schema"""
 
     id = fields.Int(required=True)
     brand = fields.Str(required=True)
@@ -14,7 +13,7 @@ class DataSchema(Schema):
 
 
 class LoginSchema(Schema):
-    """User Schema"""
+    """Login Schema"""
 
     id = fields.Int(required=True)
     user_name = fields.Str(required=True)
@@ -26,23 +25,32 @@ class Project_user:
         self.dec = dec
 
     def get_dec(self):
-        return "{dec}".format(dec=self.dec)
+        """Get dec
+
+        Returns:
+            str
+        """
+        return self.dec
 
     def home_page(self):
+        """return home"""
         return self
 
 
 class Student(SQL_DB.Model):
+    """Student model"""
+
     id = SQL_DB.Column(SQL_DB.Integer, primary_key=True)
     firstname = SQL_DB.Column(SQL_DB.String(100), nullable=False)
     lastname = SQL_DB.Column(SQL_DB.String(100), nullable=False)
     email = SQL_DB.Column(SQL_DB.String(80), unique=True, nullable=False)
     age = SQL_DB.Column(SQL_DB.Integer)
-    # created_at = SQL_DB.Column(SQL_DB.DateTime(timezone=True),server_default=func.current_date())
     bio = SQL_DB.Column(SQL_DB.Text)
 
 
 class DataStore:
+    """DataStore model"""
+
     def __init__(self, id, brand, model, year, des):
         self.id = id
         self.brand = brand
@@ -55,14 +63,31 @@ class DataStore:
         self.next_id = 1
 
     def create_data(self, id, brand, model, year, description):
+        """_summary_
+
+        Args:
+            id (int)
+            brand (str)
+            model (str)
+            year (str)
+            description (str)
+
+        Returns:
+            data
+        """
         data = DataStore(id, brand, model, year, description)
         self.datas.append(data)
         self.next_id += 1
         return data
 
-    def get_data(self, id):
+    def get_data(self, data_id):
+        """Get data
+
+        Returns:
+            data|None
+        """
         for data in self.datas:
-            if data.id == id:
+            if data.id == data_id:
                 return data
         return None
 
@@ -84,8 +109,13 @@ class DataStore:
             },
         )
 
-    def delete_data(self, id):
-        data = self.get_data(id)
+    def delete_data(self, data_id):
+        """Delete user
+
+        Returns:
+            data|None
+        """
+        data = self.get_data(data_id)
         if data:
             self.datas.remove(data)
             return data

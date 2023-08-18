@@ -1,18 +1,21 @@
 import jwt
 from flask import jsonify, request, render_template
-from app import app
 from app.config import config, user_name2, password2, user_id2
+from app import app
+
 
 user_coll = {user_name2: {"password": password2, "user_id": user_id2}}
 
 
 @app.route("/log_form")
 def jwt_log_form():
+    """jwt_log_form"""
     return render_template("jwt_login.html")
 
 
 @app.route("/log", methods=["POST"])
 def jwt_login():
+    """jwt_login"""
     if request.is_json:
         data = request.get_json()
         username = data["username"]
@@ -34,14 +37,15 @@ def jwt_login():
 
 @app.route("/unprotected_route", methods=["POST"])
 def protected_route():
+    """protected_route"""
     token = request.headers.get("Authorization")
     if not token:
         return jsonify({"message": "Missing token"}), 401
     try:
         key = config["development"].SECRET_KEY
         decoded_token = jwt.decode(token, key, algorithms=["HS256"])
-        user_id = decoded_token["user_id"]
-        username = decoded_token["username"]
+        # user_id = decoded_token["user_id"]
+        # username = decoded_token["username"]
         return jsonify(
             {
                 "message": "welcome this is protected route and you are eligible to see it"
@@ -55,4 +59,5 @@ def protected_route():
 
 @app.route("/unprotected_route", methods=["GET"])
 def unprotected_route():
+    """unprotected_route"""
     return "This is an unprotected route"
