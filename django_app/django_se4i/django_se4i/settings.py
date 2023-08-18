@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "djangose4i",
     "users",
+    "film",
 ]
 
 MIDDLEWARE = [

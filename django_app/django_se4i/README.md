@@ -18,7 +18,7 @@ pip install -r requirements
 2. run
 
 ```bash
-python manage.py migrate`
+python manage.py migrate
 ```
 ```bash
 python manage.py createsuperuser
