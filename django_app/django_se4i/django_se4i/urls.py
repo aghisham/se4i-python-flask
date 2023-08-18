@@ -21,4 +21,5 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("djangose4i/", include("djangose4i.urls")),
     path("user/", include("users.urls")),
+    path("film/", include("film.urls")),
 ]
