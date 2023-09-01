@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     "djangose4i",
     "users",
     "film",
+    "cars",
 ]
 
 MIDDLEWARE = [
